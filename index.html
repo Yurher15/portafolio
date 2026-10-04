@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Portafolio Profesional</title>
+  <meta name="description" content="Portafolio profesional: experiencia, habilidades y proyectos.">
+  <link rel="icon" href="img/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="64x64" href="img/favicon-64.png">
+  <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <header class="topbar" id="topbar">
+    <div class="container topbar__inner">
+      <a href="#inicio" class="brand" aria-label="Yuri Hernández — Inicio">
+        <img src="img/logo-yh-96.png" alt="" class="brand__mark" width="48" height="48">
+        <img src="img/nombre.svg" alt="Yuri Hernández" class="brand__name" height="16">
+      </a>
+      <button class="menu-btn" id="menuBtn" aria-label="Abrir menú" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="nav" id="nav">
+        <a href="#sobre-mi">Sobre mí</a>
+        <a href="#experiencia">Experiencia</a>
+        <a href="#portafolio">Portafolio</a>
+        <a href="#certificados">Certificados</a>
+        <a href="#contacto" class="nav__cta">Contacto</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- INICIO -->
+    <section class="hero" id="inicio">
+      <div class="container hero__inner">
+        <div class="hero__photo" id="heroFoto"></div>
+        <div class="hero__text">
+          <p class="eyebrow" id="heroUbicacion"></p>
+          <h1 id="heroNombre"></h1>
+          <p class="hero__title" id="heroTitulo"></p>
+          <p class="hero__lema" id="heroLema"></p>
+          <div class="hero__actions">
+            <a href="#portafolio" class="btn btn--primary">Ver portafolio</a>
+            <a href="#contacto" class="btn btn--ghost">Contacto</a>
+            <a href="#" class="btn btn--ghost" id="btnCv" download>Descargar CV</a>
+          </div>
+          <div class="hero__stats" id="heroCifras"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SOBRE MÍ -->
+    <section class="section" id="sobre-mi">
+      <div class="container about">
+        <div>
+          <p class="section__label">Perfil</p>
+          <h2>Sobre mí</h2>
+          <div id="sobreMiTexto" class="about__text"></div>
+        </div>
+        <div class="stats" id="cifras"></div>
+      </div>
+    </section>
+
+    <!-- EXPERIENCIA Y HABILIDADES -->
+    <section class="section section--alt" id="experiencia">
+      <div class="container">
+        <p class="section__label">Trayectoria</p>
+        <h2>Experiencia y habilidades</h2>
+        <div class="exp-grid">
+          <div>
+            <h3 class="sub">Experiencia laboral</h3>
+            <ol class="timeline" id="timeline"></ol>
+          </div>
+          <aside>
+            <h3 class="sub">Habilidades</h3>
+            <div id="habilidades"></div>
+            <h3 class="sub">Educación</h3>
+            <ul class="plain-list" id="educacion"></ul>
+            <h3 class="sub">Formación complementaria</h3>
+            <ul class="check-list" id="certificaciones"></ul>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- PORTAFOLIO -->
+    <section class="section" id="portafolio">
+      <div class="container">
+        <p class="section__label">Trabajo</p>
+        <h2>Portafolio de proyectos</h2>
+        <div class="filters" id="filtros" role="tablist"></div>
+        <div class="projects" id="proyectos"></div>
+      </div>
+    </section>
+
+    <!-- CERTIFICADOS -->
+    <section class="section section--alt" id="certificados">
+      <div class="container">
+        <p class="section__label">Formación</p>
+        <h2>Certificados</h2>
+        <p class="section__intro">Cursos y certificaciones que respaldan mi formación profesional.</p>
+        <div class="certs" id="certificados-lista"></div>
+      </div>
+    </section>
+
+    <!-- CONTACTO -->
+    <section class="section section--dark" id="contacto">
+      <div class="container contact">
+        <div>
+          <p class="section__label">Hablemos</p>
+          <h2>Contacto</h2>
+          <p class="contact__intro">¿Tienes un proyecto u oportunidad en mente? Escríbeme y te responderé a la brevedad.</p>
+          <ul class="contact__list" id="contactoLista"></ul>
+        </div>
+        <form class="form" id="formContacto">
+          <label>Nombre<input name="nombre" required autocomplete="name"></label>
+          <label>Correo<input name="correo" type="email" required autocomplete="email"></label>
+          <label>Mensaje<textarea name="mensaje" rows="5" required></textarea></label>
+          <button class="btn btn--primary" type="submit">Enviar mensaje</button>
+          <p class="form__note">Se abrirá tu aplicación de correo con el mensaje listo para enviar.</p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <span class="footer__brand">
+        <img src="img/logo-yh-96.png" alt="" class="footer__mark" width="48" height="48">
+        <span class="footer__text">
+          <img src="img/nombre-blanco.svg" alt="Yuri Hernández — Soporte IT y Desarrollo" height="30">
+          <span id="footerTexto"></span>
+        </span>
+      </span>
+      <a href="#inicio">Volver arriba ↑</a>
+    </div>
+  </footer>
+
+  <dialog class="visor" id="visor" aria-label="Vista ampliada del certificado">
+    <button class="visor__close" id="visorCerrar" aria-label="Cerrar">&times;</button>
+    <img id="visorImg" alt="">
+    <p class="visor__cap" id="visorCap"></p>
+  </dialog>
+
+  <script src="js/contenido.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

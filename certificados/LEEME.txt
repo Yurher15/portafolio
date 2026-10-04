@@ -1,0 +1,5 @@
+Coloca aquí tus certificados:
+  - La imagen del diploma (JPG o PNG)  -> se muestra en la tarjeta y se amplía al hacer clic.
+  - El archivo PDF                      -> botón "Ver PDF".
+Después registra cada uno en js/contenido.js, dentro de "certificados".
+Ejemplo:  imagen: "certificados/oracle-one.jpg",  archivo: "certificados/oracle-one.pdf"
