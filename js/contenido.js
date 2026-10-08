@@ -253,6 +253,11 @@ window.CONTENIDO = {
   contacto: {
     email: "yurijosue20@gmail.com",
     telefono: "+502 3025 7267",
+    whatsapp: "50230257267",   // solo números, con código de país; abre un chat de WhatsApp al hacer clic
+    whatsappMensaje: "Hola Yuri, vi tu portafolio en yurihernandez.site y me gustaría contactarte.",
+    // Formulario: pega aquí el ID de tu formulario de Formspree (ej. "xyzabcde").
+    // Mientras esté vacío, el formulario abre la aplicación de correo del visitante.
+    formspree: "",
     linkedin: "https://www.linkedin.com/in/yuri-josue-hernandez/",
     github: "https://github.com/Yurher15",
   },
