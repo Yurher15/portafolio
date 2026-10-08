@@ -84,9 +84,9 @@
     const pills = String(c.detalle || "").split("·").map((t) => t.trim()).filter(Boolean);
     return `
     <article class="cert reveal">
-      ${(anio || c.estado) ? `<span class="cert__year">${esc(anio || c.estado)}</span>` : ""}
+      <span class="cert__year">${esc(anio || c.estado || "Completado")}</span>
       <div class="cert__media${c.imagen ? " cert__media--img" : " cert__media--vacio"}"${c.imagen ? ` data-visor="${i}" tabindex="0" role="button" aria-label="Ampliar ${esc(c.titulo)}"` : ""}>
-        ${c.imagen ? `<img src="${esc(c.imagen)}" alt="Certificado: ${esc(c.titulo)}" loading="lazy">` : `${sello}<span>Certificado disponible al concluir</span>`}
+        ${c.imagen ? `<img src="${esc(c.imagen)}" alt="Certificado: ${esc(c.titulo)}" loading="lazy">` : `${sello}<span>${c.estado ? "Certificado disponible al concluir" : "Curso completado"}</span>`}
         ${c.estado && c.imagen ? `<span class="cert__estado">${esc(c.estado)}</span>` : ""}
       </div>
       <div class="cert__body">
