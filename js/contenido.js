@@ -90,6 +90,8 @@ window.CONTENIDO = {
     "Aprende Claude desde cero — NETZUN (2026)",
     "Conceptos básicos de redes — Cisco Networking Academy (en curso)",
     "Introducción a Ciberseguridad — Cisco Networking Academy (en curso)",
+    "Introducción a la nube 101 — AWS Educate (en curso)",
+    "Introducción a la consola de administración de AWS — AWS Educate",
   ],
 
   habilidades: [
@@ -207,6 +209,16 @@ window.CONTENIDO = {
       credencial: "",
     },
     {
+      titulo: "Introducción a la consola de administración de AWS",
+      institucion: "AWS Educate · Amazon Web Services",
+      fecha: "Curso completado al 100 %",
+      detalle: "Computación en la nube · Fundamentos · 1 hora",
+      estado: "",
+      imagen: "",
+      archivo: "",
+      credencial: "",
+    },
+    {
       titulo: "Conceptos básicos de redes",
       institucion: "Cisco Networking Academy",
       fecha: "Curso a mi propio ritmo",
@@ -221,6 +233,16 @@ window.CONTENIDO = {
       institucion: "Cisco Networking Academy",
       fecha: "Curso a mi propio ritmo",
       detalle: "Ciberseguridad · Nivel principiante",
+      estado: "En curso",
+      imagen: "",
+      archivo: "",
+      credencial: "",
+    },
+    {
+      titulo: "Introducción a la nube 101",
+      institucion: "AWS Educate · Amazon Web Services",
+      fecha: "Curso a mi propio ritmo",
+      detalle: "Computación en la nube · Fundamentos · 3 horas",
       estado: "En curso",
       imagen: "",
       archivo: "",
