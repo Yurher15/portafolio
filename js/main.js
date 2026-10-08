@@ -119,16 +119,37 @@
   const k = C.contacto || {};
   const items = [
     k.email && ["@", `<a href="mailto:${esc(k.email)}">${esc(k.email)}</a>`],
-    k.telefono && ["Tel", `<a href="tel:${esc(k.telefono.replace(/\s/g, ""))}">${esc(k.telefono)}</a>`],
+    k.telefono && ["WA", k.whatsapp
+      ? `<a href="https://wa.me/${esc(k.whatsapp)}?text=${encodeURIComponent(k.whatsappMensaje || "")}" target="_blank" rel="noopener" aria-label="Enviar un mensaje de WhatsApp a ${esc(k.telefono)}">${esc(k.telefono)} · WhatsApp</a>`
+      : `<a href="tel:${esc(k.telefono.replace(/\s/g, ""))}">${esc(k.telefono)}</a>`],
     k.linkedin && ["in", `<a href="${esc(k.linkedin)}" target="_blank" rel="noopener">LinkedIn</a>`],
     k.github && ["GH", `<a href="${esc(k.github)}" target="_blank" rel="noopener">GitHub</a>`],
     p.ubicacion && ["📍", `<span>${esc(p.ubicacion)}</span>`],
   ].filter(Boolean);
   $("contactoLista").innerHTML = items.map(([i, h]) => `<li><span class="ico">${i}</span>${h}</li>`).join("");
 
-  $("formContacto").addEventListener("submit", (ev) => {
+  const formEl = $("formContacto");
+  const nota = formEl.querySelector(".form__note");
+  const avisar = (txt, color) => { nota.textContent = txt; nota.style.color = color || ""; };
+  if (k.formspree) nota.textContent = "Tu mensaje me llegará directamente por correo.";
+  formEl.addEventListener("submit", async (ev) => {
     ev.preventDefault();
     const f = new FormData(ev.target);
+    if (k.formspree) {
+      const boton = formEl.querySelector("button[type=submit]");
+      boton.disabled = true; avisar("Enviando…");
+      try {
+        const r = await fetch(`https://formspree.io/f/${encodeURIComponent(k.formspree)}`, {
+          method: "POST", body: f, headers: { Accept: "application/json" },
+        });
+        if (!r.ok) throw new Error(r.status);
+        formEl.reset(); avisar("¡Gracias! Recibí tu mensaje y te responderé pronto.", "#1d7a46");
+      } catch (e) {
+        avisar(`No se pudo enviar. Escríbeme a ${k.email} o por WhatsApp.`, "#b3261e");
+      }
+      boton.disabled = false;
+      return;
+    }
     const asunto = encodeURIComponent(`Contacto desde el sitio web — ${f.get("nombre")}`);
     const cuerpo = encodeURIComponent(`${f.get("mensaje")}\n\n${f.get("nombre")}\n${f.get("correo")}`);
     window.location.href = `mailto:${k.email}?subject=${asunto}&body=${cuerpo}`;
