@@ -257,7 +257,7 @@ window.CONTENIDO = {
     whatsappMensaje: "Hola Yuri, vi tu portafolio en yurihernandez.site y me gustaría contactarte.",
     // Formulario: pega aquí el ID de tu formulario de Formspree (ej. "xyzabcde").
     // Mientras esté vacío, el formulario abre la aplicación de correo del visitante.
-    formspree: "",
+    formspree: "maeqolkd",
     linkedin: "https://www.linkedin.com/in/yuri-josue-hernandez/",
     github: "https://github.com/Yurher15",
   },
