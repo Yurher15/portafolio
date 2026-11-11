@@ -31,7 +31,7 @@ window.CONTENIDO = {
   heroCifras: [
     { valor: "2018", etiqueta: "En tecnología desde" },
     { valor: "3",    etiqueta: "Empresas atendidas" },
-    { valor: "2",    etiqueta: "Sistemas propios" },
+    { valor: "3", etiqueta: "Sistemas propios" },
   ],
 
   cifras: [
@@ -122,6 +122,22 @@ window.CONTENIDO = {
       ],
       imagen: "img/proyectos/inventario-uts.jpg",
       tecnologias: ["React", "Vite", "Supabase (PostgreSQL)", "Vercel Serverless", "PowerShell", "Power Automate", "Freshservice API", "GitHub Actions"],
+      enlace: "",
+    },
+    {
+      titulo: "Portal Técnicos UTS",
+      categoria: "Desarrollo",
+      destacado: true,
+      descripcion: "Centro de trabajo para el equipo de Soporte de la Unidad de Tecnología de Grupo Diveco, que desarrollé como complemento del Sistema de Inventario. Reúne en una sola aplicación los tickets, las tareas del día, la consulta de equipos y los indicadores de desempeño de cada técnico.",
+      puntos: [
+        "Tickets de Freshservice del técnico con acciones directas: tomar, poner en pendiente, resolver, reabrir, dejar una nota privada o responder al solicitante.",
+        "Tablero de tareas (Pendiente, En progreso, En revisión y Completada) con aprobación y observaciones; las tareas pueden crearse desde un ticket.",
+        "Consulta de solo lectura del inventario de equipos, con el equipo del solicitante visible dentro de cada ticket.",
+        "Indicadores personales y del equipo: tickets resueltos, primera respuesta, tiempo de resolución, cumplimiento de SLA y satisfacción.",
+        "Notificaciones en tiempo real (webhook de Freshservice) y sincronización nocturna; usa el mismo inicio de sesión y los mismos roles del Inventario.",
+      ],
+      imagen: "img/proyectos/portal-tecnicos-uts.jpg",
+      tecnologias: ["React", "Vite", "Supabase (PostgreSQL)", "Vercel Serverless", "Freshservice API"],
       enlace: "",
     },
     {
