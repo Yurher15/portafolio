@@ -123,7 +123,8 @@ window.CONTENIDO = {
       ],
       imagen: "img/proyectos/inventario-uts.jpg",
       tecnologias: ["React", "Vite", "Supabase (PostgreSQL)", "Vercel Serverless", "PowerShell", "Power Automate", "Freshservice API", "GitHub"],
-      enlace: "",
+      enlace: "demo/#inventario",
+      enlaceTexto: "Probar la demo interactiva →",
     },
     {
       titulo: "Portal Técnicos UTS",
@@ -140,7 +141,8 @@ window.CONTENIDO = {
       ],
       imagen: "img/proyectos/portal-tecnicos-uts.jpg",
       tecnologias: ["React", "Vite", "Supabase (PostgreSQL)", "Vercel Serverless", "Freshservice API", "PWA", "Web Push"],
-      enlace: "",
+      enlace: "demo/#portal",
+      enlaceTexto: "Probar la demo interactiva →",
     },
     {
       titulo: "XILO — Asistente virtual con inteligencia artificial",
