@@ -62,7 +62,7 @@
           <p>${esc(x.descripcion)}</p>
           ${(x.puntos || []).length ? `<ul class="card__points">${x.puntos.map((t) => `<li>${esc(t)}</li>`).join("")}</ul>` : ""}
           <div class="tags">${(x.tecnologias || []).map((t) => `<span class="tag">${esc(t)}</span>`).join("")}</div>
-          ${x.enlace ? `<a class="card__link" href="${esc(x.enlace)}" target="_blank" rel="noopener">Ver proyecto →</a>` : ""}
+          ${x.enlace ? `<a class="card__link" href="${esc(x.enlace)}" target="_blank" rel="noopener">${esc(x.enlaceTexto || "Ver proyecto →")}</a>` : ""}
         </div>
       </article>`).join("");
   };
