@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Demo interactiva · Yuri Hernández</title>
+<meta name="description" content="Demostración con datos ficticios del Sistema de Inventario y del Portal de Técnicos de Soporte desarrollados por Yuri Josué Hernández.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="../img/favicon-64.png">
+<style>
+:root{--navy:#0B2545;--navy2:#13315C;--navy5:#2A4D7A;--gold:#C9A227;--gold-soft:#F4ECD3;--ink:#1C2430;--muted:#5B6676;--line:#E3E7ED;--bg:#F5F7FA;--card:#fff;--ok:#1E7B4B;--okbg:#E4F4EA;--bad:#B3261E;--badbg:#FDE7E5;--warn:#8A6A00;--warnbg:#FFF1CF;--info:#1D5FB8;--infobg:#E3EEFB}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Segoe UI",-apple-system,Roboto,Arial,sans-serif;color:var(--ink);background:var(--bg);font-size:15px;line-height:1.5}
+button{font:inherit;cursor:pointer}
+.top{background:var(--navy);color:#fff;display:flex;align-items:center;gap:14px;padding:10px 20px;flex-wrap:wrap;position:sticky;top:0;z-index:30}
+.top img{width:38px;height:38px;border-radius:8px}
+.top h1{font:600 1.05rem Georgia,serif;margin:0;color:#fff}
+.top .sw{display:flex;gap:6px;margin-left:12px}
+.top .sw button{background:transparent;border:1px solid rgba(255,255,255,.35);color:#fff;border-radius:999px;padding:6px 16px;font-weight:600}
+.top .sw button.on{background:var(--gold);border-color:var(--gold);color:var(--navy)}
+.top .sp{flex:1}
+.top a{color:#fff;font-size:.9rem}
+.aviso{background:var(--gold-soft);color:#5b4700;padding:7px 20px;font-size:.88rem;border-bottom:1px solid #e6d9a8}
+.shell{display:flex;min-height:calc(100vh - 100px)}
+.side{width:210px;flex:none;padding:14px 10px;display:flex;flex-direction:column;gap:3px}
+.side button{display:flex;gap:9px;align-items:center;text-align:left;border:0;background:transparent;padding:9px 12px;border-radius:8px;font-weight:600;color:inherit;opacity:.85}
+.side button:hover{opacity:1;background:rgba(127,127,127,.14)}
+.side button.on{opacity:1;background:var(--navy5);color:#fff}
+.side .brand{display:flex;gap:10px;align-items:center;padding:6px 8px 14px;font-weight:700}
+.side .brand img{width:34px;height:34px;border-radius:8px}
+.main{flex:1;padding:22px 26px;min-width:0}
+.main h2{font:600 1.4rem Georgia,serif;margin:0 0 4px}
+.sub{color:var(--muted);margin:0 0 18px}
+.light .side{background:#fff;border-right:1px solid var(--line)}
+.dark{--bg:#0F1A2B;--card:#16233A;--ink:#E6ECF5;--muted:#9AA9BF;--line:#26364F;background:#0F1A2B;color:var(--ink)}
+.dark .side{background:#0B1423;border-right:1px solid var(--line)}
+.dark .okx{color:#6FD39A}
+.tiles{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+.tile{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 16px;min-width:150px;flex:1}
+.tile b{display:block;font-size:1.7rem;line-height:1.1}
+.tile span{color:var(--muted);font-size:.85rem}
+.tile.g b{color:var(--ok)}.tile.r b{color:var(--bad)}.tile.b b{color:var(--info)}.tile.y b{color:var(--warn)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin-bottom:16px}
+.card h3{margin:0 0 10px;font-size:1rem}
+table{width:100%;border-collapse:collapse;font-size:.92rem}
+th{text-align:left;color:var(--muted);font-weight:600;padding:8px 10px;border-bottom:1px solid var(--line)}
+td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr.click{cursor:pointer}tr.click:hover td{background:rgba(127,127,127,.09)}
+.tw{overflow-x:auto}
+.bar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+input,select,textarea{font:inherit;padding:8px 11px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink)}
+textarea{width:100%;resize:vertical}
+.btn{background:var(--navy5);color:#fff;border:0;border-radius:8px;padding:8px 14px;font-weight:600}
+.btn:hover{background:var(--navy2)}
+.btn.sec{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.btn.gold{background:var(--gold);color:var(--navy)}
+.btn.sm{padding:4px 10px;font-size:.82rem}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.pill{display:inline-block;padding:2px 10px;border-radius:999px;font-size:.78rem;font-weight:600;white-space:nowrap}
+.pill.ok{background:var(--okbg);color:var(--ok)}.pill.bad{background:var(--badbg);color:var(--bad)}.pill.warn{background:var(--warnbg);color:var(--warn)}.pill.info{background:var(--infobg);color:var(--info)}.pill.gray{background:rgba(127,127,127,.18);color:var(--muted)}
+.dark .pill.ok{background:#12372A;color:#6FD39A}.dark .pill.bad{background:#40201E;color:#FF9C95}.dark .pill.warn{background:#3F3411;color:#F2CC5B}.dark .pill.info{background:#142C4D;color:#8DBBFF}
+.modal{position:fixed;inset:0;background:rgba(5,12,24,.55);display:flex;align-items:center;justify-content:center;z-index:60;padding:16px}
+.modal>div{background:var(--card,#fff);color:var(--ink);max-width:560px;width:100%;max-height:90vh;overflow:auto;border-radius:14px;padding:22px 24px;box-shadow:0 20px 60px rgba(0,0,0,.4)}
+.modal h3{margin:0 0 6px;font:600 1.2rem Georgia,serif}
+.kv{display:grid;grid-template-columns:140px 1fr;gap:6px 12px;margin:12px 0}
+.kv dt{color:var(--muted)}.kv dd{margin:0}
+.tl{list-style:none;margin:6px 0 14px;padding:0}
+.tl li{display:flex;gap:12px;padding:8px 0;align-items:flex-start}
+.tl i{flex:none;width:26px;height:26px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;font-style:normal;font-size:.8rem;font-weight:700;color:var(--muted)}
+.tl li.done i{background:var(--ok);border-color:var(--ok);color:#fff}
+.tl li.now i{border-color:var(--gold);color:var(--gold);background:var(--gold-soft)}
+.tl small{display:block;color:var(--muted)}
+canvas.firma{width:100%;height:120px;border:1px dashed var(--muted);border-radius:8px;background:#fff;touch-action:none}
+.donut{display:flex;gap:22px;align-items:center;flex-wrap:wrap}
+.leg div{display:flex;gap:8px;align-items:center;margin:4px 0}.leg i{width:11px;height:11px;border-radius:3px;display:inline-block}
+.cols{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;align-items:start}
+.col{background:rgba(127,127,127,.09);border-radius:10px;padding:10px}
+.col h4{margin:0 0 8px;font-size:.88rem;color:var(--muted)}
+.task{background:var(--card);border:1px solid var(--line);border-radius:9px;padding:10px 12px;margin-bottom:8px;font-size:.9rem}
+.task b{display:block;margin-bottom:3px}.task .row{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+.split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:16px}
+.tk{padding:10px 12px;border:1px solid var(--line);border-radius:9px;margin-bottom:8px;cursor:pointer;background:var(--card)}
+.tk:hover,.tk.on{border-color:var(--gold)}
+.tk .h{display:flex;justify-content:space-between;gap:8px;font-weight:600}
+.tk small{color:var(--muted)}
+.chat{height:340px;overflow:auto;background:rgba(127,127,127,.09);border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:8px}
+.msg{max-width:78%;padding:8px 12px;border-radius:12px;font-size:.92rem}
+.msg.bot{background:var(--card);border:1px solid var(--line);align-self:flex-start}
+.msg.me{background:#1E7B4B;color:#fff;align-self:flex-end}
+.quick{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:var(--navy);color:#fff;padding:10px 18px;border-radius:10px;z-index:80;box-shadow:0 8px 24px rgba(0,0,0,.3);max-width:90vw}
+.bars{display:flex;gap:12px;align-items:flex-end;height:150px;padding:6px 4px 0}
+.bars div{flex:1;background:var(--navy5);border-radius:6px 6px 0 0;position:relative;min-width:18px}
+.bars div span{position:absolute;top:-20px;left:0;right:0;text-align:center;font-size:.8rem}
+.bars div em{position:absolute;bottom:-20px;left:0;right:0;text-align:center;font-size:.75rem;color:var(--muted);font-style:normal}
+@media(max-width:860px){.shell{flex-direction:column}.side{width:auto;flex-direction:row;overflow-x:auto;border-right:0!important;border-bottom:1px solid var(--line)}.side .brand{display:none}.side button{white-space:nowrap}.cols{grid-template-columns:1fr 1fr}.split{grid-template-columns:1fr}.main{padding:16px}}
+@media(max-width:520px){.cols{grid-template-columns:1fr}.kv{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header class="top">
+<img src="../img/logo-yh-96.png" alt="">
+<h1>Demo interactiva</h1>
+<div class="sw"><button id="sw-inv">Sistema de Inventario</button><button id="sw-por">Portal de Técnicos</button></div>
+<span class="sp"></span>
+<a href="../index.html#proyectos">← Volver al portafolio</a>
+</header>
+<div class="aviso">Demostración con datos ficticios: no está conectada a ningún sistema real y no guarda nada. Pruébala: busca, firma una carta, avanza etapas, mueve tareas y atiende tickets.</div>
+<div id="app"></div>
+
+<script>
+"use strict";
+const $=(s,r=document)=>r.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+let toastT;const toast=m=>{document.querySelectorAll('.toast').forEach(t=>t.remove());const t=document.createElement('div');t.className='toast';t.textContent=m;document.body.appendChild(t);clearTimeout(toastT);toastT=setTimeout(()=>t.remove(),3200)};
+const modal=h=>{closeModal();const m=document.createElement('div');m.className='modal';m.innerHTML='<div>'+h+'</div>';m.addEventListener('click',e=>{if(e.target===m)closeModal()});document.getElementById('app').appendChild(m);return m};
+const closeModal=()=>document.querySelectorAll('.modal').forEach(m=>m.remove());
+
+/* ============ DATOS FICTICIOS ============ */
+const D={
+emp:[
+{id:1,n:"Ana Lucía Morales",p:"Analista de Compras",a:"Compras",pais:"Guatemala",sede:"Oficinas centrales",host:"GT-LT-0412",mod:"Laptop 14\" (ejemplo)",serie:"SN-48213-A",gar:"2027-03",on:true,tel:"5555-0101",carta:"Firmada"},
+{id:2,n:"Carlos Méndez",p:"Contador General",a:"Finanzas",pais:"Guatemala",sede:"Oficinas centrales",host:"GT-DT-0188",mod:"Desktop SFF (ejemplo)",serie:"SN-33107-B",gar:"2026-12",on:true,tel:"5555-0102",carta:"Pendiente"},
+{id:3,n:"María José Ramírez",p:"Ejecutiva de Ventas",a:"Ventas",pais:"El Salvador",sede:"Sucursal San Salvador",host:"SV-LT-0097",mod:"Laptop 15\" (ejemplo)",serie:"SN-59021-C",gar:"2028-01",on:false,tel:"7000-0103",carta:"Firmada"},
+{id:4,n:"Luis Fernando Castro",p:"Supervisor de Bodega",a:"Logística",pais:"Honduras",sede:"Centro de distribución",host:"HN-DT-0061",mod:"Desktop SFF (ejemplo)",serie:"SN-27744-D",gar:"2026-10",on:true,tel:"9900-0104",carta:"Firmada"},
+{id:5,n:"Daniela Ortiz",p:"Coordinadora de RRHH",a:"Recursos Humanos",pais:"Guatemala",sede:"Oficinas centrales",host:"GT-LT-0455",mod:"Laptop 14\" (ejemplo)",serie:"SN-61288-E",gar:"2028-06",on:true,tel:"5555-0105",carta:"Sin carta"},
+{id:6,n:"Jorge Alberto Salazar",p:"Gerente de Tienda",a:"Operaciones",pais:"Costa Rica",sede:"Tienda Escazú",host:"CR-LT-0033",mod:"Laptop 14\" (ejemplo)",serie:"SN-40356-F",gar:"2027-08",on:false,tel:"8800-0106",carta:"Firmada"},
+{id:7,n:"Paola Estrada",p:"Diseñadora Gráfica",a:"Mercadeo",pais:"Guatemala",sede:"Oficinas centrales",host:"GT-LT-0471",mod:"Laptop 16\" (ejemplo)",serie:"SN-70912-G",gar:"2029-02",on:true,tel:"5555-0107",carta:"Pendiente"},
+{id:8,n:"Ricardo Flores",p:"Técnico de Mantenimiento",a:"Operaciones",pais:"Nicaragua",sede:"Planta Managua",host:"NI-DT-0024",mod:"Desktop SFF (ejemplo)",serie:"SN-18873-H",gar:"2026-05",on:false,tel:"8700-0108",carta:"Firmada"},
+{id:9,n:"Sofía Hernández",p:"Asistente Administrativa",a:"Administración",pais:"El Salvador",sede:"Sucursal San Salvador",host:"SV-LT-0102",mod:"Laptop 14\" (ejemplo)",serie:"SN-52640-J",gar:"2027-11",on:true,tel:"7000-0109",carta:"Firmada"},
+{id:10,n:"Andrés Villatoro",p:"Analista de TI",a:"Tecnología",pais:"Guatemala",sede:"Oficinas centrales",host:"GT-LT-0390",mod:"Laptop 15\" (ejemplo)",serie:"SN-44019-K",gar:"2026-09",on:true,tel:"5555-0110",carta:"Firmada"}
+],
+corr:7,
+etapas:["Solicitud de RRHH","Aprobación del líder","Preparación del equipo","Entrega y carta firmada","Cuenta y licencias","Cierre y seguimiento"],
+altaEtapa:2,
+tasks:[
+{id:1,t:"Revisión de garantías para CAPEX 2027",d:"Listar equipos con garantía vencida o por vencer y preparar el reemplazo.",e:"pend",tag:"Manual",obs:0},
+{id:2,t:"Actualizar agente de monitoreo en sucursal",d:"Verificar versión instalada y reportar equipos sin agente.",e:"prog",tag:"Manual",obs:1},
+{id:3,t:"Revisión de salas de reuniones",d:"Marcar cada sala al revisarla; cualquier técnico del país puede completarla.",e:"rev",tag:"Rutina · compartida",obs:0,pr:"6/6"},
+{id:4,t:"Mantenimiento preventivo de impresoras",d:"Limpieza, niveles y prueba de impresión.",e:"hecha",tag:"Rutina",obs:2}
+],
+tk:[
+{id:2041,a:"No puedo conectarme a la VPN",s:"Laura Pineda",pr:"Alta",e:"Abierto",sla:"2 h",eq:"GT-LT-0412 · Laptop 14\"",n:[]},
+{id:2042,a:"Solicito un monitor adicional",s:"Marco Aguilar",pr:"Baja",e:"Abierto",sla:"3 d",eq:"SV-DT-0090 · Desktop SFF",n:[]},
+{id:2043,a:"Impresora del segundo nivel sin conexión",s:"Rosa Cifuentes",pr:"Media",e:"En curso",sla:"6 h",eq:"Impresora Nivel 2 · IP en red",n:["Revisado cableado, pendiente reinicio del switch."]},
+{id:2044,a:"Correo no sincroniza en el celular",s:"Pablo Reyes",pr:"Media",e:"Pendiente",sla:"1 d",eq:"Celular corporativo",n:[]},
+{id:2045,a:"Equipo lento al iniciar sesión",s:"Karen Soto",pr:"Media",e:"Abierto",sla:"5 h",eq:"HN-LT-0072 · Laptop 15\"",n:[]}
+],
+wk:[["Lun",9],["Mar",12],["Mié",8],["Jue",14],["Vie",11]]
+};
+
+/* ============ CAMBIO DE SISTEMA ============ */
+let sys=location.hash==="#portal"?"por":"inv";
+const view={inv:"inicio",por:"inicio"};
+let selTk=2041,filtro={q:"",pais:"",tkEstado:""};
+function setSys(s){sys=s;history.replaceState(null,"",s==="por"?"#portal":"#inventario");render()}
+$("#sw-inv").onclick=()=>setSys("inv");$("#sw-por").onclick=()=>setSys("por");
+
+const MENU={
+inv:[["inicio","⌂","Inicio"],["empleados","☺","Empleados"],["equipos","▭","Equipos"],["altas","✚","Altas de personal"],["capex","$","CAPEX"]],
+por:[["inicio","⌂","Inicio"],["tareas","✔","Mis tareas"],["tickets","✉","Tickets"],["kpis","▤","Mis KPI"],["wa","☏","Asistente WhatsApp"]]
+};
+function shell(inner){
+const t=sys==="inv"?"Inventario":"Portal de Técnicos";
+return `<div class="shell ${sys==="inv"?"light":"dark"}"><nav class="side"><div class="brand"><img src="../img/logo-yh-96.png" alt=""><span>${t}</span></div>`+
+MENU[sys].map(m=>`<button data-v="${m[0]}" class="${view[sys]===m[0]?"on":""}"><span>${m[1]}</span>${m[2]}</button>`).join("")+
+`</nav><section class="main">${inner}</section></div>`;
+}
+function render(){
+$("#sw-inv").classList.toggle("on",sys==="inv");$("#sw-por").classList.toggle("on",sys==="por");
+const v=view[sys];const R=sys==="inv"?INV:POR;
+$("#app").innerHTML=shell((R[v]||R.inicio)());
+document.querySelectorAll(".side button").forEach(b=>b.onclick=()=>{view[sys]=b.dataset.v;render();window.scrollTo(0,0)});
+(R.bind&&R.bind[v]||(()=>{}))();
+}
+
+/* ============ INVENTARIO ============ */
+const cartaPill=c=>c==="Firmada"?'<span class="pill ok">Firmada</span>':c==="Pendiente"?'<span class="pill warn">Pendiente</span>':'<span class="pill gray">Sin carta</span>';
+const garTxt=g=>{const [y,m]=g.split("-").map(Number);const hoy=new Date(2026,10,18);const meses=(y-hoy.getFullYear())*12+(m-1-hoy.getMonth());const a=Math.floor(Math.abs(meses)/12),mm=Math.abs(meses)%12;const t=(a?a+" año"+(a>1?"s":"")+" ":"")+(mm?mm+" mes"+(mm>1?"es":""):(a?"":"0 meses"));return meses<0?{t:"Vencida hace "+t.trim(),c:"bad"}:meses<=6?{t:"Vence en "+t.trim(),c:"warn"}:{t:"Vigente · "+t.trim(),c:"ok"}};
+const INV={bind:{}};
+INV.inicio=()=>{
+const on=D.emp.filter(e=>e.on).length,off=D.emp.length-on;const tot=on+off+1;
+const seg=[[on,"#2F6FD6","En línea"],[off,"#E8743B","Desconectado"],[1,"#2BA37A","Sin datos de monitoreo"]];
+let acc=0;const R=52,C=2*Math.PI*R;
+const arcs=seg.map(s=>{const l=s[0]/tot*C;const a=`<circle r="${R}" cx="70" cy="70" fill="none" stroke="${s[1]}" stroke-width="22" stroke-dasharray="${l} ${C-l}" stroke-dashoffset="${-acc}" transform="rotate(-90 70 70)"/>`;acc+=l;return a}).join("");
+return `<h2>Inicio</h2><p class="sub">Resumen del inventario y del monitoreo de equipos (datos de ejemplo).</p>
+<div class="tiles"><div class="tile b"><b>${D.emp.length+1}</b><span>Equipos con el agente instalado</span></div><div class="tile g"><b>${D.emp.length}</b><span>Equipos de cómputo</span></div><div class="tile y"><b>1</b><span>Fuera del inventario</span></div><div class="tile"><b>5</b><span>Países con operación</span></div></div>
+<div class="card"><h3>Equipos por estado de conexión</h3><p class="sub" style="margin-bottom:10px">“En línea” = el agente reportó en los últimos 30 minutos.</p>
+<div class="donut"><svg width="140" height="140" viewBox="0 0 140 140">${arcs}<text x="70" y="68" text-anchor="middle" font-size="22" font-weight="700" fill="#1C2430">${tot}</text><text x="70" y="86" text-anchor="middle" font-size="11" fill="#5B6676">total</text></svg>
+<div class="leg">${seg.map(s=>`<div><i style="background:${s[1]}"></i>${s[2]} · <b>${s[0]}</b></div>`).join("")}</div></div></div>
+<div class="card"><h3>Qué incluye el sistema real</h3><p style="margin:0">Inventario de equipos, líneas móviles, impresoras, servidores y suministros por empleado · cartas de responsabilidad con firma electrónica · altas y bajas de personal con seguimiento · monitoreo con agentes propios · CAPEX · reportes en Excel.</p></div>`;
+};
+INV.empleados=()=>`<h2>Empleados</h2><p class="sub">Busca por nombre, puesto o equipo y abre la ficha.</p>
+<div class="bar"><input id="q" placeholder="Buscar…" value="${esc(filtro.q)}" style="min-width:220px"><select id="pa"><option value="">Todos los países</option>${[...new Set(D.emp.map(e=>e.pais))].map(p=>`<option ${filtro.pais===p?"selected":""}>${p}</option>`).join("")}</select></div>
+<div class="card tw"><table><thead><tr><th>Empleado</th><th>Puesto</th><th>País</th><th>Equipo</th><th>Carta</th></tr></thead><tbody id="tb"></tbody></table></div>`;
+function pintaEmp(){
+const q=filtro.q.toLowerCase();
+const l=D.emp.filter(e=>(!filtro.pais||e.pais===filtro.pais)&&(e.n+e.p+e.host+e.a).toLowerCase().includes(q));
+$("#tb").innerHTML=l.length?l.map(e=>`<tr class="click" data-id="${e.id}"><td><b>${e.n}</b><br><small style="color:var(--muted)">${e.a}</small></td><td>${e.p}</td><td>${e.pais}</td><td>${e.host}</td><td>${cartaPill(e.carta)}</td></tr>`).join(""):`<tr><td colspan="5" style="color:var(--muted)">Sin resultados.</td></tr>`;
+document.querySelectorAll("#tb tr.click").forEach(r=>r.onclick=()=>ficha(+r.dataset.id));
+}
+INV.bind.empleados=()=>{pintaEmp();$("#q").oninput=e=>{filtro.q=e.target.value;pintaEmp()};$("#pa").onchange=e=>{filtro.pais=e.target.value;pintaEmp()}};
+function ficha(id){
+const e=D.emp.find(x=>x.id===id);
+const m=modal(`<h3>${e.n}</h3><div style="color:var(--muted)">${e.p} · ${e.a}</div>
+<dl class="kv"><dt>País / sede</dt><dd>${e.pais} · ${e.sede}</dd><dt>Correo</dt><dd>${e.n.split(" ")[0].toLowerCase().replace(/á/g,"a").replace(/é/g,"e").replace(/í/g,"i").replace(/ó/g,"o").replace(/ú/g,"u")}@ejemplo.com</dd><dt>Equipo</dt><dd>${e.host} · ${e.mod}</dd><dt>No. de serie</dt><dd>${e.serie}</dd><dt>Garantía</dt><dd><span class="pill ${garTxt(e.gar).c}">${garTxt(e.gar).t}</span></dd><dt>Monitoreo</dt><dd>${e.on?'<span class="pill ok">En línea</span>':'<span class="pill bad">Desconectado</span>'}</dd><dt>Línea móvil</dt><dd>${e.tel}</dd><dt>Carta</dt><dd>${cartaPill(e.carta)}</dd></dl>
+<div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end"><button class="btn sec" id="x">Cerrar</button><button class="btn gold" id="c" ${e.carta==="Firmada"?"disabled":""}>Generar carta de responsabilidad</button></div>`);
+$("#x",m).onclick=closeModal;$("#c",m).onclick=()=>carta(id);
+}
+function carta(id){
+const e=D.emp.find(x=>x.id===id);const cod="CR-2026-"+String(D.corr).padStart(4,"0");
+const m=modal(`<h3>Carta de responsabilidad · ${cod}</h3><p style="font-size:.9rem">Yo, <b>${e.n}</b>, recibo el equipo <b>${e.host}</b> (serie ${e.serie}) y me comprometo a darle un uso adecuado y a reportar cualquier falla a Soporte. <i>(Texto de ejemplo; en el sistema real se adapta a cada país.)</i></p>
+<canvas class="firma" id="cv"></canvas><div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap"><button class="btn sec sm" id="lim">Borrar firma</button><span class="sp" style="flex:1"></span><button class="btn sec" id="x">Cancelar</button><button class="btn" id="f">Firmar y archivar PDF</button></div>
+<p style="color:var(--muted);font-size:.82rem;margin:10px 0 0">En el sistema real la firma también puede pedirse a distancia por correo o con un código QR desde el celular.</p>`);
+const cv=$("#cv",m);cv.width=cv.clientWidth*2;cv.height=240;const g=cv.getContext("2d");g.lineWidth=4;g.lineCap="round";g.strokeStyle="#0B2545";let d=false,hay=false;
+const pos=ev=>{const r=cv.getBoundingClientRect();const p=ev.touches?ev.touches[0]:ev;return[(p.clientX-r.left)*2,(p.clientY-r.top)*2]};
+const st=ev=>{d=true;const[x,y]=pos(ev);g.beginPath();g.moveTo(x,y);ev.preventDefault()},mv=ev=>{if(!d)return;const[x,y]=pos(ev);g.lineTo(x,y);g.stroke();hay=true;ev.preventDefault()},en=()=>d=false;
+cv.addEventListener("mousedown",st);cv.addEventListener("mousemove",mv);addEventListener("mouseup",en);cv.addEventListener("touchstart",st,{passive:false});cv.addEventListener("touchmove",mv,{passive:false});cv.addEventListener("touchend",en);
+$("#lim",m).onclick=()=>{g.clearRect(0,0,cv.width,cv.height);hay=false};$("#x",m).onclick=closeModal;
+$("#f",m).onclick=()=>{if(!hay){toast("Dibuja tu firma en el recuadro para continuar.");return}e.carta="Firmada";D.corr++;closeModal();toast("Carta "+cod+" firmada y archivada (simulado).");render()};
+}
+INV.equipos=()=>`<h2>Equipos de cómputo</h2><p class="sub">Estado de conexión reportado por el agente propio de monitoreo.</p>
+<div class="card tw"><table><thead><tr><th>Hostname</th><th>Modelo</th><th>Asignado a</th><th>País</th><th>Conexión</th><th>Garantía</th></tr></thead><tbody>${D.emp.map(e=>`<tr><td><b>${e.host}</b></td><td>${e.mod}</td><td>${e.n}</td><td>${e.pais}</td><td>${e.on?'<span class="pill ok">En línea</span>':'<span class="pill bad">Desconectado</span>'}</td><td><span class="pill ${garTxt(e.gar).c}">${garTxt(e.gar).t}</span></td></tr>`).join("")}</tbody></table></div>`;
+INV.altas=()=>`<h2>Alta de personal</h2><p class="sub">Seguimiento por etapas de la solicitud de ingreso de <b>Nuevo colaborador (ejemplo)</b> · Analista de Ventas · Guatemala.</p>
+<div class="card"><ol class="tl">${D.etapas.map((s,i)=>`<li class="${i<D.altaEtapa?"done":i===D.altaEtapa?"now":""}"><i>${i<D.altaEtapa?"✓":i+1}</i><div><b>${s}</b><small>${i<D.altaEtapa?"Completada":i===D.altaEtapa?"En proceso":"Pendiente"}</small></div></li>`).join("")}</ol>
+<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" id="av" ${D.altaEtapa>=D.etapas.length?"disabled":""}>Avanzar a la siguiente etapa</button><button class="btn sec" id="rs">Reiniciar demo</button></div>
+<p style="color:var(--muted);font-size:.85rem;margin:12px 0 0">En el sistema real, RRHH solicita el alta, se crea el ticket en Freshservice automáticamente y el líder inmediato recibe un enlace público de seguimiento.</p></div>`;
+INV.bind.altas=()=>{$("#av").onclick=()=>{D.altaEtapa++;toast(D.altaEtapa>=D.etapas.length?"Alta completada.":"Etapa completada: "+D.etapas[D.altaEtapa-1]);render()};$("#rs").onclick=()=>{D.altaEtapa=0;render()}};
+INV.capex=()=>{const l=[...D.emp].sort((a,b)=>a.gar.localeCompare(b.gar));return `<h2>CAPEX · reemplazo por garantía</h2><p class="sub">Equipos ordenados por vencimiento de garantía, para planificar el presupuesto de reemplazo.</p>
+<div class="tiles"><div class="tile r"><b>${l.filter(e=>garTxt(e.gar).c==="bad").length}</b><span>Garantía vencida</span></div><div class="tile y"><b>${l.filter(e=>garTxt(e.gar).c==="warn").length}</b><span>Vencen en 6 meses o menos</span></div><div class="tile g"><b>${l.filter(e=>garTxt(e.gar).c==="ok").length}</b><span>Vigentes</span></div></div>
+<div class="card tw"><table><thead><tr><th>Equipo</th><th>Asignado a</th><th>País</th><th>Garantía</th></tr></thead><tbody>${l.map(e=>`<tr><td><b>${e.host}</b></td><td>${e.n}</td><td>${e.pais}</td><td><span class="pill ${garTxt(e.gar).c}">${garTxt(e.gar).t}</span></td></tr>`).join("")}</tbody></table></div>`};
+
+/* ============ PORTAL ============ */
+const POR={bind:{}};
+const prPill=p=>`<span class="pill ${p==="Alta"?"bad":p==="Media"?"warn":"gray"}">${p}</span>`;
+const esPill=e=>`<span class="pill ${e==="Abierto"?"info":e==="En curso"?"warn":e==="Pendiente"?"gray":"ok"}">${e}</span>`;
+POR.inicio=()=>{const ab=D.tk.filter(t=>t.e==="Abierto"||t.e==="En curso").length;return `<h2>Inicio</h2><p class="sub">Tu día en un solo lugar (datos de ejemplo).</p>
+<div class="tiles"><div class="tile b"><b>${ab}</b><span>Tickets por atender</span></div><div class="tile y"><b>${D.tasks.filter(t=>t.e!=="hecha").length}</b><span>Tareas abiertas</span></div><div class="tile g"><b>${D.tk.filter(t=>t.e==="Resuelto").length}</b><span>Resueltos en esta sesión</span></div></div>
+<div class="card"><h3>Tickets con el SLA más próximo</h3>${[...D.tk].filter(t=>t.e!=="Resuelto").slice(0,3).map(t=>`<div class="tk" data-go="${t.id}"><div class="h"><span>#${t.id} · ${esc(t.a)}</span>${prPill(t.pr)}</div><small>${esc(t.s)} · vence en ${t.sla}</small></div>`).join("")||"<p class='sub'>Sin tickets pendientes.</p>"}</div>
+<div class="card"><h3>Qué incluye el portal real</h3><p style="margin:0">Tickets de Freshservice con acciones directas · tablero de tareas con rutinas y plantillas · consulta del inventario · indicadores personales y del equipo · asistente de WhatsApp · avisos push.</p></div>`};
+POR.bind.inicio=()=>document.querySelectorAll("[data-go]").forEach(e=>e.onclick=()=>{selTk=+e.dataset.go;view.por="tickets";render()});
+const COLS=[["pend","Pendientes"],["prog","En progreso"],["rev","En revisión"],["hecha","Completadas"]];
+POR.tareas=()=>`<h2>Mis tareas</h2><p class="sub">Mueve las tareas entre columnas; las que quedan en revisión esperan la aprobación de la jefatura.</p>
+<div class="bar"><input id="nt" placeholder="Ej. Revisar UPS del cuarto de servidores" style="flex:1;min-width:220px"><button class="btn" id="add">+ Agregar tarea</button></div>
+<div class="cols">${COLS.map(c=>`<div class="col"><h4>${c[1]} · ${D.tasks.filter(t=>t.e===c[0]).length}</h4>${D.tasks.filter(t=>t.e===c[0]).map(t=>`<div class="task"><b>${esc(t.t)}</b><span style="color:var(--muted)">${esc(t.d)}</span><div class="row"><span class="pill info">${t.tag}</span>${t.pr?`<span class="pill ok">${t.pr}</span>`:""}${t.obs?`<span class="pill gray">${t.obs} obs.</span>`:""}</div><div class="row">${c[0]!=="pend"?`<button class="btn sec sm" data-m="${t.id}" data-d="-1">←</button>`:""}${c[0]!=="hecha"?`<button class="btn sm" data-m="${t.id}" data-d="1">${c[0]==="rev"?"Aprobar":"→"}</button>`:""}</div></div>`).join("")}</div>`).join("")}</div>`;
+POR.bind.tareas=()=>{
+const ord=COLS.map(c=>c[0]);
+document.querySelectorAll("[data-m]").forEach(b=>b.onclick=()=>{const t=D.tasks.find(x=>x.id===+b.dataset.m);t.e=ord[Math.max(0,Math.min(3,ord.indexOf(t.e)+ +b.dataset.d))];if(t.e==="hecha"&&b.dataset.d==="1")toast("Tarea aprobada y completada.");render()});
+$("#add").onclick=()=>{const v=$("#nt").value.trim();if(!v){toast("Escribe el nombre de la tarea.");return}D.tasks.push({id:Date.now(),t:v,d:"Creada desde la demo.",e:"pend",tag:"Manual",obs:0});render()};
+};
+POR.tickets=()=>{const l=D.tk.filter(t=>!filtro.tkEstado||t.e===filtro.tkEstado);const t=D.tk.find(x=>x.id===selTk)||D.tk[0];selTk=t.id;
+return `<h2>Tickets de Freshservice</h2><p class="sub">Toma, pospón, resuelve o responde sin salir del portal.</p>
+<div class="bar"><select id="fe"><option value="">Todos los estados</option>${["Abierto","En curso","Pendiente","Resuelto"].map(e=>`<option ${filtro.tkEstado===e?"selected":""}>${e}</option>`).join("")}</select></div>
+<div class="split"><div>${l.map(x=>`<div class="tk ${x.id===selTk?"on":""}" data-t="${x.id}"><div class="h"><span>#${x.id} · ${esc(x.a)}</span>${esPill(x.e)}</div><small>${esc(x.s)} · ${prPill(x.pr).replace(/<[^>]+>/g,"")} · SLA ${x.sla}</small></div>`).join("")||"<p class='sub'>Sin tickets.</p>"}</div>
+<div class="card"><h3>#${t.id} · ${esc(t.a)}</h3><div style="margin-bottom:8px">${esPill(t.e)} ${prPill(t.pr)}</div><dl class="kv"><dt>Solicitante</dt><dd>${esc(t.s)}</dd><dt>Equipo en inventario</dt><dd>${esc(t.eq)}</dd><dt>SLA</dt><dd>vence en ${t.sla}</dd></dl>
+<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px"><button class="btn sm" data-a="Tomar" ${t.e==="Resuelto"?"disabled":""}>Tomar</button><button class="btn sec sm" data-a="Pendiente" ${t.e==="Resuelto"?"disabled":""}>Poner en pendiente</button><button class="btn gold sm" data-a="Resolver" ${t.e==="Resuelto"?"disabled":""}>Resolver</button><button class="btn sec sm" data-a="Reabrir" ${t.e!=="Resuelto"?"disabled":""}>Reabrir</button></div>
+${t.n.map(n=>`<div class="task"><small style="color:var(--muted)">Nota</small><br>${esc(n)}</div>`).join("")}
+<textarea id="nota" rows="2" placeholder="Escribe una nota privada o una respuesta al solicitante…"></textarea><div style="display:flex;gap:6px;margin-top:8px"><button class="btn sec sm" id="np">Nota privada</button><button class="btn sm" id="rp">Responder al solicitante</button></div></div></div>`};
+POR.bind.tickets=()=>{
+$("#fe").onchange=e=>{filtro.tkEstado=e.target.value;render()};
+document.querySelectorAll("[data-t]").forEach(e=>e.onclick=()=>{selTk=+e.dataset.t;render()});
+const t=D.tk.find(x=>x.id===selTk);
+document.querySelectorAll("[data-a]").forEach(b=>b.onclick=()=>{const a=b.dataset.a;t.e=a==="Tomar"?"En curso":a==="Pendiente"?"Pendiente":a==="Resolver"?"Resuelto":"Abierto";toast("Ticket #"+t.id+": "+t.e+" (simulado).");render()});
+$("#np").onclick=()=>{const v=$("#nota").value.trim();if(!v){toast("Escribe la nota primero.");return}t.n.push(v);render()};
+$("#rp").onclick=()=>{const v=$("#nota").value.trim();if(!v){toast("Escribe la respuesta primero.");return}toast("Respuesta enviada a "+t.s+" (simulado).");$("#nota").value=""};
+};
+POR.kpis=()=>{const r=D.tk.filter(t=>t.e==="Resuelto").length;const w=D.wk.map(x=>[...x]);w[4][1]+=r;const mx=Math.max(...w.map(x=>x[1]));
+return `<h2>Mis KPI</h2><p class="sub">Indicadores del periodo. Resolver tickets en la demo actualiza la barra del viernes.</p>
+<div class="tiles"><div class="tile g"><b>${w.reduce((a,x)=>a+x[1],0)}</b><span>Tickets resueltos (semana)</span></div><div class="tile b"><b>18 min</b><span>Primera respuesta (prom.)</span></div><div class="tile"><b>4.2 h</b><span>Tiempo de resolución (prom.)</span></div><div class="tile g"><b>94%</b><span>Cumplimiento de SLA</span></div><div class="tile y"><b>4.6 / 5</b><span>Satisfacción (CSAT)</span></div></div>
+<div class="card"><h3>Resueltos por día</h3><div class="bars" style="margin-bottom:24px">${w.map(x=>`<div style="height:${x[1]/mx*100}%"><span>${x[1]}</span><em>${x[0]}</em></div>`).join("")}</div></div>`};
+let chat=[["bot","¡Hola! Soy el asistente de Soporte. ¿En qué te ayudo?"]],paso="menu";
+POR.wa=()=>`<h2>Asistente de WhatsApp</h2><p class="sub">Así conversa el bot con un empleado; en el portal, el técnico ve estas conversaciones en tiempo real y puede tomarlas. <b>(Función en fase de pruebas.)</b></p>
+<div class="card"><div class="chat" id="ch">${chat.map(m=>`<div class="msg ${m[0]}">${esc(m[1])}</div>`).join("")}</div><div class="quick" id="qk"></div><div style="margin-top:10px"><button class="btn sec sm" id="rc">Reiniciar conversación</button></div></div>`;
+POR.bind.wa=()=>{
+const ch=$("#ch");ch.scrollTop=ch.scrollHeight;
+const opts=paso==="menu"?["Reportar una falla","Estado de mi ticket","Hablar con un técnico"]:paso==="tipo"?["Internet / VPN","Equipo lento","Impresora"]:[];
+$("#qk").innerHTML=opts.map(o=>`<button class="btn sec sm">${o}</button>`).join("");
+document.querySelectorAll("#qk button").forEach(b=>b.onclick=()=>{
+const o=b.textContent;chat.push(["me",o]);
+if(paso==="menu"){if(o==="Reportar una falla"){chat.push(["bot","¿Qué tipo de falla es?"]);paso="tipo"}else if(o==="Estado de mi ticket"){chat.push(["bot","Tienes 1 caso abierto: #2043 · Impresora del segundo nivel (en curso)."]);}else{chat.push(["bot","Te paso con un técnico de tu país. Un momento, por favor."]);toast("La conversación aparece en la bandeja del técnico (simulado).")}}
+else if(paso==="tipo"){const id=2050+D.tk.length;D.tk.unshift({id,a:o+" (reportado por WhatsApp)",s:"Empleado (WhatsApp)",pr:"Media",e:"Abierto",sla:"4 h",eq:"Se identifica por el número de celular",n:[]});chat.push(["bot","Listo, creé el ticket #"+id+". Un técnico te contactará pronto."]);paso="menu";toast("Ticket #"+id+" creado; revísalo en la pestaña Tickets.")}
+render();
+});
+$("#rc").onclick=()=>{chat=[["bot","¡Hola! Soy el asistente de Soporte. ¿En qué te ayudo?"]];paso="menu";render()};
+};
+addEventListener("keydown",e=>{if(e.key==="Escape")closeModal()});
+render();
+</script>
+</body>
+</html>
