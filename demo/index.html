@@ -8,283 +8,851 @@
 <meta name="robots" content="noindex">
 <link rel="icon" href="../img/favicon-64.png">
 <style>
-:root{--navy:#0B2545;--navy2:#13315C;--navy5:#2A4D7A;--gold:#C9A227;--gold-soft:#F4ECD3;--ink:#1C2430;--muted:#5B6676;--line:#E3E7ED;--bg:#F5F7FA;--card:#fff;--ok:#1E7B4B;--okbg:#E4F4EA;--bad:#B3261E;--badbg:#FDE7E5;--warn:#8A6A00;--warnbg:#FFF1CF;--info:#1D5FB8;--infobg:#E3EEFB}
 *{box-sizing:border-box}
-body{margin:0;font-family:"Segoe UI",-apple-system,Roboto,Arial,sans-serif;color:var(--ink);background:var(--bg);font-size:15px;line-height:1.5}
-button{font:inherit;cursor:pointer}
-.top{background:var(--navy);color:#fff;display:flex;align-items:center;gap:14px;padding:10px 20px;flex-wrap:wrap;position:sticky;top:0;z-index:30}
-.top img{width:38px;height:38px;border-radius:8px}
-.top h1{font:600 1.05rem Georgia,serif;margin:0;color:#fff}
-.top .sw{display:flex;gap:6px;margin-left:12px}
-.top .sw button{background:transparent;border:1px solid rgba(255,255,255,.35);color:#fff;border-radius:999px;padding:6px 16px;font-weight:600}
-.top .sw button.on{background:var(--gold);border-color:var(--gold);color:var(--navy)}
-.top .sp{flex:1}
-.top a{color:#fff;font-size:.9rem}
-.aviso{background:var(--gold-soft);color:#5b4700;padding:7px 20px;font-size:.88rem;border-bottom:1px solid #e6d9a8}
-.shell{display:flex;min-height:calc(100vh - 100px)}
-.side{width:210px;flex:none;padding:14px 10px;display:flex;flex-direction:column;gap:3px}
-.side button{display:flex;gap:9px;align-items:center;text-align:left;border:0;background:transparent;padding:9px 12px;border-radius:8px;font-weight:600;color:inherit;opacity:.85}
-.side button:hover{opacity:1;background:rgba(127,127,127,.14)}
-.side button.on{opacity:1;background:var(--navy5);color:#fff}
-.side .brand{display:flex;gap:10px;align-items:center;padding:6px 8px 14px;font-weight:700}
-.side .brand img{width:34px;height:34px;border-radius:8px}
-.main{flex:1;padding:22px 26px;min-width:0}
-.main h2{font:600 1.4rem Georgia,serif;margin:0 0 4px}
-.sub{color:var(--muted);margin:0 0 18px}
-.light .side{background:#fff;border-right:1px solid var(--line)}
-.dark{--bg:#0F1A2B;--card:#16233A;--ink:#E6ECF5;--muted:#9AA9BF;--line:#26364F;background:#0F1A2B;color:var(--ink)}
-.dark .side{background:#0B1423;border-right:1px solid var(--line)}
-.dark .okx{color:#6FD39A}
-.tiles{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:18px}
-.tile{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 16px;min-width:150px;flex:1}
-.tile b{display:block;font-size:1.7rem;line-height:1.1}
-.tile span{color:var(--muted);font-size:.85rem}
-.tile.g b{color:var(--ok)}.tile.r b{color:var(--bad)}.tile.b b{color:var(--info)}.tile.y b{color:var(--warn)}
-.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin-bottom:16px}
-.card h3{margin:0 0 10px;font-size:1rem}
-table{width:100%;border-collapse:collapse;font-size:.92rem}
-th{text-align:left;color:var(--muted);font-weight:600;padding:8px 10px;border-bottom:1px solid var(--line)}
-td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:middle}
-tr.click{cursor:pointer}tr.click:hover td{background:rgba(127,127,127,.09)}
+html,body{margin:0}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+body{background:#fafafa}
+/* ---------- barra de la demo ---------- */
+.demobar{position:sticky;top:0;z-index:70;height:46px;background:#0B2545;color:#fff;display:flex;align-items:center;gap:12px;padding:0 16px;font:14px "Segoe UI",system-ui,sans-serif}
+.demobar img{width:30px;height:30px;border-radius:7px}
+.demobar b{font:600 15px Georgia,serif;white-space:nowrap}
+.demobar .sw{display:flex;gap:6px;margin-left:8px}
+.demobar .sw button{background:transparent;border:1px solid rgba(255,255,255,.4);color:#fff;border-radius:999px;padding:5px 14px;font-weight:600;font-size:13px}
+.demobar .sw button.on{background:#C9A227;border-color:#C9A227;color:#0B2545}
+.demobar .sp{flex:1}
+.demobar a{color:#fff;font-size:13px;white-space:nowrap}
+.aviso{background:#F4ECD3;color:#5b4700;padding:6px 16px;font:13px "Segoe UI",system-ui,sans-serif;border-bottom:1px solid #e6d9a8}
+/* ---------- piezas comunes ---------- */
+.app{display:flex;align-items:stretch;min-height:calc(100vh - 46px)}
+.sb{position:sticky;top:46px;height:calc(100vh - 46px);align-self:flex-start;flex:none;background:#0e1a2b;color:rgba(226,232,240,.85);display:flex;flex-direction:column;overflow:hidden}
+.nav{flex:1;min-height:0;overflow-y:auto;scrollbar-width:thin;display:flex;flex-direction:column;gap:2px}
+.ic{fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.pill{display:inline-flex;align-items:center;gap:4px;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:600;white-space:nowrap}
+.pill.ok{background:#e4f3e8;color:#1c6431}.pill.bad{background:#fdecea;color:#9b1c1c}.pill.warn{background:#fff3dc;color:#7a4a00}.pill.info{background:#e7edf3;color:#123a5f}.pill.gray{background:#eef0f2;color:#454e57}
+.mod{position:fixed;inset:0;background:rgba(8,14,24,.55);display:flex;align-items:center;justify-content:center;z-index:90;padding:16px}
+.mod>div{background:#fff;color:#222;max-width:600px;width:100%;max-height:92vh;overflow:auto;border-radius:12px;padding:22px 24px;box-shadow:0 20px 60px rgba(0,0,0,.4);font-family:"Segoe UI",system-ui,sans-serif;font-size:14px}
+.mod h3{margin:0 0 6px;font-size:18px}
+.toast{position:fixed;bottom:20px;right:20px;background:#0e1a2b;color:#fff;padding:11px 16px;border-radius:10px;z-index:100;box-shadow:0 8px 24px rgba(0,0,0,.3);max-width:90vw;font:600 13px "Segoe UI",system-ui,sans-serif}
+.toast:before{content:"✓ ";color:#6fd39a}
+canvas.firma{width:100%;height:120px;border:1px dashed #888;border-radius:8px;background:#fff;touch-action:none;display:block}
+.sp1{flex:1}
 .tw{overflow-x:auto}
-.bar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px}
-input,select,textarea{font:inherit;padding:8px 11px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink)}
-textarea{width:100%;resize:vertical}
-.btn{background:var(--navy5);color:#fff;border:0;border-radius:8px;padding:8px 14px;font-weight:600}
-.btn:hover{background:var(--navy2)}
-.btn.sec{background:transparent;color:var(--ink);border:1px solid var(--line)}
-.btn.gold{background:var(--gold);color:var(--navy)}
-.btn.sm{padding:4px 10px;font-size:.82rem}
-.btn[disabled]{opacity:.45;cursor:not-allowed}
-.pill{display:inline-block;padding:2px 10px;border-radius:999px;font-size:.78rem;font-weight:600;white-space:nowrap}
-.pill.ok{background:var(--okbg);color:var(--ok)}.pill.bad{background:var(--badbg);color:var(--bad)}.pill.warn{background:var(--warnbg);color:var(--warn)}.pill.info{background:var(--infobg);color:var(--info)}.pill.gray{background:rgba(127,127,127,.18);color:var(--muted)}
-.dark .pill.ok{background:#12372A;color:#6FD39A}.dark .pill.bad{background:#40201E;color:#FF9C95}.dark .pill.warn{background:#3F3411;color:#F2CC5B}.dark .pill.info{background:#142C4D;color:#8DBBFF}
-.modal{position:fixed;inset:0;background:rgba(5,12,24,.55);display:flex;align-items:center;justify-content:center;z-index:60;padding:16px}
-.modal>div{background:var(--card,#fff);color:var(--ink);max-width:560px;width:100%;max-height:90vh;overflow:auto;border-radius:14px;padding:22px 24px;box-shadow:0 20px 60px rgba(0,0,0,.4)}
-.modal h3{margin:0 0 6px;font:600 1.2rem Georgia,serif}
-.kv{display:grid;grid-template-columns:140px 1fr;gap:6px 12px;margin:12px 0}
-.kv dt{color:var(--muted)}.kv dd{margin:0}
-.tl{list-style:none;margin:6px 0 14px;padding:0}
-.tl li{display:flex;gap:12px;padding:8px 0;align-items:flex-start}
-.tl i{flex:none;width:26px;height:26px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;font-style:normal;font-size:.8rem;font-weight:700;color:var(--muted)}
-.tl li.done i{background:var(--ok);border-color:var(--ok);color:#fff}
-.tl li.now i{border-color:var(--gold);color:var(--gold);background:var(--gold-soft)}
-.tl small{display:block;color:var(--muted)}
-canvas.firma{width:100%;height:120px;border:1px dashed var(--muted);border-radius:8px;background:#fff;touch-action:none}
-.donut{display:flex;gap:22px;align-items:center;flex-wrap:wrap}
-.leg div{display:flex;gap:8px;align-items:center;margin:4px 0}.leg i{width:11px;height:11px;border-radius:3px;display:inline-block}
-.cols{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;align-items:start}
-.col{background:rgba(127,127,127,.09);border-radius:10px;padding:10px}
-.col h4{margin:0 0 8px;font-size:.88rem;color:var(--muted)}
-.task{background:var(--card);border:1px solid var(--line);border-radius:9px;padding:10px 12px;margin-bottom:8px;font-size:.9rem}
-.task b{display:block;margin-bottom:3px}.task .row{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
-.split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:16px}
-.tk{padding:10px 12px;border:1px solid var(--line);border-radius:9px;margin-bottom:8px;cursor:pointer;background:var(--card)}
-.tk:hover,.tk.on{border-color:var(--gold)}
-.tk .h{display:flex;justify-content:space-between;gap:8px;font-weight:600}
-.tk small{color:var(--muted)}
-.chat{height:340px;overflow:auto;background:rgba(127,127,127,.09);border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:8px}
-.msg{max-width:78%;padding:8px 12px;border-radius:12px;font-size:.92rem}
-.msg.bot{background:var(--card);border:1px solid var(--line);align-self:flex-start}
-.msg.me{background:#1E7B4B;color:#fff;align-self:flex-end}
-.quick{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:var(--navy);color:#fff;padding:10px 18px;border-radius:10px;z-index:80;box-shadow:0 8px 24px rgba(0,0,0,.3);max-width:90vw}
-.bars{display:flex;gap:12px;align-items:flex-end;height:150px;padding:6px 4px 0}
-.bars div{flex:1;background:var(--navy5);border-radius:6px 6px 0 0;position:relative;min-width:18px}
-.bars div span{position:absolute;top:-20px;left:0;right:0;text-align:center;font-size:.8rem}
-.bars div em{position:absolute;bottom:-20px;left:0;right:0;text-align:center;font-size:.75rem;color:var(--muted);font-style:normal}
-@media(max-width:860px){.shell{flex-direction:column}.side{width:auto;flex-direction:row;overflow-x:auto;border-right:0!important;border-bottom:1px solid var(--line)}.side .brand{display:none}.side button{white-space:nowrap}.cols{grid-template-columns:1fr 1fr}.split{grid-template-columns:1fr}.main{padding:16px}}
-@media(max-width:520px){.cols{grid-template-columns:1fr}.kv{grid-template-columns:1fr}}
+.dn{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.dn .lg div{display:flex;gap:8px;align-items:center;margin:4px 0;font-size:13px}.dn .lg i{width:11px;height:11px;border-radius:3px;display:inline-block}
+
+/* =========== INVENTARIO =========== */
+.inv{--pr:#123a5f;--prd:#0d2e4d;--prl:#e7edf3;--bg:#fafafa;--sf:#fff;--alt:#f0f0f0;--bd:#ddd;--bd2:#ccc;--tx:#222;--tx2:#777;--ac:#4c9aff;font-family:"Segoe UI",system-ui,-apple-system,sans-serif;font-size:14px;color:var(--tx);background:var(--bg)}
+.inv .sb{width:244px;transition:width .15s}
+.inv.col .sb{width:68px}
+.inv .brand{display:flex;align-items:center;justify-content:center;padding:14px 10px;border-bottom:1px solid rgba(255,255,255,.09);height:70px}
+.inv .brand img{width:44px;height:44px;border-radius:9px}
+.inv .nav{padding:10px 8px}
+.inv .ni{display:flex;align-items:center;gap:12px;border:0;background:none;color:rgba(226,232,240,.82);padding:10px 12px;border-radius:8px;text-align:left;font-weight:500;font-size:14px;white-space:nowrap;border-left:3px solid transparent}
+.inv .ni:hover{background:rgba(255,255,255,.06)}
+.inv .ni.on{background:rgba(76,154,255,.16);color:#fff;border-left-color:var(--ac)}
+.inv.col .ni span{display:none}.inv.col .ni{justify-content:center;padding:10px 0}
+.inv .cnt{display:flex;align-items:center;gap:10px;border:0;border-top:1px solid rgba(255,255,255,.09);background:none;color:rgba(226,232,240,.6);padding:13px 18px;font-size:13px;text-align:left}
+.inv .cnt:hover{color:#fff}
+.inv.col .cnt{justify-content:center;padding:13px 0}.inv.col .cnt span{display:none}.inv.col .cnt svg{transform:rotate(180deg)}
+.inv .mn{flex:1;min-width:0;display:flex;flex-direction:column}
+.inv .tb{display:flex;align-items:center;gap:14px;background:var(--sf);border-bottom:1px solid var(--bd);padding:0 22px;height:70px;position:sticky;top:46px;z-index:20}
+.inv .tb img{height:40px;width:40px;border-radius:8px}
+.inv .tb h1{flex:1;text-align:center;margin:0;font-size:20px;font-weight:600;color:var(--pr)}
+.inv .tbi{display:flex;gap:6px;align-items:center}
+.inv .ib{position:relative;width:40px;height:40px;border-radius:50%;border:0;background:none;color:var(--tx);display:grid;place-items:center}
+.inv .ib:hover{background:var(--alt)}
+.inv .ib i{position:absolute;top:2px;right:0;background:#c62828;color:#fff;border-radius:999px;font-style:normal;font-size:11px;font-weight:700;padding:0 5px;min-width:18px;text-align:center}
+.inv .ct{padding:22px 26px 50px;max-width:1280px;width:100%;margin:0 auto}
+.inv h2{margin:0 0 4px;font-size:20px;color:var(--pr)}
+.inv h3{margin:0 0 8px;font-size:15px;color:var(--pr)}
+.inv .sub{color:var(--tx2);margin:0 0 16px;font-size:13px}
+.inv .cd{background:var(--sf);border:1px solid var(--bd);border-radius:8px;padding:16px 18px;margin-bottom:16px}
+.inv .tl4{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-bottom:16px}
+.inv .kp{border-radius:8px;padding:12px 14px;border:1px solid var(--bd);background:var(--sf)}
+.inv .kp b{display:block;font-size:26px;line-height:1.15}.inv .kp span{font-size:12px;color:var(--tx2)}
+.inv .g2{display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:16px}
+.inv table{width:100%;border-collapse:collapse;font-size:13px}
+.inv th{background:var(--alt);text-align:left;padding:8px 10px;font-weight:600;border-bottom:1px solid var(--bd2);white-space:nowrap}
+.inv td{padding:8px 10px;border-bottom:1px solid var(--bd);vertical-align:middle}
+.inv tr.cl{cursor:pointer}.inv tr.cl:hover td{background:#f4f8fc}
+.inv .bar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;align-items:center}
+.inv input,.inv select,.inv textarea{padding:8px 10px;border:1px solid var(--bd2);border-radius:6px;background:var(--sf);font-size:13px;min-height:36px}
+.inv textarea{width:100%;resize:vertical}
+.inv .bt{background:var(--pr);color:#fff;border:0;border-radius:6px;padding:8px 14px;font-weight:600;font-size:13px;min-height:36px}
+.inv .bt:hover{background:var(--prd)}.inv .bt.sec{background:var(--sf);color:var(--tx);border:1px solid var(--bd2)}.inv .bt.sec:hover{background:var(--alt)}.inv .bt.sm{padding:4px 10px;min-height:28px;font-size:12px}.inv .bt.dg{background:#a32d2d}
+.inv .bt[disabled]{opacity:.45;cursor:not-allowed}
+.inv .fm{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px 16px}
+.inv .fm label{display:block;font-size:12px;font-weight:600;color:var(--tx2);margin-bottom:4px}
+.inv .fm input,.inv .fm select{width:100%}
+.inv .tabs{display:flex;gap:2px;border-bottom:1px solid var(--bd);margin:12px 0;flex-wrap:wrap}
+.inv .tabs button{background:none;border:0;border-bottom:3px solid transparent;padding:9px 14px;color:var(--tx2);font-weight:600;font-size:13px}
+.inv .tabs button.on{color:var(--pr);border-bottom-color:var(--pr)}
+.inv .kv{display:grid;grid-template-columns:150px 1fr;gap:6px 12px;margin:12px 0;font-size:13px}.inv .kv dt{color:var(--tx2)}.inv .kv dd{margin:0}
+.inv .stp{display:flex;align-items:flex-start;margin:14px 0 6px;overflow-x:auto;padding-bottom:6px}
+.inv .stp div{flex:1;min-width:104px;text-align:center;position:relative;font-size:11.5px;color:var(--tx2);padding:0 4px}
+.inv .stp div:before{content:"";position:absolute;top:13px;left:-50%;right:50%;height:3px;background:var(--bd2)}
+.inv .stp div:first-child:before{display:none}
+.inv .stp div.d:before,.inv .stp div.n:before{background:#1c8a4a}
+.inv .stp i{display:grid;place-items:center;width:28px;height:28px;border-radius:50%;margin:0 auto 5px;background:#fff;border:2px solid var(--bd2);font-style:normal;font-weight:700;font-size:12px;position:relative;z-index:1}
+.inv .stp .d i{background:#1c8a4a;border-color:#1c8a4a;color:#fff}.inv .stp .n i{border-color:var(--ac);color:var(--ac);background:#eaf2fc}.inv .stp .n{color:var(--tx);font-weight:600}
+.inv .sol{border:1px solid var(--bd);border-radius:8px;padding:14px 16px;margin-bottom:12px;background:var(--sf)}
+.inv .sol .h{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+.inv .mod h3{color:#123a5f}
+.inv .hint{font-size:12px;color:var(--tx2)}
+.inv .bars2{display:flex;flex-direction:column;gap:7px}
+.inv .bars2 div{display:grid;grid-template-columns:130px 1fr 34px;gap:8px;align-items:center;font-size:13px}
+.inv .bars2 span.t{background:var(--alt);border-radius:0 4px 4px 0;height:12px}.inv .bars2 span.t i{display:block;height:12px;background:#2a78d6;border-radius:0 4px 4px 0}
+.inv.fake{font-size:14px}
+/* =========== PORTAL =========== */
+.por{--pr:#123a5f;--prd:#0d2e4d;--prs:#e7edf3;--lk:#1f5f99;--pg:#f4f6f9;--sf:#fff;--alt:#f4f6f9;--hv:#f6f8fb;--sel:#eaf2fc;--bd:#e2e6eb;--bd2:#cfd6dd;--tx:#1b2430;--tx2:#454e57;--tx3:#5b6672;--hd:#0e1a2b;--s1:#2a78d6;font-family:Inter,"Segoe UI",system-ui,-apple-system,Roboto,sans-serif;font-size:14px;line-height:1.45;color:var(--tx);background:var(--pg)}
+.por .sb{width:250px;padding:18px 12px;gap:16px}
+.por .brand{display:flex;align-items:center;gap:12px;padding:0 6px 14px;border-bottom:1px solid rgba(255,255,255,.09)}
+.por .brand img{width:46px;height:46px;border-radius:9px}
+.por .brand strong{display:block;color:#fff;font-size:15px}.por .brand span{font-size:12px;color:rgba(226,232,240,.7)}
+.por .ni{display:flex;align-items:center;gap:12px;min-height:44px;padding:10px 12px;border:0;border-left:3px solid transparent;border-radius:0 8px 8px 0;background:none;color:rgba(226,232,240,.85);font-weight:500;text-align:left;font-size:14px}
+.por .ni:hover{background:rgba(255,255,255,.06)}
+.por .ni.on{background:rgba(76,154,255,.16);border-left-color:#4c9aff;color:#fff}
+.por .nc{margin-left:auto;background:#4c9aff;color:#0e1a2b;border-radius:999px;padding:1px 8px;font-size:12px;font-weight:700}
+.por .uc{margin-top:auto;display:flex;align-items:center;gap:10px;padding:12px;border-radius:10px;background:rgba(255,255,255,.05)}
+.por .av{display:grid;place-items:center;width:38px;height:38px;border-radius:50%;background:#24466b;color:#fff;font-weight:700;font-size:13px;flex:none}
+.por .uc .n{color:#fff;font-weight:600;font-size:13px}.por .uc .r{font-size:12px;color:rgba(226,232,240,.7)}
+.por .uc button{margin-left:auto;background:none;border:1px solid rgba(255,255,255,.12);color:rgba(226,232,240,.85);border-radius:8px;padding:5px 9px;font-size:12px}
+.por .mn{flex:1;min-width:0;display:flex;flex-direction:column}
+.por .tb{display:flex;align-items:center;gap:14px;padding:14px 28px;background:var(--sf);border-bottom:1px solid var(--bd);position:sticky;top:46px;z-index:20}
+.por .tb h1{margin:0;font-size:20px;color:var(--hd)}.por .tb .s{font-size:13px;color:var(--tx3)}
+.por .ib{position:relative;width:44px;height:44px;border-radius:10px;border:1px solid var(--bd);background:var(--sf);display:grid;place-items:center;color:var(--tx)}
+.por .ib i{position:absolute;top:-5px;right:-5px;background:#c62828;color:#fff;border-radius:999px;font-style:normal;font-size:11px;font-weight:700;padding:1px 6px;border:2px solid var(--sf)}
+.por .ct{padding:24px 28px 48px;display:flex;flex-direction:column;gap:20px}
+.por .cd{background:var(--sf);border:1px solid var(--bd);border-radius:12px;overflow:hidden}
+.por .ch{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:14px 16px}
+.por .ch h3{margin:0;font-size:15px;color:var(--hd)}
+.por .lb{background:none;border:0;padding:0;color:var(--lk);font-weight:600;font-size:13px;text-decoration:underline;text-underline-offset:2px}
+.por .gt{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px}
+.por .gp{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:16px;align-items:start}
+.por .tile{display:flex;flex-direction:column;gap:6px;padding:18px;text-align:left;border:1px solid var(--bd);border-radius:12px;background:var(--sf)}
+.por .tile:hover{border-color:var(--bd2)}
+.por .tile .l{font-size:13px;font-weight:600;color:var(--tx3)}.por .tile .num{font-size:32px;font-weight:700;color:var(--hd);line-height:1.1}.por .tile .no{font-size:13px;color:var(--tx3)}.por .tile .no.al{color:#9b1c1c;font-weight:600}
+.por .mt{color:var(--tx3);font-size:12px}
+.por .cod{font-weight:600;color:var(--pr)}
+.por .rk{color:#9b1c1c;font-weight:600}
+.por .bd{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:999px;font-size:12px;font-weight:600;white-space:nowrap}
+.por .bd.crit{background:#fdecea;color:#9b1c1c}.por .bd.warn{background:#fff3dc;color:#7a4a00}.por .bd.info{background:#e7edf3;color:#123a5f}.por .bd.good{background:#e4f3e8;color:#1c6431}.por .bd.neu{background:#eef0f2;color:#454e57}
+.por .fila .bd,.por .fila .pill{justify-self:start}
+.por .tabs{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.por .tab{min-height:38px;padding:8px 14px;border:1px solid var(--bd2);background:var(--sf);color:var(--tx2);border-radius:999px;font-weight:500;font-size:13px}
+.por .tab:hover{border-color:var(--pr)}.por .tab.on{background:var(--pr);border-color:var(--pr);color:#fff}
+.por .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:40px;padding:8px 14px;border-radius:8px;border:1px solid var(--bd2);background:var(--sf);color:var(--tx);font-weight:600;font-size:13px;text-decoration:none}
+.por .btn:hover{background:var(--hv)}.por .btn.pri{background:var(--pr);border-color:var(--pr);color:#fff}.por .btn.pri:hover{background:var(--prd)}.por .btn.sm{min-height:34px;padding:6px 10px;font-size:12px}
+.por .btn[disabled]{opacity:.5;cursor:not-allowed}
+.por .inp{min-height:42px;width:100%;padding:10px 12px;border:1px solid var(--bd2);border-radius:8px;background:var(--sf)}
+.por textarea.inp{min-height:90px;resize:vertical}
+.por label.lbl{font-size:13px;font-weight:600;color:var(--tx2);display:block;margin-bottom:6px}
+.por .lbt{display:flex;gap:12px;align-items:flex-start;width:100%;padding:12px 16px;border:0;border-top:1px solid var(--bd);background:var(--sf);text-align:left}
+.por .lbt:hover{background:var(--hv)}.por .lbt.nl{background:var(--sel)}.por .lbt.on{background:var(--sel)}
+.por .vac{padding:24px 16px;color:var(--tx3);border-top:1px solid var(--bd);margin:0}
+.por .tabla{overflow-x:auto}
+.por .fila,.por .thd{display:grid;gap:12px;align-items:center;min-width:700px;padding:12px 16px}
+.por .thd{padding-top:8px;padding-bottom:8px;font-size:12px;font-weight:600;color:var(--tx3);border-top:1px solid var(--bd);background:var(--alt)}
+.por .fila{width:100%;border:0;border-top:1px solid var(--bd);background:var(--sf);text-align:left}
+.por button.fila:hover{background:var(--hv)}.por .fila.on{background:var(--sel)}
+.por .split{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start}
+.por .split>.pn{flex:999 1 560px;min-width:0}.por .split>.lt{flex:1 1 340px;min-width:0}
+.por dl.fi{margin:0;display:grid;grid-template-columns:120px 1fr;gap:8px 12px;font-size:13px}.por dl.fi dt{color:var(--tx3)}.por dl.fi dd{margin:0;overflow-wrap:anywhere}
+.por .cs{padding:12px;border-radius:10px;background:var(--alt);display:flex;flex-direction:column;gap:6px}
+.por .eb{font-size:12px;font-weight:700;color:var(--tx3);text-transform:uppercase;letter-spacing:.04em}
+.por .hilo{display:flex;flex-direction:column;gap:10px;max-height:340px;overflow-y:auto;padding-right:4px}
+.por .bz{max-width:92%;padding:10px 12px;border-radius:12px;font-size:13px;white-space:pre-line}
+.por .bz .m{display:block;font-size:11px;font-weight:600;margin-bottom:3px;opacity:.85}
+.por .bz.en{align-self:flex-start;background:var(--alt);border:1px solid var(--bd)}.por .bz.sa{align-self:flex-end;background:var(--prs)}.por .bz.pv{align-self:flex-end;background:#fff3dc;color:#7a4a00}
+.por .bz.bot{align-self:flex-start;background:#e4f3e8;border:1px solid #cfe8d6}
+.por .kb{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;align-items:start}
+.por .co{display:flex;flex-direction:column;gap:10px}.por .co h2{margin:0;font-size:14px;color:var(--tx2)}
+.por .tr{display:flex;flex-direction:column;gap:8px;padding:14px;border:1px solid var(--bd);border-radius:10px;background:var(--sf);text-align:left;width:100%}
+.por button.tr:hover{border-color:var(--pr);box-shadow:0 2px 10px rgba(14,26,43,.08)}
+.por .tr.hc .tt{text-decoration:line-through;color:var(--tx3)}
+.por .ck{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:8px;border:1.5px solid var(--bd2);background:var(--sf);flex:none;color:var(--tx3)}
+.por .ck.ok{background:#1c6431;border-color:#1c6431;color:#fff}
+.por .ax{display:flex;flex-wrap:wrap;gap:6px}
+.por .fr{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:12px;padding:0 16px 16px}
+.por .hb{display:grid;grid-template-columns:150px 1fr 40px;gap:10px;align-items:center;font-size:13px}
+.por .hp{background:var(--alt);border-radius:0 4px 4px 0}.por .hr{height:12px;background:var(--s1);border-radius:0 4px 4px 0;min-width:2px}
+.por .brs{display:flex;gap:10px;align-items:flex-end;height:170px;padding:0 4px;border-bottom:1px solid var(--bd2);margin:0 16px}
+.por .bc{flex:1 1 0;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;min-width:0;font-size:12px;color:var(--tx3)}
+.por .bc i{display:block;width:100%;max-width:46px;background:var(--s1);border-radius:4px 4px 0 0;min-height:2px}
+.por .etq{display:flex;gap:10px;padding:6px 20px 16px}.por .etq span{flex:1 1 0;text-align:center;font-size:11px;color:var(--tx3)}
+.por .chip{padding:6px 12px;border:1px solid var(--bd2);border-radius:999px;background:var(--sf);font-size:13px;font-weight:500;color:var(--tx2)}.por .chip.on{background:var(--prs);border-color:var(--pr);color:var(--pr);font-weight:600}
+.por .ibx{padding:12px 14px;border-radius:10px;background:var(--alt);color:var(--tx2);font-size:13px}
+.por .wab{padding:12px 14px;border-radius:10px;background:#fff3dc;color:#7a4a00;font-size:13px}
+.por .pnl{position:absolute;right:0;top:52px;width:380px;max-width:calc(100vw - 32px);z-index:40;box-shadow:0 12px 32px rgba(14,26,43,.18)}
+.por .tbw{position:relative}
+.por .chk{display:grid;gap:6px}
+.mod.dr{justify-content:flex-end;padding:0}
+.mod.dr>div{max-width:640px;height:100vh;max-height:100vh;border-radius:0;display:flex;flex-direction:column;gap:14px}
+.por .sbt{display:flex;align-items:center;gap:10px;padding:6px 0}
+.por .sbt.dn2 span{text-decoration:line-through;color:var(--tx3)}
+.por .evd{display:flex;align-items:center;gap:10px;padding:8px;border:1px solid var(--bd);border-radius:10px}
+.por .evd i{width:46px;height:46px;border-radius:8px;background:var(--alt);display:grid;place-items:center;font-style:normal;font-size:11px;font-weight:700;color:var(--tx2)}
+.por .ph{background:#e9efe9;border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:8px;height:300px;overflow:auto}
+.por .ph .bz{max-width:82%}.por .ph .bz.me{align-self:flex-end;background:#d6f5c9}
+@media (max-width:900px){
+ .app{flex-direction:column}
+ .sb{position:static!important;width:auto!important;height:auto!important;align-self:stretch!important;min-width:0}
+ .inv .brand{display:none}
+ .por .brand img{width:36px;height:36px}
+ .inv .nav,.por .nav{flex-direction:row;overflow-x:auto;padding:8px}
+ .inv .ni span{display:inline}.inv.col .ni span{display:none}
+ .inv .cnt{display:none}
+ .inv .brand,.por .brand{height:auto;padding:10px 14px;justify-content:flex-start}
+ .por .uc{display:none}
+ .por .ni{flex:none;border-radius:8px;border-left:0}
+ .inv .tb{top:46px;padding:0 12px;height:58px}.inv .tb h1{font-size:15px}
+ .inv .ct,.por .ct{padding:16px 14px 40px}
+ .por .tb{padding:12px 14px}
+ .demobar b{display:none}
+}
+@media (max-width:520px){.inv .kv,.por dl.fi{grid-template-columns:1fr}.demobar{gap:8px;padding:0 10px}.demobar img{display:none}.demobar .sw{margin-left:0}.demobar .sw button{padding:5px 10px;font-size:12px;white-space:nowrap}.demobar a{font-size:0}.demobar a:after{content:"← Portafolio";font-size:12px}.aviso{font-size:12px;padding:6px 10px}.mod>div{padding:16px}}
 </style>
 </head>
 <body>
-<header class="top">
+<header class="demobar">
 <img src="../img/logo-yh-96.png" alt="">
-<h1>Demo interactiva</h1>
+<b>Demo interactiva</b>
 <div class="sw"><button id="sw-inv">Sistema de Inventario</button><button id="sw-por">Portal de Técnicos</button></div>
 <span class="sp"></span>
 <a href="../index.html#proyectos">← Volver al portafolio</a>
 </header>
-<div class="aviso">Demostración con datos ficticios: no está conectada a ningún sistema real y no guarda nada. Pruébala: busca, firma una carta, avanza etapas, mueve tareas y atiende tickets.</div>
+<div class="aviso">Demostración con datos 100 % ficticios: no está conectada a ningún sistema real y no guarda nada. Recorre todo el menú: busca, firma una carta, avanza etapas, mueve tareas y atiende tickets.</div>
 <div id="app"></div>
-
 <script>
 "use strict";
 const $=(s,r=document)=>r.querySelector(s);
-const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-let toastT;const toast=m=>{document.querySelectorAll('.toast').forEach(t=>t.remove());const t=document.createElement('div');t.className='toast';t.textContent=m;document.body.appendChild(t);clearTimeout(toastT);toastT=setTimeout(()=>t.remove(),3200)};
-const modal=h=>{closeModal();const m=document.createElement('div');m.className='modal';m.innerHTML='<div>'+h+'</div>';m.addEventListener('click',e=>{if(e.target===m)closeModal()});document.getElementById('app').appendChild(m);return m};
-const closeModal=()=>document.querySelectorAll('.modal').forEach(m=>m.remove());
+const $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const esc=s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const sinAc=s=>String(s).toLowerCase().replace(/á/g,"a").replace(/é/g,"e").replace(/í/g,"i").replace(/ó/g,"o").replace(/ú/g,"u").replace(/ñ/g,"n");
+let toastT;const toast=m=>{$$(".toast").forEach(t=>t.remove());const t=document.createElement("div");t.className="toast";t.textContent=m;document.body.appendChild(t);clearTimeout(toastT);toastT=setTimeout(()=>t.remove(),3400)};
+const modal=(h,cls="")=>{closeModal();const m=document.createElement("div");m.className="mod "+cls;m.innerHTML="<div>"+h+"</div>";m.addEventListener("mousedown",e=>{if(e.target===m)closeModal()});(document.querySelector(".inv,.por")||document.body).appendChild(m);return m};
+const closeModal=()=>$$(".mod").forEach(m=>m.remove());
+const ico=(p,s=20)=>`<svg class="ic" width="${s}" height="${s}" viewBox="0 0 24 24" aria-hidden="true">${p}</svg>`;
+const HOY=new Date(2026,10,18);
+const fmtF=d=>d.toLocaleDateString("es-GT",{day:"2-digit",month:"short",year:"numeric"}).replace(".","");
+function donut(seg,center){
+ const tot=seg.reduce((a,s)=>a+s[0],0)||1;let acc=0;const R=48,C=2*Math.PI*R;
+ const arcs=seg.filter(s=>s[0]>0).map(s=>{const l=s[0]/tot*C;const a=`<circle r="${R}" cx="64" cy="64" fill="none" stroke="${s[1]}" stroke-width="22" stroke-dasharray="${l} ${C-l}" stroke-dashoffset="${-acc}" transform="rotate(-90 64 64)"/>`;acc+=l;return a}).join("");
+ return `<div class="dn"><svg width="128" height="128" viewBox="0 0 128 128">${arcs}<text x="64" y="63" text-anchor="middle" font-size="22" font-weight="700" fill="#222">${center!=null?center:tot}</text><text x="64" y="80" text-anchor="middle" font-size="11" fill="#777">total</text></svg><div class="lg">${seg.map(s=>`<div><i style="background:${s[1]}"></i>${s[2]} · <b>${s[0]}</b></div>`).join("")}</div></div>`;
+}
+function hbars(rows,max){const m=max||Math.max(...rows.map(r=>r[1]),1);return rows.map(r=>`<div><span>${esc(r[0])}</span><span class="t"><i style="width:${r[1]/m*100}%"></i></span><b>${r[1]}</b></div>`).join("")}
+function cartaModal(o){
+ const cod="CR-2026-"+String(D.corr).padStart(4,"0");
+ const m=modal(`<h3>${esc(o.titulo||"Carta de responsabilidad")} · ${cod}</h3><p style="font-size:13px">Yo, <b>${esc(o.nombre)}</b>, recibo ${esc(o.cosa)} y me comprometo a darle un uso adecuado, a cuidarlo y a reportar cualquier falla a Soporte Técnico. <i>(Texto de ejemplo; en el sistema real se adapta a cada país y a cada tipo de equipo.)</i></p>
+ <canvas class="firma" id="cv"></canvas><div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;align-items:center"><button class="bt sec sm" id="lim">Borrar firma</button><span class="sp1"></span><button class="bt sec" id="x">Cancelar</button><button class="bt" id="f">Firmar y archivar PDF</button></div>
+ <p class="hint" style="margin:10px 0 0">En el sistema real la firma también puede pedirse a distancia: por correo, con un enlace público o con un código QR desde el celular.</p>`);
+ const cv=$("#cv",m);cv.width=cv.clientWidth*2;cv.height=240;const g=cv.getContext("2d");g.lineWidth=4;g.lineCap="round";g.strokeStyle="#0B2545";let d=false,hay=false;
+ const pos=ev=>{const r=cv.getBoundingClientRect();const p=ev.touches?ev.touches[0]:ev;return[(p.clientX-r.left)*2,(p.clientY-r.top)*2]};
+ const st=ev=>{d=true;const[x,y]=pos(ev);g.beginPath();g.moveTo(x,y);ev.preventDefault()},mv=ev=>{if(!d)return;const[x,y]=pos(ev);g.lineTo(x,y);g.stroke();hay=true;ev.preventDefault()},en=()=>d=false;
+ cv.addEventListener("mousedown",st);cv.addEventListener("mousemove",mv);addEventListener("mouseup",en);cv.addEventListener("touchstart",st,{passive:false});cv.addEventListener("touchmove",mv,{passive:false});cv.addEventListener("touchend",en);
+ $("#lim",m).onclick=()=>{g.clearRect(0,0,cv.width,cv.height);hay=false};$("#x",m).onclick=closeModal;
+ $("#f",m).onclick=()=>{if(!hay){toast("Dibuja tu firma en el recuadro para continuar.");return}D.corr++;closeModal();toast("Carta "+cod+" firmada y archivada (simulado).");o.ok&&o.ok();render()};
+}
 
-/* ============ DATOS FICTICIOS ============ */
-const D={
+/* ===================== DATOS FICTICIOS ===================== */
+const D={corr:7,
 emp:[
-{id:1,n:"Ana Lucía Morales",p:"Analista de Compras",a:"Compras",pais:"Guatemala",sede:"Oficinas centrales",host:"GT-LT-0412",mod:"Laptop 14\" (ejemplo)",serie:"SN-48213-A",gar:"2027-03",on:true,tel:"5555-0101",carta:"Firmada"},
-{id:2,n:"Carlos Méndez",p:"Contador General",a:"Finanzas",pais:"Guatemala",sede:"Oficinas centrales",host:"GT-DT-0188",mod:"Desktop SFF (ejemplo)",serie:"SN-33107-B",gar:"2026-12",on:true,tel:"5555-0102",carta:"Pendiente"},
-{id:3,n:"María José Ramírez",p:"Ejecutiva de Ventas",a:"Ventas",pais:"El Salvador",sede:"Sucursal San Salvador",host:"SV-LT-0097",mod:"Laptop 15\" (ejemplo)",serie:"SN-59021-C",gar:"2028-01",on:false,tel:"7000-0103",carta:"Firmada"},
-{id:4,n:"Luis Fernando Castro",p:"Supervisor de Bodega",a:"Logística",pais:"Honduras",sede:"Centro de distribución",host:"HN-DT-0061",mod:"Desktop SFF (ejemplo)",serie:"SN-27744-D",gar:"2026-10",on:true,tel:"9900-0104",carta:"Firmada"},
-{id:5,n:"Daniela Ortiz",p:"Coordinadora de RRHH",a:"Recursos Humanos",pais:"Guatemala",sede:"Oficinas centrales",host:"GT-LT-0455",mod:"Laptop 14\" (ejemplo)",serie:"SN-61288-E",gar:"2028-06",on:true,tel:"5555-0105",carta:"Sin carta"},
-{id:6,n:"Jorge Alberto Salazar",p:"Gerente de Tienda",a:"Operaciones",pais:"Costa Rica",sede:"Tienda Escazú",host:"CR-LT-0033",mod:"Laptop 14\" (ejemplo)",serie:"SN-40356-F",gar:"2027-08",on:false,tel:"8800-0106",carta:"Firmada"},
-{id:7,n:"Paola Estrada",p:"Diseñadora Gráfica",a:"Mercadeo",pais:"Guatemala",sede:"Oficinas centrales",host:"GT-LT-0471",mod:"Laptop 16\" (ejemplo)",serie:"SN-70912-G",gar:"2029-02",on:true,tel:"5555-0107",carta:"Pendiente"},
-{id:8,n:"Ricardo Flores",p:"Técnico de Mantenimiento",a:"Operaciones",pais:"Nicaragua",sede:"Planta Managua",host:"NI-DT-0024",mod:"Desktop SFF (ejemplo)",serie:"SN-18873-H",gar:"2026-05",on:false,tel:"8700-0108",carta:"Firmada"},
-{id:9,n:"Sofía Hernández",p:"Asistente Administrativa",a:"Administración",pais:"El Salvador",sede:"Sucursal San Salvador",host:"SV-LT-0102",mod:"Laptop 14\" (ejemplo)",serie:"SN-52640-J",gar:"2027-11",on:true,tel:"7000-0109",carta:"Firmada"},
-{id:10,n:"Andrés Villatoro",p:"Analista de TI",a:"Tecnología",pais:"Guatemala",sede:"Oficinas centrales",host:"GT-LT-0390",mod:"Laptop 15\" (ejemplo)",serie:"SN-44019-K",gar:"2026-09",on:true,tel:"5555-0110",carta:"Firmada"}
+{id:1,n:"Ana Lucía Morales",p:"Analista de Compras",a:"Compras",pais:"Guatemala",sede:"Oficinas centrales",host:"GT-LT-0412",mod:"Laptop 14\" Modelo A",marca:"Marca Uno",serie:"SN-48213-A",gar:"2027-03",on:true,tel:"5555-0101",carta:"Firmada",so:"Windows 11 Pro"},
+{id:2,n:"Carlos Méndez",p:"Contador General",a:"Finanzas",pais:"Guatemala",sede:"Oficinas centrales",host:"GT-DT-0188",mod:"Desktop SFF Modelo B",marca:"Marca Dos",serie:"SN-33107-B",gar:"2026-12",on:true,tel:"5555-0102",carta:"Pendiente",so:"Windows 11 Pro",tipo:"PC"},
+{id:3,n:"María José Ramírez",p:"Ejecutiva de Ventas",a:"Ventas",pais:"El Salvador",sede:"Sucursal San Salvador",host:"SV-LT-0097",mod:"Laptop 15\" Modelo C",marca:"Marca Uno",serie:"SN-59021-C",gar:"2028-01",on:false,tel:"7000-0103",carta:"Firmada",so:"Windows 11 Pro"},
+{id:4,n:"Luis Fernando Castro",p:"Supervisor de Bodega",a:"Logística",pais:"Honduras",sede:"Centro de distribución",host:"HN-DT-0061",mod:"Desktop SFF Modelo B",marca:"Marca Dos",serie:"SN-27744-D",gar:"2026-10",on:true,tel:"9900-0104",carta:"Firmada",so:"Windows 10 Pro",tipo:"PC"},
+{id:5,n:"Daniela Ortiz",p:"Coordinadora de RRHH",a:"Recursos Humanos",pais:"Guatemala",sede:"Oficinas centrales",host:"GT-LT-0455",mod:"Laptop 14\" Modelo A",marca:"Marca Uno",serie:"SN-61288-E",gar:"2028-06",on:true,tel:"5555-0105",carta:"Sin carta",so:"Windows 11 Pro"},
+{id:6,n:"Jorge Alberto Salazar",p:"Gerente de Tienda",a:"Operaciones",pais:"Costa Rica",sede:"Tienda Escazú (ejemplo)",host:"CR-LT-0033",mod:"Laptop 14\" Modelo A",marca:"Marca Uno",serie:"SN-40356-F",gar:"2027-08",on:false,tel:"8800-0106",carta:"Firmada",so:"Windows 11 Pro"},
+{id:7,n:"Paola Estrada",p:"Diseñadora Gráfica",a:"Mercadeo",pais:"Guatemala",sede:"Oficinas centrales",host:"GT-LT-0471",mod:"Laptop 16\" Modelo D",marca:"Marca Tres",serie:"SN-70912-G",gar:"2029-02",on:true,tel:"5555-0107",carta:"Pendiente",so:"macOS 15"},
+{id:8,n:"Ricardo Flores",p:"Técnico de Mantenimiento",a:"Operaciones",pais:"Nicaragua",sede:"Planta Managua",host:"NI-DT-0024",mod:"Desktop SFF Modelo B",marca:"Marca Dos",serie:"SN-18873-H",gar:"2026-05",on:false,tel:"8700-0108",carta:"Firmada",so:"Windows 10 Pro",tipo:"PC"},
+{id:9,n:"Sofía Hernández",p:"Asistente Administrativa",a:"Administración",pais:"El Salvador",sede:"Sucursal San Salvador",host:"SV-LT-0102",mod:"Laptop 14\" Modelo A",marca:"Marca Uno",serie:"SN-52640-J",gar:"2027-11",on:true,tel:"7000-0109",carta:"Firmada",so:"Windows 11 Pro"},
+{id:10,n:"Andrés Villatoro",p:"Analista de TI",a:"Tecnología",pais:"Guatemala",sede:"Oficinas centrales",host:"GT-LT-0390",mod:"Laptop 15\" Modelo C",marca:"Marca Uno",serie:"SN-44019-K",gar:"2026-09",on:true,tel:"5555-0110",carta:"Firmada",so:"Windows 11 Pro"}
 ],
-corr:7,
-etapas:["Solicitud de RRHH","Aprobación del líder","Preparación del equipo","Entrega y carta firmada","Cuenta y licencias","Cierre y seguimiento"],
-altaEtapa:2,
-tasks:[
-{id:1,t:"Revisión de garantías para CAPEX 2027",d:"Listar equipos con garantía vencida o por vencer y preparar el reemplazo.",e:"pend",tag:"Manual",obs:0},
-{id:2,t:"Actualizar agente de monitoreo en sucursal",d:"Verificar versión instalada y reportar equipos sin agente.",e:"prog",tag:"Manual",obs:1},
-{id:3,t:"Revisión de salas de reuniones",d:"Marcar cada sala al revisarla; cualquier técnico del país puede completarla.",e:"rev",tag:"Rutina · compartida",obs:0,pr:"6/6"},
-{id:4,t:"Mantenimiento preventivo de impresoras",d:"Limpieza, niveles y prueba de impresión.",e:"hecha",tag:"Rutina",obs:2}
-],
-tk:[
-{id:2041,a:"No puedo conectarme a la VPN",s:"Laura Pineda",pr:"Alta",e:"Abierto",sla:"2 h",eq:"GT-LT-0412 · Laptop 14\"",n:[]},
-{id:2042,a:"Solicito un monitor adicional",s:"Marco Aguilar",pr:"Baja",e:"Abierto",sla:"3 d",eq:"SV-DT-0090 · Desktop SFF",n:[]},
-{id:2043,a:"Impresora del segundo nivel sin conexión",s:"Rosa Cifuentes",pr:"Media",e:"En curso",sla:"6 h",eq:"Impresora Nivel 2 · IP en red",n:["Revisado cableado, pendiente reinicio del switch."]},
-{id:2044,a:"Correo no sincroniza en el celular",s:"Pablo Reyes",pr:"Media",e:"Pendiente",sla:"1 d",eq:"Celular corporativo",n:[]},
-{id:2045,a:"Equipo lento al iniciar sesión",s:"Karen Soto",pr:"Media",e:"Abierto",sla:"5 h",eq:"HN-LT-0072 · Laptop 15\"",n:[]}
-],
-wk:[["Lun",9],["Mar",12],["Mié",8],["Jue",14],["Vie",11]]
+prog:[["Microsoft 365 Apps","16.0.17928","Microsoft"],["Google Chrome","130.0.6723","Google"],["Zoom Workplace","6.2.5","Zoom"],["Adobe Acrobat Reader","24.003","Adobe"],["7-Zip","24.08","Igor Pavlov"],["Visual Studio Code","1.95.2","Microsoft"],["Cliente VPN corporativo","7.4.1","Proveedor VPN"],["Agente de monitoreo propio","2.8.0","Desarrollo interno"],["Antivirus corporativo","8.1.3","Proveedor AV"],["Adobe Creative Cloud","6.3","Adobe"]],
+hist:[["18/11/2026 09:12","Técnico Demo","Firmó carta","Carta de responsabilidad · Ana Lucía Morales"],["18/11/2026 08:40","Técnico Demo","Actualizó etapa","Alta de Valeria Cruz → Preparación del equipo"],["17/11/2026 16:05","Administrativo Demo","Registró equipo","Laptop 14\" · serie SN-81233-M · Bodega"],["17/11/2026 14:30","Técnico Demo","Aprobó visita","VT-0031 · Sucursal San Salvador"],["17/11/2026 11:02","Técnico Demo","Asignó equipo","GT-LT-0471 → Paola Estrada"],["16/11/2026 15:48","Coordinador Demo","Solicitó baja","Baja de Rolando Paz · RRHH"],["16/11/2026 10:20","Técnico Demo","Entregó suministro","Tóner negro → Impresora Nivel 2"],["14/11/2026 17:11","Administrativo Demo","Exportó","Inventario completo a Excel"],["13/11/2026 09:30","Técnico Demo","Registró diagnóstico","DG-0012 · GT-DT-0188"],["12/11/2026 13:44","Técnico Demo","Dio de baja equipo","Equipo obsoleto → Bodega"]],
+imp:[
+{m:"Impresora láser A",ser:"PR-1001",host:"IMP-GT-01",ip:"10.10.1.21",area:"Contabilidad",pais:"Guatemala",sede:"Oficinas centrales",prop:"Propia",mon:"Conectada"},
+{m:"Multifuncional B",ser:"PR-1002",host:"IMP-GT-02",ip:"10.10.1.22",area:"Nivel 2",pais:"Guatemala",sede:"Oficinas centrales",prop:"Arrendada",mon:"Desconectada"},
+{m:"Impresora láser A",ser:"PR-2001",host:"IMP-SV-01",ip:"10.20.1.21",area:"Administración",pais:"El Salvador",sede:"Sucursal San Salvador",prop:"Propia",mon:"Conectada"},
+{m:"Multifuncional B",ser:"PR-3001",host:"IMP-HN-01",ip:"10.30.1.21",area:"Bodega",pais:"Honduras",sede:"Centro de distribución",prop:"Arrendada",mon:"Conectada"},
+{m:"Impresora de etiquetas C",ser:"PR-4001",host:"IMP-NI-01",ip:"10.40.1.21",area:"Planta",pais:"Nicaragua",sede:"Planta Managua",prop:"Propia",mon:"Monitoreo interrumpido"},
+{m:"Impresora láser A",ser:"PR-5001",host:"IMP-CR-01",ip:"10.50.1.21",area:"Tienda",pais:"Costa Rica",sede:"Tienda Escazú (ejemplo)",prop:"Propia",mon:"Sin datos de monitoreo"}],
+srv:[
+{n:"SRV-ARCHIVOS-01",f:"Archivos compartidos",t:"Virtual",ser:"—",host:"10.10.0.11",pais:"Guatemala",e:"Activo",mon:"En línea"},
+{n:"SRV-DOMINIO-01",f:"Controlador de dominio",t:"Virtual",ser:"—",host:"10.10.0.5",pais:"Guatemala",e:"Activo",mon:"En línea"},
+{n:"SRV-ERP-01",f:"Base de datos del ERP",t:"Físico",ser:"SV-77123",host:"10.10.0.30",pais:"Guatemala",e:"Activo",mon:"En línea"},
+{n:"SRV-RESPALDOS",f:"Respaldos",t:"Físico",ser:"SV-77190",host:"10.10.0.40",pais:"Guatemala",e:"Mantenimiento",mon:"Desconectado"},
+{n:"SRV-SUC-SV",f:"Archivos de sucursal",t:"Físico",ser:"SV-80211",host:"10.20.0.11",pais:"El Salvador",e:"Activo",mon:"En línea"},
+{n:"SRV-ANTIGUO",f:"Aplicación heredada",t:"Virtual",ser:"—",host:"10.10.0.90",pais:"Guatemala",e:"Fuera de servicio",mon:"Sin datos de monitoreo"}],
+bod:[
+{c:"BOD-0141",pais:"Guatemala",m:"Laptop 14\" Modelo A",ser:"SN-81233-M"},{c:"BOD-0142",pais:"Guatemala",m:"Desktop SFF Modelo B",ser:"SN-81240-N"},
+{c:"BOD-0143",pais:"El Salvador",m:"Laptop 15\" Modelo C",ser:"SN-81255-P"},{c:"BOD-0144",pais:"",m:"Laptop 14\" Modelo A",ser:"SN-81267-Q"},{c:"BOD-0145",pais:"Honduras",m:"Monitor 24\" Modelo E",ser:"SN-81290-R"}],
+disp:[
+{t:"LAPTOP",m:"Laptop 14\" Modelo A",ser:"SN-90101-T",host:"GT-LT-0501",e:"En Bodega",pais:"Guatemala"},{t:"LAPTOP",m:"Laptop 15\" Modelo C",ser:"SN-90102-U",host:"GT-LT-0502",e:"En Bodega",pais:"Guatemala"},
+{t:"PC",m:"Desktop SFF Modelo B",ser:"SN-90103-V",host:"SV-DT-0120",e:"En Bodega",pais:"El Salvador"},{t:"LAPTOP",m:"Laptop 14\" Modelo A",ser:"SN-90104-W",host:"HN-LT-0066",e:"En Bodega",pais:"Honduras"},
+{t:"LAPTOP",m:"Laptop 13\" Modelo F",ser:"SN-60011-X",host:"GT-LT-0210",e:"Obsoleto",pais:"Guatemala"}],
+sum:[
+{n:"Tóner negro láser A",cat:"Impresión",st:14,min:5},{n:"Tóner color multifuncional B",cat:"Impresión",st:3,min:4},{n:"Mouse inalámbrico",cat:"Periféricos",st:22,min:8},
+{n:"Teclado en español",cat:"Periféricos",st:11,min:6},{n:"Cable HDMI 2 m",cat:"Cables",st:30,min:10},{n:"Sello de seguridad para celular",cat:"Seguridad",st:48,min:20}],
+per:[
+{pais:"Guatemala",s:"Monitor 24\"",ns:"MN-30011",a:"Ana Lucía Morales",pu:"Analista de Compras",por:"Técnico Demo",f:"2026-09-12",c:"Firmada"},
+{pais:"Guatemala",s:"Mouse inalámbrico",ns:"—",a:"Carlos Méndez",pu:"Contador General",por:"Técnico Demo",f:"2026-10-02",c:"Pendiente"},
+{pais:"El Salvador",s:"Teclado en español",ns:"—",a:"Sofía Hernández",pu:"Asistente Administrativa",por:"Técnico Demo",f:"2026-10-15",c:"Firmada"},
+{pais:"Honduras",s:"Monitor 24\"",ns:"MN-30045",a:"Luis Fernando Castro",pu:"Supervisor de Bodega",por:"Técnico Demo",f:"2026-08-30",c:"Firmada"},
+{pais:"Guatemala",s:"Docking station",ns:"DK-12003",a:"Andrés Villatoro",pu:"Analista de TI",por:"Técnico Demo",f:"2026-11-04",c:"Firmada"},
+{pais:"Costa Rica",s:"Mouse inalámbrico",ns:"—",a:"Jorge Alberto Salazar",pu:"Gerente de Tienda",por:"Técnico Demo",f:"2026-11-10",c:"Pendiente"}],
+vis:[
+{c:"VT-0031",sede:"Sucursal San Salvador",pais:"El Salvador",aten:"Marta Quintanilla",tec:"Técnico Demo",e:"Aprobada"},
+{c:"VT-0032",sede:"Planta Managua",pais:"Nicaragua",aten:"Ernesto Lara",tec:"Técnico Demo",e:"Pendiente de Visto Bueno"},
+{c:"VT-0033",sede:"Centro de distribución",pais:"Honduras",aten:"Karla Midence",tec:"Técnico Demo",e:"Pendiente de Visto Bueno"},
+{c:"VT-0034",sede:"Tienda Escazú (ejemplo)",pais:"Costa Rica",aten:"Jorge Alberto Salazar",tec:"Técnico Demo",e:"Rechazada"},
+{c:"VT-0035",sede:"Oficinas centrales",pais:"Guatemala",aten:"Daniela Ortiz",tec:"Técnico Demo",e:"Aprobada"}],
+diag:[
+{c:"DG-0012",eq:"GT-DT-0188 · Desktop SFF Modelo B",sol:"Carlos Méndez",inc:"El equipo se reinicia solo.",sev:"Alta",res:"Falla en fuente de poder (confirmado)",rep:"Fuente de poder 300 W",gar:"Garantía vencida"},
+{c:"DG-0011",eq:"GT-LT-0412 · Laptop 14\" Modelo A",sol:"Ana Lucía Morales",inc:"Batería dura menos de una hora.",sev:"Media",res:"Batería degradada (confirmado)",rep:"Batería original",gar:"Garantía vigente"},
+{c:"DG-0010",eq:"HN-DT-0061 · Desktop SFF Modelo B",sol:"Luis Fernando Castro",inc:"Pantalla sin señal.",sev:"Baja",res:"Cable de video suelto (confirmado)",rep:"Ninguno",gar:"Garantía vencida"}],
+usr:[
+{n:"Técnico Demo",c:"tecnico.demo@ejemplo.com",u:"Hoy 09:12",rol:"Técnico",fi:"Sí",e:"Activo"},
+{n:"Administrativo Demo",c:"admin.demo@ejemplo.com",u:"Ayer 16:05",rol:"Administrativo",fi:"Sí",e:"Activo"},
+{n:"Coordinador Demo",c:"coordinador.demo@ejemplo.com",u:"16/11/2026",rol:"Coordinador",fi:"No",e:"Activo"},
+{n:"RRHH Demo",c:"rrhh.demo@ejemplo.com",u:"17/11/2026",rol:"Recursos Humanos (RRHH) - altas y bajas",fi:"No",e:"Activo"},
+{n:"Usuario Inactivo Demo",c:"inactivo.demo@ejemplo.com",u:"02/06/2026",rol:"Técnico",fi:"No",e:"Inactivo"}],
+altas:[
+{id:1,n:"Valeria Cruz",p:"Analista de Ventas",pais:"Guatemala",tk:"FS-3187",tipo:"nuevo",et:4},
+{id:2,n:"Mario Argueta",p:"Auxiliar de Bodega",pais:"Honduras",tk:"FS-3192",tipo:"reasignado",et:1},
+{id:3,n:"Lucía Barrios",p:"Ejecutiva de Cuentas",pais:"El Salvador",tk:"FS-3196",tipo:"nuevo",et:0}],
+bajas:[
+{id:1,n:"Rolando Paz",p:"Supervisor de Ruta",pais:"Guatemala",tk:"FS-3180",et:2},
+{id:2,n:"Gabriela Tobar",p:"Asistente de Mercadeo",pais:"Guatemala",tk:"FS-3194",et:0},
+{id:3,n:"Óscar Menjívar",p:"Vendedor",pais:"El Salvador",tk:"FS-3175",et:4}],
+capexEst:{},
+notas:[["Nueva solicitud de alta","Lucía Barrios · Ejecutiva de Cuentas · El Salvador","hace 20 min"],["Solicitud de baja","Gabriela Tobar · Asistente de Mercadeo","hace 2 h"],["Carta firmada a distancia","Mario Argueta firmó desde su celular (código QR)","ayer"]]
 };
-
-/* ============ CAMBIO DE SISTEMA ============ */
-let sys=location.hash==="#portal"?"por":"inv";
-const view={inv:"inicio",por:"inicio"};
-let selTk=2041,filtro={q:"",pais:"",tkEstado:""};
-function setSys(s){sys=s;history.replaceState(null,"",s==="por"?"#portal":"#inventario");render()}
-$("#sw-inv").onclick=()=>setSys("inv");$("#sw-por").onclick=()=>setSys("por");
-
-const MENU={
-inv:[["inicio","⌂","Inicio"],["empleados","☺","Empleados"],["equipos","▭","Equipos"],["altas","✚","Altas de personal"],["capex","$","CAPEX"]],
-por:[["inicio","⌂","Inicio"],["tareas","✔","Mis tareas"],["tickets","✉","Tickets"],["kpis","▤","Mis KPI"],["wa","☏","Asistente WhatsApp"]]
-};
-function shell(inner){
-const t=sys==="inv"?"Inventario":"Portal de Técnicos";
-return `<div class="shell ${sys==="inv"?"light":"dark"}"><nav class="side"><div class="brand"><img src="../img/logo-yh-96.png" alt=""><span>${t}</span></div>`+
-MENU[sys].map(m=>`<button data-v="${m[0]}" class="${view[sys]===m[0]?"on":""}"><span>${m[1]}</span>${m[2]}</button>`).join("")+
-`</nav><section class="main">${inner}</section></div>`;
-}
-function render(){
-$("#sw-inv").classList.toggle("on",sys==="inv");$("#sw-por").classList.toggle("on",sys==="por");
-const v=view[sys];const R=sys==="inv"?INV:POR;
-$("#app").innerHTML=shell((R[v]||R.inicio)());
-document.querySelectorAll(".side button").forEach(b=>b.onclick=()=>{view[sys]=b.dataset.v;render();window.scrollTo(0,0)});
-(R.bind&&R.bind[v]||(()=>{}))();
-}
-
-/* ============ INVENTARIO ============ */
+const ETAPAS_ALTA={nuevo:["Solicitud recibida","Solicitud de presupuesto","Compra del equipo","Equipo recibido","Preparación del equipo","Equipo entregado"],reasignado:["Solicitud recibida","Equipo localizado","Equipo recibido en el área de soporte","Preparación del equipo","Equipo entregado"]};
+const ETAPAS_BAJA=["Solicitud de baja","Recepción del equipo","Realizar BackUp","Solicitar baja de licencia y del AD","Baja completada"];
+D.emp.forEach((e,i)=>{e.tipo=e.tipo||"LAPTOP";e.correo=sinAc(e.n.split(" ")[0]+"."+e.n.split(" ").slice(-1)[0])+"@ejemplo.com";e.proc=e.tipo==="PC"?"Intel Core i5 (ejemplo)":"Intel Core i7 (ejemplo)";e.ram=i%3?"16 GB":"8 GB";e.disco="512 GB SSD";e.estado="En Uso";e.af="AF-"+String(20450+i*7);e.imei="35"+String(1234567890123+i*1111111).slice(0,13);e.office=i%4?"Microsoft 365 Business":"Microsoft 365 E3";e.soc=i%3?"Comercial Ejemplo, S.A.":"Servicios Ejemplo, S.A.";e.vis=i<6?"hace "+(i+1)*3+" min":"hace "+(i*2)+" días";e.progs=D.prog.map((p,k)=>({p,k})).filter(o=>o.k<6||(o.k+i)%2===0).map(o=>o.k)});
+const PAISES=["Guatemala","El Salvador","Honduras","Nicaragua","Costa Rica"];
 const cartaPill=c=>c==="Firmada"?'<span class="pill ok">Firmada</span>':c==="Pendiente"?'<span class="pill warn">Pendiente</span>':'<span class="pill gray">Sin carta</span>';
-const garTxt=g=>{const [y,m]=g.split("-").map(Number);const hoy=new Date(2026,10,18);const meses=(y-hoy.getFullYear())*12+(m-1-hoy.getMonth());const a=Math.floor(Math.abs(meses)/12),mm=Math.abs(meses)%12;const t=(a?a+" año"+(a>1?"s":"")+" ":"")+(mm?mm+" mes"+(mm>1?"es":""):(a?"":"0 meses"));return meses<0?{t:"Vencida hace "+t.trim(),c:"bad"}:meses<=6?{t:"Vence en "+t.trim(),c:"warn"}:{t:"Vigente · "+t.trim(),c:"ok"}};
-const INV={bind:{}};
-INV.inicio=()=>{
-const on=D.emp.filter(e=>e.on).length,off=D.emp.length-on;const tot=on+off+1;
-const seg=[[on,"#2F6FD6","En línea"],[off,"#E8743B","Desconectado"],[1,"#2BA37A","Sin datos de monitoreo"]];
-let acc=0;const R=52,C=2*Math.PI*R;
-const arcs=seg.map(s=>{const l=s[0]/tot*C;const a=`<circle r="${R}" cx="70" cy="70" fill="none" stroke="${s[1]}" stroke-width="22" stroke-dasharray="${l} ${C-l}" stroke-dashoffset="${-acc}" transform="rotate(-90 70 70)"/>`;acc+=l;return a}).join("");
-return `<h2>Inicio</h2><p class="sub">Resumen del inventario y del monitoreo de equipos (datos de ejemplo).</p>
-<div class="tiles"><div class="tile b"><b>${D.emp.length+1}</b><span>Equipos con el agente instalado</span></div><div class="tile g"><b>${D.emp.length}</b><span>Equipos de cómputo</span></div><div class="tile y"><b>1</b><span>Fuera del inventario</span></div><div class="tile"><b>5</b><span>Países con operación</span></div></div>
-<div class="card"><h3>Equipos por estado de conexión</h3><p class="sub" style="margin-bottom:10px">“En línea” = el agente reportó en los últimos 30 minutos.</p>
-<div class="donut"><svg width="140" height="140" viewBox="0 0 140 140">${arcs}<text x="70" y="68" text-anchor="middle" font-size="22" font-weight="700" fill="#1C2430">${tot}</text><text x="70" y="86" text-anchor="middle" font-size="11" fill="#5B6676">total</text></svg>
-<div class="leg">${seg.map(s=>`<div><i style="background:${s[1]}"></i>${s[2]} · <b>${s[0]}</b></div>`).join("")}</div></div></div>
-<div class="card"><h3>Qué incluye el sistema real</h3><p style="margin:0">Inventario de equipos, líneas móviles, impresoras, servidores y suministros por empleado · cartas de responsabilidad con firma electrónica · altas y bajas de personal con seguimiento · monitoreo con agentes propios · CAPEX · reportes en Excel.</p></div>`;
-};
-INV.empleados=()=>`<h2>Empleados</h2><p class="sub">Busca por nombre, puesto o equipo y abre la ficha.</p>
-<div class="bar"><input id="q" placeholder="Buscar…" value="${esc(filtro.q)}" style="min-width:220px"><select id="pa"><option value="">Todos los países</option>${[...new Set(D.emp.map(e=>e.pais))].map(p=>`<option ${filtro.pais===p?"selected":""}>${p}</option>`).join("")}</select></div>
-<div class="card tw"><table><thead><tr><th>Empleado</th><th>Puesto</th><th>País</th><th>Equipo</th><th>Carta</th></tr></thead><tbody id="tb"></tbody></table></div>`;
-function pintaEmp(){
-const q=filtro.q.toLowerCase();
-const l=D.emp.filter(e=>(!filtro.pais||e.pais===filtro.pais)&&(e.n+e.p+e.host+e.a).toLowerCase().includes(q));
-$("#tb").innerHTML=l.length?l.map(e=>`<tr class="click" data-id="${e.id}"><td><b>${e.n}</b><br><small style="color:var(--muted)">${e.a}</small></td><td>${e.p}</td><td>${e.pais}</td><td>${e.host}</td><td>${cartaPill(e.carta)}</td></tr>`).join(""):`<tr><td colspan="5" style="color:var(--muted)">Sin resultados.</td></tr>`;
-document.querySelectorAll("#tb tr.click").forEach(r=>r.onclick=()=>ficha(+r.dataset.id));
-}
-INV.bind.empleados=()=>{pintaEmp();$("#q").oninput=e=>{filtro.q=e.target.value;pintaEmp()};$("#pa").onchange=e=>{filtro.pais=e.target.value;pintaEmp()}};
-function ficha(id){
-const e=D.emp.find(x=>x.id===id);
-const m=modal(`<h3>${e.n}</h3><div style="color:var(--muted)">${e.p} · ${e.a}</div>
-<dl class="kv"><dt>País / sede</dt><dd>${e.pais} · ${e.sede}</dd><dt>Correo</dt><dd>${e.n.split(" ")[0].toLowerCase().replace(/á/g,"a").replace(/é/g,"e").replace(/í/g,"i").replace(/ó/g,"o").replace(/ú/g,"u")}@ejemplo.com</dd><dt>Equipo</dt><dd>${e.host} · ${e.mod}</dd><dt>No. de serie</dt><dd>${e.serie}</dd><dt>Garantía</dt><dd><span class="pill ${garTxt(e.gar).c}">${garTxt(e.gar).t}</span></dd><dt>Monitoreo</dt><dd>${e.on?'<span class="pill ok">En línea</span>':'<span class="pill bad">Desconectado</span>'}</dd><dt>Línea móvil</dt><dd>${e.tel}</dd><dt>Carta</dt><dd>${cartaPill(e.carta)}</dd></dl>
-<div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end"><button class="btn sec" id="x">Cerrar</button><button class="btn gold" id="c" ${e.carta==="Firmada"?"disabled":""}>Generar carta de responsabilidad</button></div>`);
-$("#x",m).onclick=closeModal;$("#c",m).onclick=()=>carta(id);
-}
-function carta(id){
-const e=D.emp.find(x=>x.id===id);const cod="CR-2026-"+String(D.corr).padStart(4,"0");
-const m=modal(`<h3>Carta de responsabilidad · ${cod}</h3><p style="font-size:.9rem">Yo, <b>${e.n}</b>, recibo el equipo <b>${e.host}</b> (serie ${e.serie}) y me comprometo a darle un uso adecuado y a reportar cualquier falla a Soporte. <i>(Texto de ejemplo; en el sistema real se adapta a cada país.)</i></p>
-<canvas class="firma" id="cv"></canvas><div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap"><button class="btn sec sm" id="lim">Borrar firma</button><span class="sp" style="flex:1"></span><button class="btn sec" id="x">Cancelar</button><button class="btn" id="f">Firmar y archivar PDF</button></div>
-<p style="color:var(--muted);font-size:.82rem;margin:10px 0 0">En el sistema real la firma también puede pedirse a distancia por correo o con un código QR desde el celular.</p>`);
-const cv=$("#cv",m);cv.width=cv.clientWidth*2;cv.height=240;const g=cv.getContext("2d");g.lineWidth=4;g.lineCap="round";g.strokeStyle="#0B2545";let d=false,hay=false;
-const pos=ev=>{const r=cv.getBoundingClientRect();const p=ev.touches?ev.touches[0]:ev;return[(p.clientX-r.left)*2,(p.clientY-r.top)*2]};
-const st=ev=>{d=true;const[x,y]=pos(ev);g.beginPath();g.moveTo(x,y);ev.preventDefault()},mv=ev=>{if(!d)return;const[x,y]=pos(ev);g.lineTo(x,y);g.stroke();hay=true;ev.preventDefault()},en=()=>d=false;
-cv.addEventListener("mousedown",st);cv.addEventListener("mousemove",mv);addEventListener("mouseup",en);cv.addEventListener("touchstart",st,{passive:false});cv.addEventListener("touchmove",mv,{passive:false});cv.addEventListener("touchend",en);
-$("#lim",m).onclick=()=>{g.clearRect(0,0,cv.width,cv.height);hay=false};$("#x",m).onclick=closeModal;
-$("#f",m).onclick=()=>{if(!hay){toast("Dibuja tu firma en el recuadro para continuar.");return}e.carta="Firmada";D.corr++;closeModal();toast("Carta "+cod+" firmada y archivada (simulado).");render()};
-}
-INV.equipos=()=>`<h2>Equipos de cómputo</h2><p class="sub">Estado de conexión reportado por el agente propio de monitoreo.</p>
-<div class="card tw"><table><thead><tr><th>Hostname</th><th>Modelo</th><th>Asignado a</th><th>País</th><th>Conexión</th><th>Garantía</th></tr></thead><tbody>${D.emp.map(e=>`<tr><td><b>${e.host}</b></td><td>${e.mod}</td><td>${e.n}</td><td>${e.pais}</td><td>${e.on?'<span class="pill ok">En línea</span>':'<span class="pill bad">Desconectado</span>'}</td><td><span class="pill ${garTxt(e.gar).c}">${garTxt(e.gar).t}</span></td></tr>`).join("")}</tbody></table></div>`;
-INV.altas=()=>`<h2>Alta de personal</h2><p class="sub">Seguimiento por etapas de la solicitud de ingreso de <b>Nuevo colaborador (ejemplo)</b> · Analista de Ventas · Guatemala.</p>
-<div class="card"><ol class="tl">${D.etapas.map((s,i)=>`<li class="${i<D.altaEtapa?"done":i===D.altaEtapa?"now":""}"><i>${i<D.altaEtapa?"✓":i+1}</i><div><b>${s}</b><small>${i<D.altaEtapa?"Completada":i===D.altaEtapa?"En proceso":"Pendiente"}</small></div></li>`).join("")}</ol>
-<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" id="av" ${D.altaEtapa>=D.etapas.length?"disabled":""}>Avanzar a la siguiente etapa</button><button class="btn sec" id="rs">Reiniciar demo</button></div>
-<p style="color:var(--muted);font-size:.85rem;margin:12px 0 0">En el sistema real, RRHH solicita el alta, se crea el ticket en Freshservice automáticamente y el líder inmediato recibe un enlace público de seguimiento.</p></div>`;
-INV.bind.altas=()=>{$("#av").onclick=()=>{D.altaEtapa++;toast(D.altaEtapa>=D.etapas.length?"Alta completada.":"Etapa completada: "+D.etapas[D.altaEtapa-1]);render()};$("#rs").onclick=()=>{D.altaEtapa=0;render()}};
-INV.capex=()=>{const l=[...D.emp].sort((a,b)=>a.gar.localeCompare(b.gar));return `<h2>CAPEX · reemplazo por garantía</h2><p class="sub">Equipos ordenados por vencimiento de garantía, para planificar el presupuesto de reemplazo.</p>
-<div class="tiles"><div class="tile r"><b>${l.filter(e=>garTxt(e.gar).c==="bad").length}</b><span>Garantía vencida</span></div><div class="tile y"><b>${l.filter(e=>garTxt(e.gar).c==="warn").length}</b><span>Vencen en 6 meses o menos</span></div><div class="tile g"><b>${l.filter(e=>garTxt(e.gar).c==="ok").length}</b><span>Vigentes</span></div></div>
-<div class="card tw"><table><thead><tr><th>Equipo</th><th>Asignado a</th><th>País</th><th>Garantía</th></tr></thead><tbody>${l.map(e=>`<tr><td><b>${e.host}</b></td><td>${e.n}</td><td>${e.pais}</td><td><span class="pill ${garTxt(e.gar).c}">${garTxt(e.gar).t}</span></td></tr>`).join("")}</tbody></table></div>`};
+const monPill=e=>`<span class="pill ${/^(En línea|Conectada)$/.test(e)?"ok":/^(Desconect)/.test(e)?"bad":e==="Monitoreo interrumpido"?"warn":"gray"}">${e}</span>`;
+const gar=g=>{const[y,m]=g.split("-").map(Number);const meses=(y-HOY.getFullYear())*12+(m-1-HOY.getMonth());const a=Math.floor(Math.abs(meses)/12),mm=Math.abs(meses)%12;const t=((a?a+" año"+(a>1?"s":"")+" ":"")+(mm?mm+" mes"+(mm>1?"es":""):(a?"":"0 meses"))).trim();return meses<0?{t:"Vencida hace "+t,c:"bad",m:meses}:meses<=6?{t:"Vence en "+t,c:"warn",m:meses}:{t:"Vigente · "+t,c:"ok",m:meses}};
+const tr=(cells,attr="")=>`<tr ${attr}>${cells.map(c=>`<td>${c}</td>`).join("")}</tr>`;
+const tabla=(heads,rows,vacio="Sin resultados.")=>`<div class="tw"><table><thead><tr>${heads.map(h=>`<th>${h}</th>`).join("")}</tr></thead><tbody>${rows.join("")||`<tr><td colspan="${heads.length}" style="color:#777">${vacio}</td></tr>`}</tbody></table></div>`;
+const opts=(arr,sel,todos)=>(todos?`<option value="">${todos}</option>`:"")+arr.map(x=>`<option ${x===sel?"selected":""}>${x}</option>`).join("");
 
-/* ============ PORTAL ============ */
-const POR={bind:{}};
-const prPill=p=>`<span class="pill ${p==="Alta"?"bad":p==="Media"?"warn":"gray"}">${p}</span>`;
-const esPill=e=>`<span class="pill ${e==="Abierto"?"info":e==="En curso"?"warn":e==="Pendiente"?"gray":"ok"}">${e}</span>`;
-POR.inicio=()=>{const ab=D.tk.filter(t=>t.e==="Abierto"||t.e==="En curso").length;return `<h2>Inicio</h2><p class="sub">Tu día en un solo lugar (datos de ejemplo).</p>
-<div class="tiles"><div class="tile b"><b>${ab}</b><span>Tickets por atender</span></div><div class="tile y"><b>${D.tasks.filter(t=>t.e!=="hecha").length}</b><span>Tareas abiertas</span></div><div class="tile g"><b>${D.tk.filter(t=>t.e==="Resuelto").length}</b><span>Resueltos en esta sesión</span></div></div>
-<div class="card"><h3>Tickets con el SLA más próximo</h3>${[...D.tk].filter(t=>t.e!=="Resuelto").slice(0,3).map(t=>`<div class="tk" data-go="${t.id}"><div class="h"><span>#${t.id} · ${esc(t.a)}</span>${prPill(t.pr)}</div><small>${esc(t.s)} · vence en ${t.sla}</small></div>`).join("")||"<p class='sub'>Sin tickets pendientes.</p>"}</div>
-<div class="card"><h3>Qué incluye el portal real</h3><p style="margin:0">Tickets de Freshservice con acciones directas · tablero de tareas con rutinas y plantillas · consulta del inventario · indicadores personales y del equipo · asistente de WhatsApp · avisos push.</p></div>`};
-POR.bind.inicio=()=>document.querySelectorAll("[data-go]").forEach(e=>e.onclick=()=>{selTk=+e.dataset.go;view.por="tickets";render()});
-const COLS=[["pend","Pendientes"],["prog","En progreso"],["rev","En revisión"],["hecha","Completadas"]];
-POR.tareas=()=>`<h2>Mis tareas</h2><p class="sub">Mueve las tareas entre columnas; las que quedan en revisión esperan la aprobación de la jefatura.</p>
-<div class="bar"><input id="nt" placeholder="Ej. Revisar UPS del cuarto de servidores" style="flex:1;min-width:220px"><button class="btn" id="add">+ Agregar tarea</button></div>
-<div class="cols">${COLS.map(c=>`<div class="col"><h4>${c[1]} · ${D.tasks.filter(t=>t.e===c[0]).length}</h4>${D.tasks.filter(t=>t.e===c[0]).map(t=>`<div class="task"><b>${esc(t.t)}</b><span style="color:var(--muted)">${esc(t.d)}</span><div class="row"><span class="pill info">${t.tag}</span>${t.pr?`<span class="pill ok">${t.pr}</span>`:""}${t.obs?`<span class="pill gray">${t.obs} obs.</span>`:""}</div><div class="row">${c[0]!=="pend"?`<button class="btn sec sm" data-m="${t.id}" data-d="-1">←</button>`:""}${c[0]!=="hecha"?`<button class="btn sm" data-m="${t.id}" data-d="1">${c[0]==="rev"?"Aprobar":"→"}</button>`:""}</div></div>`).join("")}</div>`).join("")}</div>`;
-POR.bind.tareas=()=>{
-const ord=COLS.map(c=>c[0]);
-document.querySelectorAll("[data-m]").forEach(b=>b.onclick=()=>{const t=D.tasks.find(x=>x.id===+b.dataset.m);t.e=ord[Math.max(0,Math.min(3,ord.indexOf(t.e)+ +b.dataset.d))];if(t.e==="hecha"&&b.dataset.d==="1")toast("Tarea aprobada y completada.");render()});
-$("#add").onclick=()=>{const v=$("#nt").value.trim();if(!v){toast("Escribe el nombre de la tarea.");return}D.tasks.push({id:Date.now(),t:v,d:"Creada desde la demo.",e:"pend",tag:"Manual",obs:0});render()};
-};
-POR.tickets=()=>{const l=D.tk.filter(t=>!filtro.tkEstado||t.e===filtro.tkEstado);const t=D.tk.find(x=>x.id===selTk)||D.tk[0];selTk=t.id;
-return `<h2>Tickets de Freshservice</h2><p class="sub">Toma, pospón, resuelve o responde sin salir del portal.</p>
-<div class="bar"><select id="fe"><option value="">Todos los estados</option>${["Abierto","En curso","Pendiente","Resuelto"].map(e=>`<option ${filtro.tkEstado===e?"selected":""}>${e}</option>`).join("")}</select></div>
-<div class="split"><div>${l.map(x=>`<div class="tk ${x.id===selTk?"on":""}" data-t="${x.id}"><div class="h"><span>#${x.id} · ${esc(x.a)}</span>${esPill(x.e)}</div><small>${esc(x.s)} · ${prPill(x.pr).replace(/<[^>]+>/g,"")} · SLA ${x.sla}</small></div>`).join("")||"<p class='sub'>Sin tickets.</p>"}</div>
-<div class="card"><h3>#${t.id} · ${esc(t.a)}</h3><div style="margin-bottom:8px">${esPill(t.e)} ${prPill(t.pr)}</div><dl class="kv"><dt>Solicitante</dt><dd>${esc(t.s)}</dd><dt>Equipo en inventario</dt><dd>${esc(t.eq)}</dd><dt>SLA</dt><dd>vence en ${t.sla}</dd></dl>
-<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px"><button class="btn sm" data-a="Tomar" ${t.e==="Resuelto"?"disabled":""}>Tomar</button><button class="btn sec sm" data-a="Pendiente" ${t.e==="Resuelto"?"disabled":""}>Poner en pendiente</button><button class="btn gold sm" data-a="Resolver" ${t.e==="Resuelto"?"disabled":""}>Resolver</button><button class="btn sec sm" data-a="Reabrir" ${t.e!=="Resuelto"?"disabled":""}>Reabrir</button></div>
-${t.n.map(n=>`<div class="task"><small style="color:var(--muted)">Nota</small><br>${esc(n)}</div>`).join("")}
-<textarea id="nota" rows="2" placeholder="Escribe una nota privada o una respuesta al solicitante…"></textarea><div style="display:flex;gap:6px;margin-top:8px"><button class="btn sec sm" id="np">Nota privada</button><button class="btn sm" id="rp">Responder al solicitante</button></div></div></div>`};
-POR.bind.tickets=()=>{
-$("#fe").onchange=e=>{filtro.tkEstado=e.target.value;render()};
-document.querySelectorAll("[data-t]").forEach(e=>e.onclick=()=>{selTk=+e.dataset.t;render()});
-const t=D.tk.find(x=>x.id===selTk);
-document.querySelectorAll("[data-a]").forEach(b=>b.onclick=()=>{const a=b.dataset.a;t.e=a==="Tomar"?"En curso":a==="Pendiente"?"Pendiente":a==="Resolver"?"Resuelto":"Abierto";toast("Ticket #"+t.id+": "+t.e+" (simulado).");render()});
-$("#np").onclick=()=>{const v=$("#nota").value.trim();if(!v){toast("Escribe la nota primero.");return}t.n.push(v);render()};
-$("#rp").onclick=()=>{const v=$("#nota").value.trim();if(!v){toast("Escribe la respuesta primero.");return}toast("Respuesta enviada a "+t.s+" (simulado).");$("#nota").value=""};
-};
-POR.kpis=()=>{const r=D.tk.filter(t=>t.e==="Resuelto").length;const w=D.wk.map(x=>[...x]);w[4][1]+=r;const mx=Math.max(...w.map(x=>x[1]));
-return `<h2>Mis KPI</h2><p class="sub">Indicadores del periodo. Resolver tickets en la demo actualiza la barra del viernes.</p>
-<div class="tiles"><div class="tile g"><b>${w.reduce((a,x)=>a+x[1],0)}</b><span>Tickets resueltos (semana)</span></div><div class="tile b"><b>18 min</b><span>Primera respuesta (prom.)</span></div><div class="tile"><b>4.2 h</b><span>Tiempo de resolución (prom.)</span></div><div class="tile g"><b>94%</b><span>Cumplimiento de SLA</span></div><div class="tile y"><b>4.6 / 5</b><span>Satisfacción (CSAT)</span></div></div>
-<div class="card"><h3>Resueltos por día</h3><div class="bars" style="margin-bottom:24px">${w.map(x=>`<div style="height:${x[1]/mx*100}%"><span>${x[1]}</span><em>${x[0]}</em></div>`).join("")}</div></div>`};
-let chat=[["bot","¡Hola! Soy el asistente de Soporte. ¿En qué te ayudo?"]],paso="menu";
-POR.wa=()=>`<h2>Asistente de WhatsApp</h2><p class="sub">Así conversa el bot con un empleado; en el portal, el técnico ve estas conversaciones en tiempo real y puede tomarlas. <b>(Función en fase de pruebas.)</b></p>
-<div class="card"><div class="chat" id="ch">${chat.map(m=>`<div class="msg ${m[0]}">${esc(m[1])}</div>`).join("")}</div><div class="quick" id="qk"></div><div style="margin-top:10px"><button class="btn sec sm" id="rc">Reiniciar conversación</button></div></div>`;
-POR.bind.wa=()=>{
-const ch=$("#ch");ch.scrollTop=ch.scrollHeight;
-const opts=paso==="menu"?["Reportar una falla","Estado de mi ticket","Hablar con un técnico"]:paso==="tipo"?["Internet / VPN","Equipo lento","Impresora"]:[];
-$("#qk").innerHTML=opts.map(o=>`<button class="btn sec sm">${o}</button>`).join("");
-document.querySelectorAll("#qk button").forEach(b=>b.onclick=()=>{
-const o=b.textContent;chat.push(["me",o]);
-if(paso==="menu"){if(o==="Reportar una falla"){chat.push(["bot","¿Qué tipo de falla es?"]);paso="tipo"}else if(o==="Estado de mi ticket"){chat.push(["bot","Tienes 1 caso abierto: #2043 · Impresora del segundo nivel (en curso)."]);}else{chat.push(["bot","Te paso con un técnico de tu país. Un momento, por favor."]);toast("La conversación aparece en la bandeja del técnico (simulado).")}}
-else if(paso==="tipo"){const id=2050+D.tk.length;D.tk.unshift({id,a:o+" (reportado por WhatsApp)",s:"Empleado (WhatsApp)",pr:"Media",e:"Abierto",sla:"4 h",eq:"Se identifica por el número de celular",n:[]});chat.push(["bot","Listo, creé el ticket #"+id+". Un técnico te contactará pronto."]);paso="menu";toast("Ticket #"+id+" creado; revísalo en la pestaña Tickets.")}
-render();
-});
-$("#rc").onclick=()=>{chat=[["bot","¡Hola! Soy el asistente de Soporte. ¿En qué te ayudo?"]];paso="menu";render()};
-};
+/* ===================== ENRUTADOR ===================== */
+let sys=location.hash.startsWith("#portal")?"por":"inv";
+const view={inv:"inicio",por:"inicio"};
+{const sub=location.hash.split("/")[1];if(sub)view[sys]=sub}
+let invCol=false;
+const INV={},INVB={},POR={},PORB={};
+function setSys(s){sys=s;history.replaceState(null,"",s==="por"?"#portal":"#inventario");closeModal();render();window.scrollTo(0,0)}
+$$(".demobar .sw button").forEach(b=>b.onclick=()=>setSys(b.id==="sw-por"?"por":"inv"));
+function go(v){view[sys]=v;closeModal();render();window.scrollTo(0,0)}
+function render(){
+ $("#sw-inv").classList.toggle("on",sys==="inv");$("#sw-por").classList.toggle("on",sys==="por");
+ const sy=window.scrollY;
+ $("#app").innerHTML=sys==="inv"?invShell():porShell();
+ const v=view[sys];(sys==="inv"?INVB:PORB)[v]&&(sys==="inv"?INVB:PORB)[v]();
+ $$(".ni").forEach(b=>b.onclick=()=>go(b.dataset.v));
+ (sys==="inv"?invChrome:porChrome)();
+ $$(".hilo,.ph").forEach(h=>h.scrollTop=h.scrollHeight);
+ window.scrollTo(0,sy);
+}
 addEventListener("keydown",e=>{if(e.key==="Escape")closeModal()});
-render();
 </script>
+<script>
+/* ===================== INVENTARIO · menú y marco ===================== */
+const II={
+inicio:'<path d="M3 11.5 12 4l9 7.5" /><path d="M5.5 10v9a1 1 0 0 0 1 1H9.5a1 1 0 0 0 1-1v-4.5a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1V19a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-9" />',
+formulario:'<circle cx="9" cy="8" r="3.2" /><path d="M3.5 20c.5-3.3 2.9-5.3 5.5-5.3s5 2 5.5 5.3" /><path d="M18 8.5v5.5" /><path d="M15.3 11.25h5.4" />',
+seguimiento:'<path d="M4 12h16" /><circle cx="5" cy="12" r="1.8" /><circle cx="12" cy="12" r="1.8" /><circle cx="19" cy="12" r="1.8" /><path d="M5 7.5V5.5M12 18.5v-2M19 7.5V5.5" />',
+seguimiento_baja:'<path d="M4 12h11" /><circle cx="5" cy="12" r="1.8" /><circle cx="11" cy="12" r="1.8" /><path d="M15.5 7.5 20 12l-4.5 4.5" /><path d="M5 7.5V5.5M11 18.5v-2" />',
+busqueda:'<circle cx="10.8" cy="10.8" r="6.3" /><path d="m20 20-4.3-4.3" />',
+dashboard:'<rect x="3.5" y="3.5" width="7" height="9" rx="1.3" /><rect x="13.5" y="3.5" width="7" height="5" rx="1.3" /><rect x="13.5" y="11.5" width="7" height="9" rx="1.3" /><rect x="3.5" y="15.5" width="7" height="5" rx="1.3" />',
+programas:'<rect x="3.5" y="3.5" width="7" height="7" rx="1.3" /><rect x="13.5" y="3.5" width="7" height="7" rx="1.3" /><rect x="3.5" y="13.5" width="7" height="7" rx="1.3" /><path d="M17 13.5v7" /><path d="M13.5 17h7" />',
+historial:'<circle cx="12" cy="12.5" r="8" /><path d="M12 8v4.7l3.2 2" /><path d="M8.5 3.2 5 5.8" /><path d="M15.5 3.2 19 5.8" />',
+impresoras:'<path d="M7 8.5V4h10v4.5" /><rect x="3.5" y="8.5" width="17" height="8" rx="1.5" /><path d="M7 14h10v6H7z" /><path d="M7.2 11.3h1.2" />',
+servidores:'<rect x="4" y="4" width="16" height="7" rx="1.3" /><rect x="4" y="13" width="16" height="7" rx="1.3" /><circle cx="7.3" cy="7.5" r="0.9" fill="currentColor" stroke="none" /><circle cx="7.3" cy="16.5" r="0.9" fill="currentColor" stroke="none" /><path d="M11 7.5h6" /><path d="M11 16.5h6" />',
+bodega:'<path d="M3.5 8.5 12 4l8.5 4.5" /><path d="M4.5 9.5v9.7a1 1 0 0 0 1 1h13a1 1 0 0 0 1-1V9.5" /><path d="M9.5 20.2v-6.4h5v6.4" />',
+disponible:'<path d="M3.5 7.3 12 3l8.5 4.3v9.4L12 21l-8.5-4.3z" /><path d="M3.5 7.3 12 11.6l8.5-4.3" /><path d="M12 11.6v9.4" />',
+suministros:'<rect x="6" y="4" width="12" height="17" rx="1.5" /><path d="M9.2 3.2h5.6a.8.8 0 0 1 .8.8v1.4H8.4V4a.8.8 0 0 1 .8-.8Z" /><path d="M9 12h6" /><path d="M9 15.7h6" />',
+perifericos:'<path d="M4 4h6.5l9.5 9.5-7 7L3 11V4Z" /><circle cx="8" cy="8" r="1.4" />',
+visitas:'<path d="M12 21.2s7-6.4 7-11.6a7 7 0 1 0-14 0c0 5.2 7 11.6 7 11.6Z" /><path d="m9 9.6 2 2 4-4" />',
+diagnostico:'<path d="M8 4.5h5.5L17 8v3" /><path d="M8 4.5a1.5 1.5 0 0 0-1.5 1.5v13A1.5 1.5 0 0 0 8 20.5h5" /><path d="M9.5 3.5h3a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1h-3a1 1 0 0 1-1-1v-1a1 1 0 0 1 1-1Z" /><path d="M9.5 11h5M9.5 14h3.5" /><circle cx="17" cy="17" r="3" /><path d="m19.6 19.6 2.2 2.2" />',
+capex:'<rect x="2.5" y="6" width="19" height="12" rx="1.6" /><circle cx="12" cy="12" r="2.6" /><path d="M6 9v.01" /><path d="M18 15v.01" />',
+usuarios:'<circle cx="9" cy="8.3" r="3" /><path d="M3.7 19.5c.5-3 2.7-4.8 5.3-4.8s4.8 1.8 5.3 4.8" /><circle cx="17.3" cy="8.8" r="2.2" /><path d="M15.7 14.9c2.1.2 3.7 1.8 4.1 4.3" />',
+notificacion:'<path d="M12 3.5a4 4 0 0 0-4 4v2.2c0 1.9-.7 3.7-2 5.1h12c-1.3-1.4-2-3.2-2-5.1V7.5a4 4 0 0 0-4-4Z" /><path d="M9.7 18.2a2.3 2.3 0 0 0 4.6 0" />',
+cuenta:'<circle cx="12" cy="8.5" r="3.5" /><path d="M5 20c.6-3.7 3.3-6 7-6s6.4 2.3 7 6" />',
+colapsar:'<path d="M11 5.5 5.2 12 11 18.5" /><path d="M18.5 5.5 12.7 12l5.8 6.5" />'};
+const IMENU=[["inicio","Inicio"],["formulario","Nuevo registro"],["seguimiento","Seguimiento de altas"],["seguimiento_baja","Seguimiento de bajas"],["busqueda","Búsqueda"],["dashboard","Dashboard"],["programas","Programas"],["historial","Historial"],["impresoras","Impresoras"],["servidores","Servidores"],["bodega","Bodega"],["disponible","Equipo disponible"],["suministros","Suministros"],["perifericos","Periféricos"],["visitas","Visitas técnicas"],["diagnostico","Diagnóstico"],["capex","CAPEX"],["usuarios","Usuarios"]];
+function invShell(){
+ const v=view.inv;
+ return `<div class="app inv ${invCol?"col":""}"><aside class="sb"><div class="brand"><img src="../img/logo-yh-96.png" alt="Logo"></div><nav class="nav">${IMENU.map(m=>`<button class="ni ${v===m[0]?"on":""}" data-v="${m[0]}" title="${m[1]}">${ico(II[m[0]])}<span>${m[1]}</span></button>`).join("")}</nav><button class="cnt" id="cnt" title="${invCol?"Expandir menú":"Contraer menú"}">${ico(II.colapsar)}<span>Contraer menú</span></button></aside>
+ <div class="mn"><div class="tb"><img src="../img/logo-yh-96.png" alt=""><h1>Inventario y control de personal</h1><div class="tbi"><button class="ib" id="bell" title="Notificaciones">${ico(II.notificacion,22)}<i>${D.notas.length}</i></button><button class="ib" id="usr" title="Mi cuenta">${ico(II.cuenta,22)}</button></div></div>
+ <div class="ct">${(INV[v]||INV.inicio)()}</div></div></div>`;
+}
+function invChrome(){
+ const c=$("#cnt");if(!c)return;
+ c.onclick=()=>{invCol=!invCol;render()};
+ $("#bell").onclick=()=>{const m=modal(`<h3>Notificaciones</h3><p class="hint">Solicitudes de RRHH, cartas firmadas a distancia y alertas.</p>${D.notas.map(n=>`<div style="padding:10px 0;border-top:1px solid #ddd"><b>${esc(n[0])}</b><div style="font-size:13px">${esc(n[1])}</div><div class="hint">${n[2]}</div></div>`).join("")}<div style="text-align:right;margin-top:12px"><button class="bt" id="x">Cerrar</button></div>`);$("#x",m).onclick=closeModal};
+ $("#usr").onclick=()=>{const m=modal(`<h3>Mi cuenta</h3><dl class="kv"><dt>Nombre</dt><dd>Técnico Demo</dd><dt>Correo</dt><dd>tecnico.demo@ejemplo.com</dd><dt>Rol</dt><dd>Administrativo (acceso completo)</dd><dt>Tema</dt><dd>Claro</dd></dl><p class="hint">En el sistema real aquí se cambia la contraseña, el tema claro/oscuro y se cierra la sesión.</p><div style="text-align:right"><button class="bt" id="x">Cerrar</button></div>`);$("#x",m).onclick=closeModal};
+}
+const empById=id=>D.emp.find(e=>e.id===id);
+const fld=(id,l,t="text",ph="",v="")=>`<div><label for="${id}">${l}</label><input id="${id}" type="${t}" placeholder="${ph}" value="${esc(v)}"></div>`;
+const sel=(id,l,arr,todos)=>`<div><label for="${id}">${l}</label><select id="${id}">${opts(arr,"",todos)}</select></div>`;
+const val=id=>($("#"+id)||{}).value||"";
+
+/* ---------- Inicio ---------- */
+INV.inicio=()=>{
+ const E=D.emp,on=E.filter(e=>e.on).length,off=E.length-on;
+ const win=E.filter(e=>/^Windows/.test(e.so)).length,mac=E.filter(e=>/^mac/.test(e.so)).length;
+ const cnt=(arr,k,v)=>arr.filter(x=>x[k]===v).length;
+ const C=(t,ex,h)=>`<div class="cd"><h3>${t}</h3><p class="hint" style="margin:-4px 0 10px">"En línea" = agente propio activo en los últimos 30 min</p>${ex}${h||""}</div>`;
+ return `<div class="bar"><h2 style="margin:0;flex:1">Inicio</h2><button class="bt sec" id="act">Actualizar</button></div><p class="sub">Resumen del inventario y del monitoreo en tiempo real (datos de ejemplo).</p>
+ <div class="cd"><h3>Agentes instalados</h3><div class="tl4" style="margin:0"><div class="kp"><b style="color:#123a5f">${win+mac+E.length}</b><span>Agentes instalados en total</span></div><div class="kp"><b>${win}</b><span>Windows (instalador MSI / GPO)</span></div><div class="kp"><b>${mac}</b><span>macOS</span></div><div class="kp"><b>${E.length}</b><span>Android (celulares)</span></div></div></div>
+ <div class="g2">
+ ${C("Monitoreo de equipos",donut([[on,"#2a78d6","En línea"],[off,"#eb6834","Desconectado"],[1,"#1baf7a","Sin datos de monitoreo"]]),`<div style="margin-top:10px">${tabla(["Equipo","Asignado a","Última conexión"],E.filter(e=>!e.on).map(e=>tr([`<b>${e.host}</b>`,e.n,e.vis])))}</div>`)}
+ ${C("Monitoreo de impresoras",donut(["Conectada","Desconectada","Monitoreo interrumpido","Sin datos de monitoreo"].map((k,i)=>[cnt(D.imp,"mon",k),["#2a78d6","#eb6834","#eda100","#1baf7a"][i],k])))}
+ ${C("Monitoreo de servidores",donut([[cnt(D.srv,"mon","En línea"),"#2a78d6","En línea"],[cnt(D.srv,"mon","Desconectado"),"#eb6834","Desconectado"],[cnt(D.srv,"mon","Sin datos de monitoreo"),"#1baf7a","Sin datos de monitoreo"]]))}
+ </div>`;
+};
+INVB.inicio=()=>{$("#act").onclick=()=>toast("Datos actualizados (simulado).")};
+
+/* ---------- Nuevo registro ---------- */
+INV.formulario=()=>`<h2>Nuevo registro</h2><p class="sub">Registro de un colaborador con su equipo y, si aplica, su línea móvil. Al guardar se podrá buscar en “Búsqueda”.</p>
+<div class="cd"><h3>Datos del colaborador</h3><div class="fm">${fld("f_n","Nombre completo *","text","Ej. Nombre Apellido")}${fld("f_cod","Código de empleado","text","Ej. E-0456")}${fld("f_p","Puesto *","text","Ej. Analista")}${sel("f_a","Departamento",["Compras","Finanzas","Ventas","Logística","Recursos Humanos","Operaciones","Mercadeo","Administración","Tecnología"])}${fld("f_c","Correo electrónico","email","nombre@ejemplo.com")}${sel("f_of","Licencia de Office",["Microsoft 365 Business","Microsoft 365 E3","Sin licencia"])}${sel("f_pa","País",PAISES)}${fld("f_se","Sede","text","Ej. Oficinas centrales")}</div></div>
+<div class="cd"><h3>Equipo de cómputo</h3><div class="fm">${sel("f_tp","Tipo de equipo",["LAPTOP","PC"])}${fld("f_ma","Marca","text","Ej. Marca Uno")}${fld("f_mo","Modelo","text","Ej. Laptop 14\"")}${fld("f_sr","N.º de serie","text","SN-00000-X")}${fld("f_ho","Hostname","text","GT-LT-0500")}${fld("f_pr","Procesador","text","Intel Core i7")}${sel("f_ra","Memoria RAM",["8 GB","16 GB","32 GB"])}${sel("f_di","Disco duro",["256 GB SSD","512 GB SSD","1 TB SSD"])}${sel("f_so","Sistema operativo",["Windows 11 Pro","Windows 10 Pro","macOS 15"])}${fld("f_tk","N.º de ticket","text","FS-0000")}${fld("f_gf","Fin de garantía","month","","2029-12")}${fld("f_af","N.º de activo fijo","text","AF-00000")}</div></div>
+<div class="cd"><h3>Línea móvil</h3><label style="font-size:13px"><input type="checkbox" id="f_lm"> Asignar una línea móvil (celular corporativo)</label><div class="fm" id="lm" style="display:none;margin-top:12px">${fld("f_nu","Número de teléfono","text","5555-0000")}${fld("f_im","IMEI","text","35…")}${fld("f_sg","N.º de sello de seguridad","text","SG-0000")}</div></div>
+<div class="bar"><button class="bt" id="guardar">Guardar registro</button><button class="bt sec" id="limpiar">Limpiar formulario</button></div>`;
+INVB.formulario=()=>{
+ $("#f_lm").onchange=e=>$("#lm").style.display=e.target.checked?"grid":"none";
+ $("#limpiar").onclick=()=>{render();toast("Formulario limpio.")};
+ $("#guardar").onclick=()=>{
+  if(!val("f_n").trim()||!val("f_p").trim()){toast("Completa el nombre y el puesto para guardar.");return}
+  const id=Math.max(...D.emp.map(e=>e.id))+1,n=val("f_n").trim();
+  D.emp.push({id,n,p:val("f_p").trim(),a:val("f_a"),pais:val("f_pa"),sede:val("f_se")||"Oficinas centrales",host:val("f_ho")||"NUEVO-"+id,mod:(val("f_mo")||"Equipo")+"",marca:val("f_ma")||"—",serie:val("f_sr")||"SN-"+(10000+id),gar:val("f_gf")||"2029-12",on:true,tel:val("f_nu")||"—",carta:"Sin carta",so:val("f_so"),tipo:val("f_tp"),correo:val("f_c")||sinAc(n.split(" ")[0])+"@ejemplo.com",proc:val("f_pr")||"—",ram:val("f_ra"),disco:val("f_di"),estado:"En Uso",af:val("f_af")||"—",imei:val("f_im")||"—",office:val("f_of"),soc:"Comercial Ejemplo, S.A.",vis:"hace 1 min",progs:[0,1,2,3,4,5]});
+  D.hist.unshift(["18/11/2026 "+new Date().toTimeString().slice(0,5),"Técnico Demo","Creó registro","Colaborador "+n]);
+  BQ.tab="nombre";BQ.q=n;toast("Registro de "+n+" guardado (simulado).");go("busqueda");
+ };
+};
+
+/* ---------- Seguimiento de altas / bajas ---------- */
+const SG={alta:{f:"curso",p:""},baja:{f:"curso",p:""}};
+function stepper(et,idx){return `<div class="stp">${et.map((s,i)=>`<div class="${i<idx?"d":i===idx?"n":""}"><i>${i<idx?"✓":i+1}</i>${s}</div>`).join("")}</div>`}
+function listaSeg(kind){
+ const A=kind==="alta"?D.altas:D.bajas,f=SG[kind];
+ const et=x=>kind==="alta"?ETAPAS_ALTA[x.tipo]:ETAPAS_BAJA;
+ const L=A.filter(x=>(!f.p||x.pais===f.p)&&(f.f==="todas"||x.et<et(x).length-1||x.tocado));
+ return L.map(x=>{const E=et(x),fin=x.et>=E.length-1;
+  return `<div class="sol"><div class="h"><div><b style="font-size:15px">${esc(x.n)}</b> <span class="hint">· ${esc(x.p)} · ${x.pais}</span></div><div><span class="pill info">${x.tk}</span> ${kind==="alta"?`<span class="pill gray">${x.tipo==="nuevo"?"Equipo nuevo":"Equipo reasignado"}</span>`:""} ${fin?`<span class="pill ok">${kind==="alta"?"Entregado":"Completada"}</span>`:`<span class="pill warn">En curso</span>`}</div></div>
+  ${stepper(E,x.et)}
+  <div class="bar" style="margin:6px 0 0"><button class="bt sec sm" data-sg="${kind}:${x.id}:-1" ${x.et===0?"disabled":""}>← Etapa anterior</button><button class="bt sm" data-sg="${kind}:${x.id}:1" ${fin?"disabled":""}>${fin?"Proceso finalizado":"Completar «"+E[x.et]+"»"}</button>${kind==="alta"&&fin?`<button class="bt sec sm" data-ca="${x.id}">Generar carta de entrega</button>`:""}<span class="hint">Ticket automático en Freshservice · enlace público de seguimiento para el líder</span></div></div>`}).join("")||`<p class="hint">No hay solicitudes con este filtro.</p>`;
+}
+const segView=kind=>`<h2>Seguimiento de ${kind==="alta"?"altas":"bajas"}</h2><p class="sub">${kind==="alta"?"Avanza cada equipo de la solicitud por sus etapas (un equipo nuevo pasa por presupuesto y compra; uno reasignado, no).":"Control de la baja del colaborador: recepción del equipo, respaldo y baja de licencia y del directorio."}</p>
+<div class="bar"><select id="sgf"><option value="curso" ${SG[kind].f==="curso"?"selected":""}>${kind==="alta"?"En curso (sin entregar)":"En curso (sin completar)"}</option><option value="todas" ${SG[kind].f==="todas"?"selected":""}>Todas</option></select><select id="sgp">${opts(PAISES,SG[kind].p,"Todos los países")}</select></div><div id="sglist">${listaSeg(kind)}</div>`;
+function bindSeg(kind){
+ const pinta=()=>{$("#sglist").innerHTML=listaSeg(kind);enlaza()};
+ const enlaza=()=>{
+  $$("[data-sg]").forEach(b=>b.onclick=()=>{const[k,id,d]=b.dataset.sg.split(":");const A=k==="alta"?D.altas:D.bajas;const x=A.find(y=>y.id==+id);x.et+=+d;x.tocado=true;const E=k==="alta"?ETAPAS_ALTA[x.tipo]:ETAPAS_BAJA;toast(d>0?"Etapa completada: "+E[x.et-1]:"Etapa revertida.");D.hist.unshift(["18/11/2026 "+new Date().toTimeString().slice(0,5),"Técnico Demo","Actualizó etapa",(k==="alta"?"Alta":"Baja")+" de "+x.n+" → "+E[x.et]]);pinta()});
+  $$("[data-ca]").forEach(b=>b.onclick=()=>{const x=D.altas.find(y=>y.id==+b.dataset.ca);cartaModal({titulo:"Carta de entrega de equipo",nombre:x.n,cosa:"el equipo asignado a mi puesto ("+x.p+")"})});
+ };
+ $("#sgf").onchange=e=>{SG[kind].f=e.target.value;pinta()};$("#sgp").onchange=e=>{SG[kind].p=e.target.value;pinta()};enlaza();
+}
+INV.seguimiento=()=>segView("alta");INVB.seguimiento=()=>bindSeg("alta");
+INV.seguimiento_baja=()=>segView("baja");INVB.seguimiento_baja=()=>bindSeg("baja");
+
+/* ---------- Búsqueda ---------- */
+const BQ={tab:"nombre",q:"",pais:""};
+const BQPH={nombre:"Buscar empleado por nombre, puesto o departamento…",serie:"Buscar por número de serie del equipo…",cel:"Buscar por número de celular o IMEI…"};
+function resBusqueda(){
+ const q=sinAc(BQ.q);
+ const L=D.emp.filter(e=>(!BQ.pais||e.pais===BQ.pais)&&sinAc(BQ.tab==="nombre"?e.n+" "+e.p+" "+e.a:BQ.tab==="serie"?e.serie+" "+e.host:e.tel+" "+e.imei).includes(q));
+ return tabla(["Empleado","Puesto","País / sede","Equipo","N.º de serie","Celular","Carta"],L.map(e=>tr([`<b>${e.n}</b><br><span class="hint">${e.a}</span>`,e.p,e.pais+"<br><span class='hint'>"+e.sede+"</span>",e.host,e.serie,e.tel,cartaPill(e.carta)],`class="cl" data-id="${e.id}"`)))+`<p class="hint" style="margin:10px 0 0">${L.length} resultado(s). Haz clic en una fila para abrir la ficha.</p>`;
+}
+INV.busqueda=()=>`<h2>Búsqueda</h2><p class="sub">Encuentra empleados, equipos y celulares; abre la ficha para ver todo lo que tienen asignado.</p>
+<div class="tabs">${[["nombre","Por empleado"],["serie","Por número de serie"],["cel","Por celular o IMEI"]].map(t=>`<button data-t="${t[0]}" class="${BQ.tab===t[0]?"on":""}">${t[1]}</button>`).join("")}</div>
+<div class="bar"><input id="bq" style="flex:1;min-width:240px" placeholder="${BQPH[BQ.tab]}" value="${esc(BQ.q)}"><select id="bpa">${opts(PAISES,BQ.pais,"Todos los países")}</select></div><div class="cd" id="bres"></div>`;
+INVB.busqueda=()=>{
+ const pinta=()=>{$("#bres").innerHTML=resBusqueda();$$("#bres tr.cl").forEach(r=>r.onclick=()=>ficha(+r.dataset.id))};
+ pinta();$("#bq").oninput=e=>{BQ.q=e.target.value;pinta()};$("#bpa").onchange=e=>{BQ.pais=e.target.value;pinta()};
+ $$(".tabs [data-t]").forEach(b=>b.onclick=()=>{BQ.tab=b.dataset.t;BQ.q="";render()});
+};
+function ficha(id){
+ const e=empById(id);let tab="eq";
+ const m=modal(`<h3>${esc(e.n)}</h3><div class="hint">${e.p} · ${e.a} · ${e.pais} / ${e.sede}</div><dl class="kv" style="grid-template-columns:110px 1fr;margin:8px 0 0"><dt>Correo</dt><dd>${e.correo}</dd><dt>Licencia Office</dt><dd>${e.office}</dd><dt>Sociedad</dt><dd>${e.soc}</dd></dl>
+ <div class="tabs" id="ft"><button data-f="eq" class="on">Equipos de cómputo (1)</button><button data-f="lin">Línea móvil</button><button data-f="sum">Suministros</button><button data-f="prg">Programas</button></div><div id="fb"></div>
+ <div class="bar" style="margin:14px 0 0;justify-content:flex-end"><button class="bt sec" id="x">Cerrar</button><button class="bt" id="c" ${e.carta==="Firmada"?"disabled":""}>Generar carta de responsabilidad</button></div>`);
+ const g=gar(e.gar);
+ const body={
+  eq:()=>`<dl class="kv"><dt>Hostname</dt><dd><b>${e.host}</b> · ${e.tipo}</dd><dt>Marca / modelo</dt><dd>${e.marca} · ${e.mod}</dd><dt>N.º de serie</dt><dd>${e.serie}</dd><dt>Procesador</dt><dd>${e.proc}</dd><dt>RAM / disco</dt><dd>${e.ram} / ${e.disco}</dd><dt>Sistema operativo</dt><dd>${e.so}</dd><dt>Activo fijo</dt><dd>${e.af}</dd><dt>Garantía</dt><dd><span class="pill ${g.c}">${g.t}</span></dd><dt>Monitoreo</dt><dd>${monPill(e.on?"En línea":"Desconectado")} <span class="hint">última conexión ${e.vis}</span></dd><dt>Carta</dt><dd>${cartaPill(e.carta)}</dd></dl>`,
+  lin:()=>`<dl class="kv"><dt>Número</dt><dd>${e.tel}</dd><dt>IMEI</dt><dd>${e.imei}</dd><dt>Sello de seguridad</dt><dd>SG-${String(3000+e.id)}</dd><dt>Carta del celular</dt><dd>${cartaPill(e.id%3?"Firmada":"Pendiente")}</dd></dl>`,
+  sum:()=>{const s=D.per.filter(p=>p.a===e.n);return s.length?tabla(["Suministro","N/S","Fecha","Carta"],s.map(p=>tr([p.s,p.ns,p.f,cartaPill(p.c)]))):`<p class="hint">Sin suministros entregados.</p>`},
+  prg:()=>tabla(["Programa","Versión"],e.progs.map(k=>tr([D.prog[k][0],D.prog[k][1]])))+`<p class="hint">Reportado por el agente de monitoreo.</p>`};
+ const pinta=()=>$("#fb",m).innerHTML=body[tab]();pinta();
+ $$("#ft button",m).forEach(b=>b.onclick=()=>{tab=b.dataset.f;$$("#ft button",m).forEach(x=>x.classList.toggle("on",x===b));pinta()});
+ $("#x",m).onclick=closeModal;$("#c",m).onclick=()=>cartaModal({nombre:e.n,cosa:"el equipo "+e.host+" (serie "+e.serie+")",ok:()=>{e.carta="Firmada"}});
+}
+
+/* ---------- Dashboard ---------- */
+const DB={tab:"resumen",dep:"",soc:""};
+INV.dashboard=()=>{
+ const L=D.emp.filter(e=>(!DB.dep||e.a===DB.dep)&&(!DB.soc||e.soc===DB.soc));
+ const cnt=(k,arr)=>(arr||[...new Set(L.map(e=>e[k]))]).map(v=>[v,L.filter(e=>e[k]===v).length]);
+ const col=["#2a78d6","#eb6834","#1baf7a","#eda100","#e87ba4","#4a3aa7"];
+ const dn=(arr,t)=>`<div class="cd"><h3>${t}</h3>${donut(arr.map((a,i)=>[a[1],col[i%6],a[0]]))}</div>`;
+ const tabs=[["resumen","Resumen"],["equipos","Equipos de cómputo"],["celulares","Celulares"]];
+ const cuerpo=DB.tab==="resumen"?`<div class="g2">${dn(cnt("pais",PAISES).filter(a=>a[1]),"Empleados por país")}${dn(cnt("a"),"Empleados por departamento")}</div>`
+ :DB.tab==="equipos"?`<div class="g2">${dn(cnt("tipo"),"Equipos por tipo")}${dn(cnt("marca"),"Equipos por marca")}${dn(cnt("so"),"Sistemas operativos")}${dn([["Vigente",L.filter(e=>gar(e.gar).c==="ok").length],["Vence en ≤ 6 meses",L.filter(e=>gar(e.gar).c==="warn").length],["Vencida",L.filter(e=>gar(e.gar).c==="bad").length]],"Garantías")}</div>`
+ :`<div class="g2">${dn(cnt("pais",PAISES).filter(a=>a[1]),"Celulares por país")}<div class="cd"><h3>Detalle</h3>${tabla(["Empleado","Número","IMEI"],L.map(e=>tr([e.n,e.tel,e.imei])))}</div></div>`;
+ return `<h2>Dashboard</h2><p class="sub">Indicadores del inventario con filtros por departamento y sociedad.</p>
+ <div class="bar"><select id="dd">${opts([...new Set(D.emp.map(e=>e.a))],DB.dep,"Todos los departamentos")}</select><select id="ds">${opts([...new Set(D.emp.map(e=>e.soc))],DB.soc,"Todas las sociedades")}</select><button class="bt sec" id="dx">Exportar a Excel</button></div>
+ <div class="tl4"><div class="kp"><b>${L.length}</b><span>Empleados activos</span></div><div class="kp"><b>${L.length}</b><span>Equipos de cómputo</span></div><div class="kp"><b>${L.filter(e=>e.tel!=="—").length}</b><span>Celulares</span></div><div class="kp"><b>${D.per.length}</b><span>Periféricos</span></div><div class="kp"><b>${L.length*2+D.per.length}</b><span>Total de activos</span></div></div>
+ <div class="tabs">${tabs.map(t=>`<button data-t="${t[0]}" class="${DB.tab===t[0]?"on":""}">${t[1]}</button>`).join("")}</div>${cuerpo}`;
+};
+INVB.dashboard=()=>{$("#dd").onchange=e=>{DB.dep=e.target.value;render()};$("#ds").onchange=e=>{DB.soc=e.target.value;render()};$("#dx").onclick=()=>toast("Se generaría el archivo de Excel (simulado).");$$(".tabs [data-t]").forEach(b=>b.onclick=()=>{DB.tab=b.dataset.t;render()})};
+
+/* ---------- Programas ---------- */
+let PQ="";
+INV.programas=()=>`<h2>Programas instalados</h2><p class="sub">Reporte de programas que informa el agente de cada equipo. Busca por programa, versión o fabricante.</p><div class="bar"><input id="pq" style="flex:1;min-width:240px" placeholder="Buscar programa, versión o fabricante…" value="${esc(PQ)}"><button class="bt sec" id="px">Exportar a Excel</button></div><div class="cd" id="pres"></div>`;
+INVB.programas=()=>{
+ const pinta=()=>{const q=sinAc(PQ);const L=D.prog.map((p,k)=>({p,k,n:D.emp.filter(e=>e.progs.includes(k)).length})).filter(o=>sinAc(o.p.join(" ")).includes(q));$("#pres").innerHTML=tabla(["Nombre","Versión","Fabricante","Equipos"],L.map(o=>tr([`<b>${o.p[0]}</b>`,o.p[1],o.p[2],o.n+" equipos"],`class="cl" data-k="${o.k}"`)));$$("#pres tr.cl").forEach(r=>r.onclick=()=>{const k=+r.dataset.k;const m=modal(`<h3>${D.prog[k][0]}</h3><p class="hint">Equipos con este programa instalado</p>${tabla(["Equipo","Asignado a","Versión"],D.emp.filter(e=>e.progs.includes(k)).map(e=>tr([e.host,e.n,D.prog[k][1]])))}<div style="text-align:right;margin-top:12px"><button class="bt" id="x">Cerrar</button></div>`);$("#x",m).onclick=closeModal})};
+ pinta();$("#pq").oninput=e=>{PQ=e.target.value;pinta()};$("#px").onclick=()=>toast("Se generaría el archivo de Excel (simulado).");
+};
+
+/* ---------- Historial ---------- */
+let HU="";
+INV.historial=()=>`<h2>Historial</h2><p class="sub">Bitácora de cambios: quién hizo qué y cuándo.</p><div class="bar"><select id="hu">${opts([...new Set(D.hist.map(h=>h[1]))],HU,"Todos los usuarios")}</select></div><div class="cd">${tabla(["Fecha y hora","Usuario","Acción","Detalle"],D.hist.filter(h=>!HU||h[1]===HU).map(h=>tr(h)))}</div>`;
+INVB.historial=()=>{$("#hu").onchange=e=>{HU=e.target.value;render()}};
+
+/* ---------- Impresoras ---------- */
+INV.impresoras=()=>`<h2>Impresoras</h2><p class="sub">Registro de impresoras propias y arrendadas, con su estado de conexión.</p>
+<div class="cd"><h3>Registrar impresora</h3><div class="fm">${fld("i_m","Marca / modelo","text","Ej. Multifuncional B")}${fld("i_s","N.º de serie","text","PR-0000")}${fld("i_h","Hostname","text","IMP-GT-03")}${fld("i_i","IP","text","10.10.1.23")}${fld("i_a","Área","text","Ej. Ventas")}${sel("i_p","País",PAISES)}${fld("i_se","Sede","text","Ej. Oficinas centrales")}${sel("i_pr","¿Propia o arrendada?",["Propia","Arrendada"])}</div><div class="bar" style="margin:12px 0 0"><button class="bt" id="iadd">Guardar impresora</button></div></div>
+<div class="cd">${tabla(["Marca / modelo","N.º de serie","Hostname","IP","Área","País","Sede","Propiedad","Monitoreo"],D.imp.map(i=>tr([`<b>${i.m}</b>`,i.ser,i.host,i.ip,i.area,i.pais,i.sede,i.prop,monPill(i.mon)])))}</div>`;
+INVB.impresoras=()=>{$("#iadd").onclick=()=>{if(!val("i_m").trim()){toast("Escribe la marca o modelo.");return}D.imp.push({m:val("i_m"),ser:val("i_s")||"PR-"+(9000+D.imp.length),host:val("i_h")||"IMP-NUEVA",ip:val("i_i")||"—",area:val("i_a")||"—",pais:val("i_p"),sede:val("i_se")||"—",prop:val("i_pr"),mon:"Sin datos de monitoreo"});toast("Impresora registrada (simulado).");render()}};
+
+/* ---------- Servidores ---------- */
+const SV={p:"",t:"",e:""};
+INV.servidores=()=>{const L=D.srv.filter(s=>(!SV.p||s.pais===SV.p)&&(!SV.t||s.t===SV.t)&&(!SV.e||s.e===SV.e));
+ return `<h2>Servidores</h2><p class="sub">Servidores físicos y virtuales con su estado de monitoreo.</p><div class="bar"><select id="sp">${opts(PAISES,SV.p,"País…")}</select><select id="st">${opts(["Físico","Virtual"],SV.t,"Tipo…")}</select><select id="se">${opts(["Activo","Mantenimiento","Fuera de servicio"],SV.e,"Estado…")}</select></div>
+ <div class="cd">${tabla(["Servidor","Función","Tipo","N.º de serie","Hostname / IP","País","Estado","Monitoreo"],L.map(s=>tr([`<b>${s.n}</b>`,s.f,s.t,s.ser,s.host,s.pais,`<span class="pill ${s.e==="Activo"?"ok":s.e==="Mantenimiento"?"warn":"gray"}">${s.e}</span>`,monPill(s.mon)])))}</div>`};
+INVB.servidores=()=>{["p","t","e"].forEach(k=>$("#s"+(k==="p"?"p":k==="t"?"t":"e")).onchange=e=>{SV[k]=e.target.value;render()})};
+
+/* ---------- Bodega ---------- */
+INV.bodega=()=>`<h2>Equipo en bodega</h2><p class="sub">Equipos recibidos y guardados, con correlativo propio. Los que llegan sin país se clasifican aquí.</p><div class="cd">${tabla(["Correlativo","País","Marca / modelo","N.º de serie","Acción"],D.bod.map((b,i)=>tr([`<b>${b.c}</b>`,b.pais||`<select data-bp="${i}"><option value="">Sin país — asignar…</option>${PAISES.map(p=>`<option>${p}</option>`).join("")}</select>`,b.m,b.ser,`<button class="bt sec sm" data-bd="${i}">Pasar a equipo disponible</button>`])))}</div>`;
+INVB.bodega=()=>{$$("[data-bp]").forEach(s=>s.onchange=()=>{D.bod[+s.dataset.bp].pais=s.value;toast("País asignado (simulado).");render()});$$("[data-bd]").forEach(b=>b.onclick=()=>{const x=D.bod.splice(+b.dataset.bd,1)[0];D.disp.push({t:/Desktop/.test(x.m)?"PC":"LAPTOP",m:x.m,ser:x.ser,host:"PEND-"+x.c.slice(-4),e:"En Bodega",pais:x.pais||"Guatemala"});toast("Equipo "+x.ser+" disponible para asignar.");render()})};
+
+/* ---------- Equipo disponible ---------- */
+const ED={p:"",t:"",e:""};
+INV.disponible=()=>{const L=D.disp.filter(s=>(!ED.p||s.pais===ED.p)&&(!ED.t||s.t===ED.t)&&(!ED.e||s.e===ED.e));
+ return `<h2>Equipo disponible</h2><p class="sub">Equipos listos para asignar a un colaborador. Al asignar se prepara la carta de responsabilidad.</p><div class="bar"><select id="dp">${opts(PAISES,ED.p,"Todos los países")}</select><select id="dt">${opts(["LAPTOP","PC"],ED.t,"Tipo de equipo…")}</select><select id="de">${opts(["En Uso","En Bodega","Obsoleto"],ED.e,"Estado…")}</select></div>
+ <div class="cd">${tabla(["Tipo","Marca / modelo","N.º de serie","Hostname","Estado","País","Acción"],L.map(s=>tr([s.t,`<b>${s.m}</b>`,s.ser,s.host,`<span class="pill ${s.e==="En Bodega"?"info":s.e==="Obsoleto"?"gray":"ok"}">${s.e}</span>`,s.pais,s.e==="Obsoleto"?`<span class="hint">No asignable</span>`:`<button class="bt sm" data-as="${D.disp.indexOf(s)}">Asignar a empleado</button>`])))}</div>`};
+INVB.disponible=()=>{[["dp","p"],["dt","t"],["de","e"]].forEach(a=>$("#"+a[0]).onchange=e=>{ED[a[1]]=e.target.value;render()});
+ $$("[data-as]").forEach(b=>b.onclick=()=>{const i=+b.dataset.as,s=D.disp[i];const m=modal(`<h3>Asignar ${s.m}</h3><p class="hint">Serie ${s.ser} · ${s.host}</p><label class="hint">Colaborador</label><br><select id="who" style="width:100%">${D.emp.map(e=>`<option value="${e.id}">${e.n} — ${e.p}</option>`).join("")}</select><div class="bar" style="margin:14px 0 0;justify-content:flex-end"><button class="bt sec" id="x">Cancelar</button><button class="bt" id="ok">Asignar y preparar carta</button></div>`);$("#x",m).onclick=closeModal;$("#ok",m).onclick=()=>{const e=empById(+$("#who",m).value);D.disp.splice(i,1);closeModal();D.hist.unshift(["18/11/2026 "+new Date().toTimeString().slice(0,5),"Técnico Demo","Asignó equipo",s.host+" → "+e.n]);cartaModal({nombre:e.n,cosa:"el equipo "+s.host+" (serie "+s.ser+")",ok:()=>{}});toast(s.host+" asignado a "+e.n+".")}})};
+
+/* ---------- Suministros ---------- */
+INV.suministros=()=>`<h2>Suministros</h2><p class="sub">Existencias de consumibles, alertas de stock mínimo y entrega con carta firmada.</p><div class="tl4"><div class="kp"><b>${D.sum.reduce((a,s)=>a+s.st,0)}</b><span>Unidades en existencia</span></div><div class="kp"><b style="color:#a32d2d">${D.sum.filter(s=>s.st<s.min).length}</b><span>Bajo el mínimo</span></div><div class="kp"><b>${D.sum.length}</b><span>Artículos</span></div></div><div class="cd">${tabla(["Artículo","Categoría","Existencia","Mínimo","Estado","Acción"],D.sum.map((s,i)=>tr([`<b>${s.n}</b>`,s.cat,s.st,s.min,s.st<s.min?'<span class="pill bad">Reponer</span>':'<span class="pill ok">Suficiente</span>',`<button class="bt sm" data-en="${i}" ${s.st?"":"disabled"}>Entregar</button>`])))}</div>`;
+INVB.suministros=()=>$$("[data-en]").forEach(b=>b.onclick=()=>{const s=D.sum[+b.dataset.en];const m=modal(`<h3>Entregar: ${s.n}</h3><label class="hint">Entregar a</label><br><select id="who" style="width:100%">${D.emp.map(e=>`<option value="${e.id}">${e.n}</option>`).join("")}</select><div class="bar" style="margin:14px 0 0;justify-content:flex-end"><button class="bt sec" id="x">Cancelar</button><button class="bt" id="ok">Continuar a la carta</button></div>`);$("#x",m).onclick=closeModal;$("#ok",m).onclick=()=>{const e=empById(+$("#who",m).value);cartaModal({titulo:"Carta de entrega de suministro",nombre:e.n,cosa:"1 unidad de «"+s.n+"»",ok:()=>{s.st--;D.per.unshift({pais:e.pais,s:s.n,ns:"—",a:e.n,pu:e.p,por:"Técnico Demo",f:"2026-11-18",c:"Firmada"})}})}});
+
+/* ---------- Periféricos ---------- */
+const PF={p:"",q:""};
+INV.perifericos=()=>`<h2>Periféricos</h2><p class="sub">Monitores, teclados, mouse y otros accesorios asignados, con su carta de entrega.</p><div class="bar"><select id="pp">${opts(PAISES,PF.p,"Todos los países")}</select><input id="pq2" placeholder="Buscar empleado o suministro…" value="${esc(PF.q)}" style="min-width:240px"></div><div class="cd" id="pfr"></div>`;
+INVB.perifericos=()=>{const pinta=()=>{const q=sinAc(PF.q);$("#pfr").innerHTML=tabla(["País","Suministro","N/S","Asignado a","Puesto / Departamento","Asignado por","Fecha de asignación","Carta de entrega"],D.per.filter(p=>(!PF.p||p.pais===PF.p)&&sinAc(p.s+p.a).includes(q)).map(p=>tr([p.pais,`<b>${p.s}</b>`,p.ns,p.a,p.pu,p.por,p.f,cartaPill(p.c)])))};pinta();$("#pp").onchange=e=>{PF.p=e.target.value;pinta()};$("#pq2").oninput=e=>{PF.q=e.target.value;pinta()}};
+
+/* ---------- Visitas técnicas ---------- */
+const VE={"Aprobada":"ok","Rechazada":"bad","Pendiente de Visto Bueno":"warn"};
+let VF="";
+INV.visitas=()=>`<h2>Visitas técnicas</h2><p class="sub">Registro de visitas a sedes, con visto bueno del responsable y reporte para firma.</p><div class="bar"><select id="vf">${opts(["Pendiente de Visto Bueno","Aprobada","Rechazada"],VF,"Todos los estados")}</select><span class="sp1"></span><button class="bt" id="vn">Registrar visita técnica</button></div><div class="cd">${tabla(["Código","Sede","País","Atendido por","Técnico","Estado","Acciones"],D.vis.filter(v=>!VF||v.e===VF).map(v=>tr([`<b>${v.c}</b>`,v.sede,v.pais,v.aten,v.tec,`<span class="pill ${VE[v.e]}">${v.e}</span>`,v.e==="Pendiente de Visto Bueno"?`<button class="bt sm" data-v="${v.c}:Aprobada">Dar visto bueno</button> <button class="bt sec sm" data-v="${v.c}:Rechazada">Rechazar</button>`:`<span class="hint">—</span>`])))}</div>`;
+INVB.visitas=()=>{$("#vf").onchange=e=>{VF=e.target.value;render()};
+ $$("[data-v]").forEach(b=>b.onclick=()=>{const[c,e]=b.dataset.v.split(":");D.vis.find(v=>v.c===c).e=e;toast(c+": "+e.toLowerCase()+" (simulado).");render()});
+ $("#vn").onclick=()=>{const m=modal(`<h3>Registrar visita técnica</h3><div class="fm" style="grid-template-columns:1fr 1fr">${fld("v_s","Sede *","text","Ej. Sucursal San Salvador")}${sel("v_p","País *",PAISES)}${fld("v_a","Atendido por","text","Nombre de quien recibe")}${fld("v_f","Fecha","date","","2026-11-18")}</div><label class="hint">Trabajo realizado</label><textarea id="v_t" rows="3" placeholder="Describe lo que se revisó o instaló…"></textarea><div class="bar" style="margin:14px 0 0;justify-content:flex-end"><button class="bt sec" id="x">Cancelar</button><button class="bt" id="ok">Guardar y pedir visto bueno</button></div>`);$("#x",m).onclick=closeModal;$("#ok",m).onclick=()=>{if(!val("v_s").trim()){toast("Indica la sede.");return}D.vis.unshift({c:"VT-00"+(36+D.vis.length-5),sede:val("v_s"),pais:val("v_p"),aten:val("v_a")||"—",tec:"Técnico Demo",e:"Pendiente de Visto Bueno"});closeModal();toast("Visita registrada; se envió el enlace de visto bueno (simulado).");render()}}};
+
+/* ---------- Diagnóstico ---------- */
+INV.diagnostico=()=>`<h2>Diagnóstico</h2><p class="sub">Informes de diagnóstico técnico por equipo, con evidencia, severidad y repuestos recomendados.</p><div class="bar"><span class="sp1"></span><button class="bt" id="dn">Registrar diagnóstico</button></div><div class="cd">${tabla(["Código","Equipo","Solicitante","Reporte del incidente","Resultado","Repuesto / servicio","Severidad","Garantía"],D.diag.map(d=>tr([`<b>${d.c}</b>`,d.eq,d.sol,d.inc,d.res,d.rep,`<span class="pill ${d.sev==="Alta"||d.sev==="Crítica"?"bad":d.sev==="Media"?"warn":"gray"}">${d.sev}</span>`,d.gar])))}</div>`;
+INVB.diagnostico=()=>$("#dn").onclick=()=>{const m=modal(`<h3>Registrar diagnóstico</h3><div class="fm" style="grid-template-columns:1fr 1fr"><div><label>Equipo</label><select id="g_e" style="width:100%">${D.emp.map(e=>`<option>${e.host} · ${e.mod}</option>`).join("")}</select></div><div><label>Garantía</label><select id="g_g" style="width:100%"><option>Garantía vigente</option><option>Garantía vencida</option><option>Garantía: N/A</option></select></div>${fld("g_s","Solicitante","text","Nombre")}<div><label>Severidad</label><select id="g_v" style="width:100%"><option>Baja</option><option selected>Media</option><option>Alta</option><option>Crítica</option></select></div></div>
+ <label class="hint">Reporte del incidente</label><textarea id="g_i" rows="2" placeholder="¿Qué reporta el usuario?"></textarea>
+ <h3 style="font-size:14px;margin-top:12px">Diagnóstico técnico</h3>${tabla(["Componente / Área","Prueba / evidencia","Resultado"],[["Batería","Prueba de carga"],["Disco","Estado SMART"],["Memoria","Prueba de RAM"]].map((r,i)=>tr([r[0],r[1],`<select id="g_r${i}"><option>OK</option><option>Falla</option></select>`])))}
+ <label class="hint" style="display:block;margin-top:10px">Recomendación y acción requerida</label><textarea id="g_rc" rows="2" placeholder="Ej. Reemplazar batería"></textarea>
+ <div class="bar" style="margin:14px 0 0;justify-content:flex-end"><button class="bt sec" id="x">Cancelar</button><button class="bt" id="ok">Guardar y generar reporte</button></div>`);
+ $("#x",m).onclick=closeModal;$("#ok",m).onclick=()=>{const fallas=["Batería","Disco","Memoria"].filter((c,i)=>val("g_r"+i)==="Falla");D.diag.unshift({c:"DG-00"+(13+D.diag.length-3),eq:val("g_e"),sol:val("g_s")||"—",inc:val("g_i")||"—",sev:val("g_v"),res:fallas.length?"Falla en: "+fallas.join(", ").toLowerCase():"Sin fallas detectadas",rep:val("g_rc")||"Ninguno",gar:val("g_g")});closeModal();toast("Diagnóstico guardado; el reporte quedó listo para firma (simulado).");render()}};
+
+/* ---------- CAPEX ---------- */
+const CX={p:"",e:""},CXE=["Sin presupuestar","Presupuestado","Aprobado","Comprado"];
+INV.capex=()=>{const base=[...D.emp].sort((a,b)=>a.gar.localeCompare(b.gar));const L=base.filter(e=>(!CX.p||e.pais===CX.p)&&(!CX.e||(D.capexEst[e.id]||"Sin presupuestar")===CX.e));
+ const dep=e=>{const[y,m]=e.gar.split("-").map(Number);const comp=(y-3)*12+(m-1);const act=HOY.getFullYear()*12+HOY.getMonth();return Math.max(0,Math.min(100,Math.round((act-comp)/36*100)))};
+ return `<h2>CAPEX — Reemplazo de equipos por vencimiento de garantía</h2><p class="sub">Planificación del presupuesto: equipos ordenados por fin de garantía, con su depreciación y estado del proceso.</p>
+ <div class="bar"><select id="cp">${opts(PAISES,CX.p,"Todos los países")}</select><select id="ce">${opts(CXE,CX.e,"Estado CAPEX: todos")}</select><span class="sp1"></span><button class="bt sec" id="cx">Exportar a Excel</button></div>
+ <div class="tl4"><div class="kp"><b style="color:#a32d2d">${base.filter(e=>gar(e.gar).c==="bad").length}</b><span>Garantía vencida</span></div><div class="kp"><b style="color:#7a4a00">${base.filter(e=>gar(e.gar).c==="warn").length}</b><span>Vencen en 6 meses o menos</span></div><div class="kp"><b style="color:#1c6431">${base.filter(e=>gar(e.gar).c==="ok").length}</b><span>Vigentes</span></div><div class="kp"><b>${Object.values(D.capexEst).filter(v=>v==="Aprobado"||v==="Comprado").length}</b><span>Con reemplazo aprobado</span></div></div>
+ <div class="cd">${tabla(["Empleado","País / Depto.","Equipo","Fin de garantía","Depreciación","Estado CAPEX","Notas"],L.map(e=>{const g=gar(e.gar);const d=dep(e);return tr([`<b>${e.n}</b>`,e.pais+" / "+e.a,e.host+"<br><span class='hint'>"+e.mod+"</span>",`${e.gar}<br><span class="pill ${g.c}">${g.t}</span>`,`<div style="width:90px;background:#f0f0f0;border-radius:4px"><div style="height:8px;border-radius:4px;background:${d>=100?"#a32d2d":"#2a78d6"};width:${d}%"></div></div><span class="hint">${d} %</span>`,`<select data-ce="${e.id}">${opts(CXE,D.capexEst[e.id]||"Sin presupuestar")}</select>`,`<input data-cn="${e.id}" placeholder="Nota…" style="width:140px">`])}))}</div>`};
+INVB.capex=()=>{$("#cp").onchange=e=>{CX.p=e.target.value;render()};$("#ce").onchange=e=>{CX.e=e.target.value;render()};$("#cx").onclick=()=>toast("Se generaría el archivo de Excel (simulado).");$$("[data-ce]").forEach(s=>s.onchange=()=>{D.capexEst[s.dataset.ce]=s.value;toast("Estado CAPEX actualizado (simulado).");render()})};
+
+/* ---------- Usuarios ---------- */
+INV.usuarios=()=>`<h2>Usuarios</h2><p class="sub">Cuentas con acceso al sistema y su rol (técnico, coordinador, administrativo, RRHH…).</p><div class="bar"><span class="sp1"></span><button class="bt" id="un">Crear nuevo usuario</button></div><div class="cd">${tabla(["Nombre","Correo","Último acceso","Rol","Ficha de empleado vinculada","Estado"],D.usr.map(u=>tr([`<b>${u.n}</b>`,u.c,u.u,u.rol,u.fi,`<span class="pill ${u.e==="Activo"?"ok":"gray"}">${u.e}</span>`])))}</div>`;
+INVB.usuarios=()=>$("#un").onclick=()=>{const m=modal(`<h3>Crear nuevo usuario</h3><div class="fm" style="grid-template-columns:1fr 1fr">${fld("u_n","Nombre completo","text","Nombre Apellido")}${fld("u_c","Correo","email","nombre@ejemplo.com")}${sel("u_r","Rol",["Técnico","Coordinador","Administrativo","Recursos Humanos (RRHH) - altas y bajas"])}${sel("u_p","País",PAISES)}</div><p class="hint">En el sistema real la contraseña temporal se envía por correo y debe cambiarse al primer ingreso.</p><div class="bar" style="justify-content:flex-end"><button class="bt sec" id="x">Cancelar</button><button class="bt" id="ok">Crear usuario</button></div>`);$("#x",m).onclick=closeModal;$("#ok",m).onclick=()=>{if(!val("u_n").trim()){toast("Escribe el nombre.");return}D.usr.push({n:val("u_n"),c:val("u_c")||sinAc(val("u_n").split(" ")[0])+".demo@ejemplo.com",u:"Nunca",rol:val("u_r"),fi:"No",e:"Activo"});closeModal();toast("Usuario creado (simulado).");render()}};
+</script>
+<script>
+/* ===================== PORTAL · datos ===================== */
+const ME="Daniel Rivas";
+const PI={
+inicio:'<path d="M3 11l9-7 9 7" /><path d="M5 10v10h14V10" />',
+tareas:'<rect x="4" y="4" width="16" height="16" rx="3" /><path d="M8.5 12.5l2.5 2.5 4.5-5" />',
+tickets:'<path d="M4 7h16v3a2 2 0 000 4v3H4v-3a2 2 0 000-4z" /><path d="M14 7v10" />',
+inventario:'<rect x="3" y="4" width="18" height="12" rx="2" /><path d="M8 20h8" /><path d="M12 16v4" />',
+kpis:'<path d="M4 20V10" /><path d="M10 20V4" /><path d="M16 20v-7" /><path d="M22 20H2" />',
+whatsapp:'<path d="M20 12a8 8 0 01-11.6 7.1L4 20l1-4.2A8 8 0 1120 12z" /><path d="M9 10h6" /><path d="M9 13.5h4" />',
+campana:'<path d="M6 16V11a6 6 0 0112 0v5l1.5 2h-15z" /><path d="M10 20.5a2.2 2.2 0 004 0" />',
+tienda:'<path d="M4 9l1.5-5h13L20 9" /><path d="M4 9h16v2a2.5 2.5 0 01-4 2 2.5 2.5 0 01-4 0 2.5 2.5 0 01-4 0 2.5 2.5 0 01-4-2z" /><path d="M5 13v7h14v-7" /><path d="M10 20v-4h4v4" />',
+bodega:'<path d="M3 10l9-6 9 6v10H3z" /><path d="M7 20v-7h10v7" /><path d="M7 16h10" />',
+mas:'<path d="M12 5v14" /><path d="M5 12h14" />',
+sync:'<path d="M20 11a8 8 0 00-14.9-3.9" /><path d="M4 4v4h4" /><path d="M4 13a8 8 0 0014.9 3.9" /><path d="M20 20v-4h-4" />',
+externo:'<path d="M14 4h6v6" /><path d="M20 4l-9 9" /><path d="M18 14v5a1 1 0 01-1 1H5a1 1 0 01-1-1V7a1 1 0 011-1h5" />',
+clip:'<path d="M20 11.5l-7.8 7.8a5 5 0 01-7.1-7.1l8.5-8.5a3.3 3.3 0 014.7 4.7l-8.5 8.5a1.7 1.7 0 01-2.4-2.4l7.8-7.8" />'};
+const PV=[["inicio","Inicio","Resumen de tickets, tareas y notificaciones","Inicio","inicio"],["tareas","Mis tareas","Control centralizado de actividades","Mis tareas","tareas"],["tickets","Tickets Freshservice","Tickets asignados a ti y sin asignar","Tickets Freshservice","tickets"],["inventario","Inventario","Equipos, asignaciones y monitoreo","Inventario","inventario"],["tiendas","Tiendas","Responsable, teléfonos, Internet y equipo de cada tienda","Tiendas","tienda"],["vmi","Bodegas VMI","Responsable, teléfonos, Internet y equipo de cada VMI","VMI","bodega"],["kpis","Mis KPI","Indicadores de desempeño","Mis KPI","kpis"],["whatsapp","Asistente WhatsApp","Mensajes de empleados atendidos por el bot","Asistente WhatsApp","whatsapp"]];
+const P={tkTab:"mis",tkSel:null,tarTab:"tablero",waTab:"esp",waSel:null,kpi:"mes",invQ:"",invF:"todos",invSel:"GT-LT-0412",sit:{tiendas:0,vmi:0},bell:false};
+const PRI={Urgente:"crit",Alta:"warn",Media:"info",Baja:"neu"};
+const bd=(t,c)=>`<span class="bd ${c}">${t}</span>`;
+const priB=p=>bd(p,PRI[p]);
+const TK=[
+{id:3187,asunto:"No puedo conectarme a la VPN desde casa",sol:"Laura Pineda",sede:"Oficinas centrales",cat:"Redes y conectividad",pri:"Alta",e:"Abierto",asig:ME,h:1.5,eq:"GT-LT-0412",cre:"Hoy 07:48",hilo:[["en","Laura Pineda","Buenos días, desde ayer no logro conectarme a la VPN. Me aparece error de autenticación."],["sa",ME,"Hola Laura, ¿puedes confirmar si el error aparece con tu usuario y contraseña actuales?"]]},
+{id:3188,asunto:"Solicito un monitor adicional",sol:"Marco Aguilar",sede:"Sucursal San Salvador",cat:"Solicitud de equipo",pri:"Baja",e:"Abierto",asig:null,h:70,eq:"SV-LT-0102",cre:"Hoy 08:15",hilo:[["en","Marco Aguilar","Necesito un segundo monitor para trabajar con hojas de cálculo grandes."]]},
+{id:3189,asunto:"Impresora del segundo nivel sin conexión",sol:"Rosa Cifuentes",sede:"Oficinas centrales",cat:"Impresoras",pri:"Media",e:"Abierto",asig:ME,h:5,eq:null,cre:"Hoy 08:52",hilo:[["en","Rosa Cifuentes","La impresora del nivel 2 dejó de imprimir."],["pv",ME,"Revisado cableado; pendiente reinicio del switch."]]},
+{id:3190,asunto:"El correo no sincroniza en el celular",sol:"Pablo Reyes",sede:"Planta Managua",cat:"Correo",pri:"Media",e:"Pendiente",asig:ME,h:26,eq:null,cre:"Ayer 16:20",hilo:[["en","Pablo Reyes","Desde el lunes no me llegan correos al celular."],["sa",ME,"Quedo pendiente de tu respuesta con la versión de la aplicación."]]},
+{id:3191,asunto:"Equipo lento al iniciar sesión",sol:"Karen Soto",sede:"Centro de distribución",cat:"Hardware",pri:"Media",e:"Abierto",asig:null,h:-2,eq:"HN-DT-0061",cre:"Ayer 11:05",hilo:[["en","Karen Soto","La computadora tarda más de 10 minutos en iniciar."]]},
+{id:3192,asunto:"Alta de usuario para nuevo ingreso",sol:"Daniela Ortiz",sede:"Oficinas centrales",cat:"Altas y bajas",pri:"Alta",e:"Abierto",asig:ME,h:8,eq:"GT-LT-0455",cre:"Hoy 09:30",hilo:[["en","Daniela Ortiz","Adjunto la solicitud de alta de Lucía Barrios."]]},
+{id:3170,asunto:"Cambio de teclado",sol:"Sofía Hernández",sede:"Sucursal San Salvador",cat:"Periféricos",pri:"Baja",e:"Resuelto",asig:ME,h:null,eq:"SV-LT-0102",cre:"12 nov",hilo:[["en","Sofía Hernández","Dos teclas no funcionan."],["sa",ME,"Entregamos teclado nuevo, ¡gracias!"]]},
+{id:3165,asunto:"Instalar Adobe Acrobat",sol:"Carlos Méndez",sede:"Oficinas centrales",cat:"Software",pri:"Baja",e:"Resuelto",asig:ME,h:null,eq:"GT-DT-0188",cre:"10 nov",hilo:[["en","Carlos Méndez","Necesito Acrobat para firmar PDFs."],["sa",ME,"Instalado y probado."]]}];
+const slaTxt=t=>t.e==="Resuelto"?"Resuelto":t.h<0?`SLA vencido hace ${Math.ceil(-t.h)} h`:t.h<24?`Vence en ${Math.round(t.h)} h`:`Vence en ${Math.round(t.h/24)} d`;
+const slaRk=t=>t.e!=="Resuelto"&&t.h!=null&&t.h<4;
+const TAREAS=[
+{id:1,t:"Revisión de garantías para CAPEX 2027",d:"Listar equipos con garantía vencida o por vencer y preparar el reemplazo.",e:"pend",pri:"Alta",or:"Asignada por jefatura",v:"2026-11-25",sub:[["Exportar garantías del inventario",true],["Clasificar por país",false],["Enviar lista a jefatura",false]],ev:[],obs:[]},
+{id:2,t:"Actualizar agente de monitoreo en sucursal",d:"Verificar versión instalada y reportar equipos sin agente.",e:"prog",pri:"Media",or:"Manual",v:"2026-11-20",sub:[["Verificar versión en 10 equipos",true],["Reinstalar en los que fallen",false]],ev:[["captura-versiones.png","PNG"]],obs:["Faltan 2 equipos por conectarse."]},
+{id:3,t:"Revisión de salas de reuniones",d:"Marcar cada sala al revisarla; cualquier técnico del país puede completarla.",e:"rev",pri:"Media",or:"Rutina compartida",v:"2026-11-18",sub:[["Sala 1",true],["Sala 2",true],["Sala 3",true],["Sala 4",true],["Sala 5",true],["Sala 6",true]],ev:[["fotos-salas.pdf","PDF"]],obs:[]},
+{id:4,t:"Mantenimiento preventivo de impresoras",d:"Limpieza, niveles y prueba de impresión.",e:"hecha",pri:"Baja",or:"Rutina",v:"2026-11-14",sub:[["Limpieza",true],["Niveles de tóner",true],["Prueba de impresión",true]],ev:[["bitacora.xlsx","XLS"]],obs:["Cambiado tóner negro en nivel 2."]},
+{id:5,t:"Preparar equipo para nuevo ingreso",d:"Instalar programas base y registrar el equipo en el inventario.",e:"pend",pri:"Urgente",or:"Ticket #3192",v:"2026-11-19",sub:[["Imagen del sistema",false],["Programas base",false],["Registrar en inventario",false]],ev:[],obs:[]}];
+const RUT=[["Revisión de salas de reuniones","Semanal · lunes","Lun 23 nov","Compartida (Guatemala)","Activa"],["Mantenimiento preventivo de impresoras","Mensual · día 14","14 dic","Daniel Rivas","Activa"],["Respaldo de configuración de switches","Mensual · día 1","1 dic","Daniel Rivas","Activa"],["Revisión de UPS del cuarto de servidores","Trimestral","15 ene","Compartida (Guatemala)","Activa"],["Inventario físico de bodega","Semestral","1 mar","Daniel Rivas","Pausada"]];
+const PLT=[["Alta de colaborador","Preparar equipo, cuenta, correo y licencias.","Media",["Preparar equipo","Crear cuenta y correo","Asignar licencias","Entregar y firmar carta"]],["Baja de colaborador","Recibir equipo, respaldar y dar de baja cuentas.","Media",["Recibir equipo","Realizar respaldo","Baja de licencia y directorio"]],["Visita a sucursal","Revisión general de red, equipos e impresoras.","Baja",["Revisar red","Revisar equipos","Revisar impresoras","Reporte de visita"]],["Mantenimiento preventivo de equipos","Limpieza y revisión de hardware y software.","Baja",["Limpieza física","Actualizaciones","Verificar respaldo"]]];
+const ASIG=[["Revisión de cámaras de la tienda","Marta Quintanilla","En progreso","2026-11-22"],["Cambio de switch en bodega","Ernesto Lara","Pendiente","2026-11-27"]];
+const APROB=[{id:101,t:"Mantenimiento de equipos de Contabilidad",de:"Marta Quintanilla",v:"2026-11-17"},{id:102,t:"Configuración de router en sucursal",de:"Ernesto Lara",v:"2026-11-18"}];
+const NOTIFS=[["Nuevo ticket asignado","#3192 · Alta de usuario para nuevo ingreso","hace 12 min","tickets",true],["Tarea devuelta por jefatura","Revisión de salas de reuniones","hace 1 h","tareas",true],["WhatsApp esperando técnico","Empleado solicita ayuda con la VPN","hace 2 h","whatsapp",false],["SLA por vencer","#3189 · Impresora del segundo nivel sin conexión","hace 3 h","tickets",false]];
+const SITIOS={tiendas:[
+{n:"Tienda Plaza Aurora",resp:"Jorge Alberto Salazar",tel:"2222-0101",alt:"Mónica Ruiz · 2222-0102",dir:"Plaza Aurora, local 12",hor:"L-D 10:00 a 20:00",prov:"Proveedor A",ids:"INT-33011",ip:"190.0.0.11",eq:[["Router","Router principal","RT-1001"],["Switch","Switch de 8 puertos","SW-1001"],["POS / Caja","Caja 1","POS-1001"],["Cámara / DVR","DVR 8 canales","DVR-1001"]],act:true},
+{n:"Tienda Mall Cumbres",resp:"Karla Midence",tel:"2222-0201",alt:"—",dir:"Mall Cumbres, nivel 2",hor:"L-D 10:00 a 21:00",prov:"Proveedor B",ids:"INT-33027",ip:"190.0.0.27",eq:[["Router","Router principal","RT-1002"],["POS / Caja","Caja 1","POS-1002"],["POS / Caja","Caja 2","POS-1003"],["Access point","AP salón","AP-1002"]],act:true},
+{n:"Tienda Centro Cívico",resp:"Ernesto Lara",tel:"2222-0301",alt:"Rosa Cifuentes · 2222-0302",dir:"Centro Cívico, 5.ª avenida",hor:"L-S 09:00 a 19:00",prov:"Proveedor A",ids:"INT-33040",ip:"Dinámica",eq:[["Router","Router principal","RT-1003"],["POS / Caja","Caja 1","POS-1004"]],act:true},
+{n:"Tienda Paseo Real",resp:"Marco Aguilar",tel:"2222-0401",alt:"—",dir:"Paseo Real, local 3",hor:"L-D 10:00 a 20:00",prov:"Proveedor C",ids:"INT-33058",ip:"190.0.0.58",eq:[["Router","Router principal","RT-1004"],["Switch","Switch de 8 puertos","SW-1004"],["Impresora","Impresora de recibos","IMP-1004"]],act:true},
+{n:"Tienda Villa Verde",resp:"Pablo Reyes",tel:"2222-0501",alt:"—",dir:"Villa Verde, calle principal",hor:"L-S 09:00 a 18:00",prov:"Proveedor B",ids:"INT-33066",ip:"Dinámica",eq:[["Router","Router principal","RT-1005"]],act:false}],
+vmi:[
+{n:"VMI Parque Norte",resp:"Luis Fernando Castro",tel:"2333-0101",alt:"Turno nocturno · 2333-0102",dir:"Parque Industrial Norte, bodega 4",hor:"L-S 06:00 a 18:00",prov:"Proveedor A",ids:"INT-44010",ip:"200.0.0.10",eq:[["Router","Router principal","RT-2001"],["Switch","Switch de 16 puertos","SW-2001"],["Access point","AP bodega","AP-2001"],["Cámara / DVR","DVR 16 canales","DVR-2001"]],act:true},
+{n:"VMI Zona Franca",resp:"Karla Midence",tel:"2333-0201",alt:"—",dir:"Zona Franca, módulo 7",hor:"L-S 06:00 a 18:00",prov:"Proveedor B",ids:"INT-44022",ip:"200.0.0.22",eq:[["Router","Router principal","RT-2002"],["Switch","Switch de 8 puertos","SW-2002"]],act:true},
+{n:"VMI Puerto",resp:"Ricardo Flores",tel:"2333-0301",alt:"—",dir:"Zona portuaria, patio 2",hor:"L-V 07:00 a 17:00",prov:"Proveedor A",ids:"INT-44031",ip:"Dinámica",eq:[["Router","Router principal","RT-2003"]],act:true}]};
+const KP={sem:{res:11,sla:96,rh:3.8,cs:4.7,asg:4,com:3,ati:100,dev:0,vis:1,t:"Esta semana"},mes:{res:46,sla:94,rh:4.2,cs:4.6,asg:15,com:13,ati:92,dev:7,vis:5,t:"Este mes"},tri:{res:138,sla:93,rh:4.6,cs:4.5,asg:41,com:37,ati:90,dev:8,vis:14,t:"Últimos 3 meses"}};
+const EQP=[["Daniel Rivas",46,94,4.2,4.6,92],["Marta Quintanilla",52,91,5.1,4.4,88],["Ernesto Lara",39,96,3.9,4.8,95],["Karla Midence",41,89,5.6,4.3,85]];
+let CONV=[
+{id:1,n:"Laura Pineda",tel:"+502 5555-0101",pais:"Guatemala",e:"esp",tk:null,res:"La empleada reporta que no puede conectarse a la VPN. El bot sugirió reiniciar el cliente VPN sin éxito y escaló a un técnico.",m:[["en","Hola, no puedo entrar a la VPN"],["bot","¡Hola Laura! Soy el asistente de Soporte. Intenta cerrar y abrir el cliente VPN. ¿Se resolvió?"],["en","No, sigue igual"],["bot","Entiendo. Te paso con un técnico de tu país."]]},
+{id:2,n:"Pablo Reyes",tel:"+505 8700-0108",pais:"Nicaragua",e:"tec",tk:"#3190",res:"Problema de sincronización de correo en el celular; ya tiene ticket abierto.",m:[["en","¿Ya vieron lo de mi correo?"],["sa","Hola Pablo, estoy con tu caso #3190. ¿Qué versión de la aplicación tienes?"],["en","La 4.2, creo"]]},
+{id:3,n:"Marco Aguilar",tel:"+503 7000-0103",pais:"El Salvador",e:"bot",tk:null,res:"Consulta sobre el estado de una solicitud de monitor; el bot la está atendiendo.",m:[["en","¿Cómo va mi solicitud de monitor?"],["bot","Tu solicitud #3188 está en revisión. Te avisaré cuando cambie de estado."]]},
+{id:4,n:"Sofía Hernández",tel:"+503 7000-0109",pais:"El Salvador",e:"cer",tk:"#3170",res:"Cambio de teclado resuelto y confirmado por la empleada.",m:[["en","Ya funciona el teclado, gracias"],["bot","¡Perfecto! Cerramos tu caso. Que tengas buen día."]]},
+{id:5,n:"Número sin identificar",tel:"+502 4444-0099",pais:"—",e:"esp",tk:null,res:"El número no está registrado en el inventario; el bot pidió identificarse.",m:[["en","Necesito ayuda con mi laptop"],["bot","¿Me indicas tu nombre completo y tu correo corporativo?"],["en","Prefiero hablar con alguien"]]}];
+const nTkMis=()=>TK.filter(t=>t.asig===ME&&t.e!=="Resuelto").length;
+const nTar=()=>TAREAS.filter(t=>t.e!=="hecha").length;
+const nWa=()=>CONV.filter(c=>c.e==="esp").length;
+
+/* ===================== PORTAL · marco ===================== */
+function porShell(){
+ const v=view.por,it=PV.find(x=>x[0]===v)||PV[0];const cnt={tareas:nTar(),tickets:nTkMis(),whatsapp:nWa()};
+ return `<div class="app por"><aside class="sb"><div class="brand"><img src="../img/logo-yh-96.png" alt=""><div><strong>Soporte Técnico</strong><span>Portal del técnico · demo</span></div></div>
+ <nav class="nav">${PV.map(m=>`<button class="ni ${v===m[0]?"on":""}" data-v="${m[0]}">${ico(PI[m[4]])}<span>${m[3]}</span>${cnt[m[0]]?`<span class="nc">${cnt[m[0]]}</span>`:""}</button>`).join("")}</nav>
+ <div class="uc"><span class="av">DR</span><div style="min-width:0"><div class="n">${ME}</div><div class="r">Técnico</div></div><button id="salir">Salir</button></div></aside>
+ <main class="mn"><header class="tb"><div style="margin-right:auto"><h1>${it[1]}</h1><div class="s">${it[2]}</div></div><div class="tbw"><button class="ib" id="pbell" aria-label="Notificaciones">${ico(PI.campana,22)}<i>${NOTIFS.filter(n=>n[4]).length}</i></button></div></header><div class="ct">${(POR[v]||POR.inicio)()}</div></main></div>`;
+}
+function porChrome(){
+ const s=$("#salir");if(!s)return;s.onclick=()=>toast("En la demo no hay sesión: en el portal real aquí se cierra la sesión.");
+ $("#pbell").onclick=()=>{const w=$(".tbw");const ex=$(".pnl",w);if(ex){ex.remove();return}
+  const d=document.createElement("div");d.className="cd pnl";d.innerHTML=`<div class="ch"><h3>Notificaciones</h3><button class="lb" id="mk">Marcar todas como leídas</button></div>${NOTIFS.map((n,i)=>`<button class="lbt ${n[4]?"nl":""}" data-n="${i}"><span style="display:flex;flex-direction:column;gap:2px"><b>${n[0]}</b><span>${n[1]}</span><span class="mt">${n[2]}</span></span></button>`).join("")}`;w.appendChild(d);
+  $("#mk",d).onclick=()=>{NOTIFS.forEach(n=>n[4]=false);render()};$$("[data-n]",d).forEach(b=>b.onclick=()=>{const n=NOTIFS[+b.dataset.n];n[4]=false;go(n[3])})};
+}
+
+/* ---------- Inicio ---------- */
+POR.inicio=()=>{
+ const ab=TK.filter(t=>t.asig===ME&&t.e!=="Resuelto"),rk=ab.filter(slaRk).length,pend=TAREAS.filter(t=>t.e!=="hecha");
+ return `<div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 16px"><h2 style="margin:0;font-size:24px;color:var(--hd)">Buenas tardes, ${ME.split(" ")[0]}</h2><span class="mt" style="font-size:14px">miércoles, 18 de noviembre · tu centro de trabajo del día</span></div>
+ <div class="gt"><button class="tile" data-go="tickets"><span class="l">Tickets asignados abiertos</span><span class="num">${ab.length}</span><span class="no ${rk?"al":""}">${rk?rk+" con SLA vencido o por vencer":"Sin SLA en riesgo"}</span></button>
+ <button class="tile" data-go="tareas"><span class="l">Tareas pendientes</span><span class="num">${pend.length}</span><span class="no">${TAREAS.filter(t=>t.e==="hecha").length+4} completadas en los últimos 7 días</span></button>
+ <button class="tile" data-go="kpis"><span class="l">Mis KPI</span><span class="num">${ico(PI.kpis,30)}</span><span class="no">Resueltos, SLA, tiempos y satisfacción</span></button>
+ <button class="tile" data-go="whatsapp"><span class="l">WhatsApp esperando técnico</span><span class="num">${nWa()}</span><span class="no ${nWa()?"al":""}">${nWa()?"Empleados esperando respuesta":"Nadie esperando"}</span></button></div>
+ <div class="gp">
+ <section class="cd"><div class="ch"><h3>Notificaciones</h3><button class="lb" data-go="tickets">Ver tickets</button></div>${NOTIFS.map(n=>`<button class="lbt ${n[4]?"nl":""}" data-go="${n[3]}"><span style="display:flex;flex-direction:column;gap:2px"><b>${n[0]}</b><span>${n[1]}</span><span class="mt">${n[2]}</span></span></button>`).join("")}</section>
+ <section class="cd"><div class="ch"><h3>Tickets con SLA más próximo</h3><button class="lb" data-go="tickets">Ver todos</button></div>${[...ab].sort((a,b)=>a.h-b.h).slice(0,5).map(t=>`<button class="lbt" data-tk="${t.id}">${priB(t.pri)}<span style="display:flex;flex-direction:column;gap:2px;min-width:0"><span><span class="cod">#${t.id}</span> ${t.asunto}</span><span class="mt ${slaRk(t)?"rk":""}">${slaTxt(t)} · ${t.sol}</span></span></button>`).join("")||`<p class="vac">No tienes tickets abiertos.</p>`}</section>
+ <section class="cd"><div class="ch"><h3>Mis tareas</h3><button class="lb" data-go="tareas">Ver todas</button></div>${pend.slice(0,5).map(t=>`<div style="display:flex;align-items:center;gap:12px;padding:12px 16px;border-top:1px solid var(--bd)"><button class="ck" data-tr="${t.id}">${ico(PI.tareas,16)}</button><div style="flex:1;min-width:0"><div style="font-weight:500">${t.t}</div><div class="mt">${t.or} · vence ${fmtF(new Date(t.v+"T12:00"))}</div></div>${priB(t.pri)}</div>`).join("")||`<p class="vac">No tienes tareas pendientes.</p>`}</section></div>`;
+};
+PORB.inicio=()=>{$$("[data-go]").forEach(b=>b.onclick=()=>go(b.dataset.go));$$("[data-tk]").forEach(b=>b.onclick=()=>{P.tkSel=+b.dataset.tk;P.tkTab="todos";go("tickets")});$$("[data-tr]").forEach(b=>b.onclick=()=>{go("tareas");fichaTarea(+b.dataset.tr)})};
+
+/* ---------- Mis tareas ---------- */
+const COLS=[["pend","Pendientes"],["prog","En progreso"],["rev","En revisión"],["hecha","Completadas"]];
+POR.tareas=()=>{
+ const T=[["tablero","Tablero"],["rutinas","Rutinas y preventivos"],["plantillas","Plantillas"],["asignadas","Asignadas por mí"],["aprobar","Por aprobar"]];
+ const tabs=`<div class="tabs" role="group" aria-label="Vista de tareas">${T.map(t=>`<button class="tab ${P.tarTab===t[0]?"on":""}" data-tt="${t[0]}">${t[1]}${t[0]==="aprobar"&&APROB.length?` (${APROB.length})`:""}</button>`).join("")}</div>`;
+ let c="";
+ if(P.tarTab==="tablero")c=`<section class="cd" style="padding:16px"><div class="eb" style="margin-bottom:8px">Nueva tarea</div><div style="display:flex;gap:10px;flex-wrap:wrap"><input id="nt" class="inp" style="flex:1 1 280px;width:auto" placeholder="Ej. Revisar UPS del cuarto de servidores"><select id="np" class="inp" style="width:auto"><option>Media</option><option>Urgente</option><option>Alta</option><option>Baja</option></select><button class="btn pri" id="add">${ico(PI.mas,16)} Agregar</button></div></section>
+ <div class="kb">${COLS.map(k=>`<div class="co"><h2>${k[1]} · ${TAREAS.filter(t=>t.e===k[0]).length}</h2>${TAREAS.filter(t=>t.e===k[0]).map(t=>`<button class="tr ${t.e==="hecha"?"hc":""}" data-ft="${t.id}"><span class="tt" style="font-weight:600">${t.t}</span><span class="mt">${t.or} · vence ${fmtF(new Date(t.v+"T12:00"))}</span><span style="display:flex;gap:6px;flex-wrap:wrap">${priB(t.pri)}${bd(t.sub.filter(s=>s[1]).length+"/"+t.sub.length+" subtareas","neu")}${t.ev.length?bd(ico(PI.clip,12)+t.ev.length,"info"):""}</span></button>`).join("")||`<p class="mt">Nada por aquí.</p>`}</div>`).join("")}</div>`;
+ if(P.tarTab==="rutinas")c=`<section class="cd"><div class="ch"><h3>Rutinas y preventivos</h3><span class="mt">Se generan solas como tareas en su fecha</span></div><div class="tabla"><div class="thd" style="grid-template-columns:2fr 1.2fr 1fr 1.4fr 90px 130px"><span>Rutina</span><span>Frecuencia</span><span>Próxima</span><span>Asignada a</span><span>Estado</span><span></span></div>${RUT.map((r,i)=>`<div class="fila" style="grid-template-columns:2fr 1.2fr 1fr 1.4fr 90px 130px"><b>${r[0]}</b><span>${r[1]}</span><span>${r[2]}</span><span>${r[3]}</span>${bd(r[4],r[4]==="Activa"?"good":"neu")}<button class="btn sm" data-rg="${i}" ${r[4]!=="Activa"?"disabled":""}>Generar ahora</button></div>`).join("")}</div></section>`;
+ if(P.tarTab==="plantillas")c=`<div class="gp">${PLT.map((p,i)=>`<section class="cd" style="padding:16px;display:flex;flex-direction:column;gap:10px"><div style="display:flex;justify-content:space-between;gap:8px"><b style="font-size:15px;color:var(--hd)">${p[0]}</b>${priB(p[2])}</div><span class="mt" style="font-size:13px">${p[1]}</span><ul style="margin:0;padding-left:18px;font-size:13px;color:var(--tx2)">${p[3].map(s=>`<li>${s}</li>`).join("")}</ul><button class="btn sm" data-pl="${i}" style="align-self:flex-start">Crear tarea desde la plantilla</button></section>`).join("")}</div>`;
+ if(P.tarTab==="asignadas")c=`<section class="cd"><div class="ch"><h3>Tareas abiertas que asignaste al equipo</h3></div>${ASIG.map(a=>`<div class="lbt" style="cursor:default"><span style="flex:1"><b>${a[0]}</b><br><span class="mt">Asignada a ${a[1]} · vence ${fmtF(new Date(a[3]+"T12:00"))}</span></span>${bd(a[2],a[2]==="Pendiente"?"neu":"info")}</div>`).join("")}</section>`;
+ if(P.tarTab==="aprobar")c=`<section class="cd"><div class="ch"><h3>Tareas del equipo esperando tu visto bueno</h3></div>${APROB.map(a=>`<div class="lbt" style="cursor:default;align-items:center;flex-wrap:wrap"><span style="flex:1;min-width:200px"><b>${a.t}</b><br><span class="mt">Enviada por ${a.de} · vence ${fmtF(new Date(a.v+"T12:00"))}</span></span><button class="btn sm" data-ap="${a.id}:d">Devolver</button><button class="btn pri sm" data-ap="${a.id}:a">Aprobar</button></div>`).join("")||`<p class="vac">No hay tareas por aprobar.</p>`}</section>`;
+ return tabs+c;
+};
+PORB.tareas=()=>{
+ $$("[data-tt]").forEach(b=>b.onclick=()=>{P.tarTab=b.dataset.tt;render()});
+ $$("[data-ft]").forEach(b=>b.onclick=()=>fichaTarea(+b.dataset.ft));
+ const add=$("#add");if(add)add.onclick=()=>{const v=val("nt").trim();if(!v){toast("Escribe el nombre de la tarea.");return}TAREAS.push({id:Date.now(),t:v,d:"Creada desde la demo.",e:"pend",pri:val("np"),or:"Manual",v:"2026-11-30",sub:[],ev:[],obs:[]});toast("Tarea agregada. Completa su ficha con detalles y subtareas.");render()};
+ $$("[data-rg]").forEach(b=>b.onclick=()=>{const r=RUT[+b.dataset.rg];TAREAS.push({id:Date.now(),t:r[0],d:"Generada desde la rutina «"+r[1]+"».",e:"pend",pri:"Media",or:"Rutina",v:"2026-11-24",sub:[["Revisión completa",false]],ev:[],obs:[]});toast("Tarea generada en el tablero.")});
+ $$("[data-pl]").forEach(b=>b.onclick=()=>{const p=PLT[+b.dataset.pl];TAREAS.push({id:Date.now(),t:p[0],d:p[1],e:"pend",pri:p[2],or:"Plantilla",v:"2026-11-26",sub:p[3].map(s=>[s,false]),ev:[],obs:[]});toast("Tarea creada con sus subtareas.")});
+ $$("[data-ap]").forEach(b=>b.onclick=()=>{const[id,a]=b.dataset.ap.split(":");const i=APROB.findIndex(x=>x.id==+id);APROB.splice(i,1);toast(a==="a"?"Tarea aprobada y completada.":"Tarea devuelta al técnico con tus observaciones.");render()});
+};
+function fichaTarea(id){
+ const t=TAREAS.find(x=>x.id===id);const sig={pend:["Iniciar","prog"],prog:["Enviar a revisión","rev"],rev:["Aprobar y completar","hecha"],hecha:["Reabrir","pend"]}[t.e];
+ const m=modal(`<div style="display:flex;justify-content:space-between;gap:10px;align-items:flex-start"><div><div class="eb">${t.or}</div><h3 style="margin:2px 0 0;font-size:19px;color:var(--hd)">${esc(t.t)}</h3></div><button class="btn sm" id="x">Cerrar</button></div>
+ <div style="display:flex;gap:8px;flex-wrap:wrap">${priB(t.pri)}${bd(COLS.find(c=>c[0]===t.e)[1],t.e==="hecha"?"good":t.e==="rev"?"warn":"info")}${bd("Vence "+fmtF(new Date(t.v+"T12:00")),"neu")}</div>
+ <div class="cs"><span class="eb">Descripción</span>${esc(t.d)}</div>
+ <div><div class="eb" style="margin-bottom:6px">Subtareas</div><div id="sbs">${t.sub.map((s,i)=>`<label class="sbt ${s[1]?"dn2":""}"><input type="checkbox" data-s="${i}" ${s[1]?"checked":""}><span>${esc(s[0])}</span></label>`).join("")||`<span class="mt">Sin subtareas.</span>`}</div></div>
+ <div><div class="eb" style="margin-bottom:6px">Evidencias</div><div style="display:grid;gap:8px">${t.ev.map(e=>`<div class="evd"><i>${e[1]}</i><div><b style="font-size:13px">${e[0]}</b><div class="mt">Subida por ${ME}</div></div></div>`).join("")||`<span class="mt">Aún no hay evidencias.</span>`}<button class="btn sm" id="sub" style="align-self:flex-start;justify-self:start">${ico(PI.clip,14)} Subir evidencia</button></div></div>
+ <div><div class="eb" style="margin-bottom:6px">Observaciones</div>${t.obs.map(o=>`<div class="cs" style="margin-bottom:6px">${esc(o)}</div>`).join("")}<textarea class="inp" id="ob" placeholder="Escribe una observación…" style="min-height:64px"></textarea><button class="btn sm" id="oba" style="margin-top:6px">Agregar observación</button></div>
+ <div class="ax" style="margin-top:auto">${t.e==="rev"?`<button class="btn" id="dev">Devolver</button>`:""}<button class="btn pri" id="mv">${sig[0]}</button></div>`,"dr");
+ $("#x",m).onclick=closeModal;
+ $$("[data-s]",m).forEach(c=>c.onchange=()=>{t.sub[+c.dataset.s][1]=c.checked;c.closest("label").classList.toggle("dn2",c.checked)});
+ $("#sub",m).onclick=()=>{t.ev.push(["evidencia-"+(t.ev.length+1)+".png","PNG"]);toast("Evidencia adjuntada (simulado).");fichaTarea(id);render()};
+ $("#oba",m).onclick=()=>{const v=val("ob").trim();if(!v){toast("Escribe la observación primero.");return}t.obs.push(v);fichaTarea(id)};
+ const dv=$("#dev",m);if(dv)dv.onclick=()=>{t.e="prog";closeModal();toast("Tarea devuelta a «En progreso».");render()};
+ $("#mv",m).onclick=()=>{t.e=sig[1];closeModal();toast(sig[1]==="hecha"?"Tarea completada.":sig[1]==="rev"?"Enviada a revisión de la jefatura.":"Tarea actualizada.");render()};
+}
+
+/* ---------- Tickets ---------- */
+const TKTABS=[["mis","Mis abiertos",t=>t.asig===ME&&t.e!=="Resuelto"],["sin","Sin asignar",t=>!t.asig&&t.e!=="Resuelto"],["pend","Pendientes",t=>t.e==="Pendiente"],["res","Resueltos (30 días)",t=>t.e==="Resuelto"],["todos","Todos (30 días)",()=>true]];
+const estB=e=>bd(e,e==="Abierto"?"info":e==="Pendiente"?"warn":"good");
+POR.tickets=()=>{
+ const f=TKTABS.find(x=>x[0]===P.tkTab),L=TK.filter(f[2]),t=TK.find(x=>x.id===P.tkSel);
+ const cols="92px minmax(200px,2fr) minmax(150px,1.1fr) 104px 130px";
+ return `<div class="tabs" role="group" aria-label="Filtrar tickets">${TKTABS.map(x=>`<button class="tab ${P.tkTab===x[0]?"on":""}" data-tt="${x[0]}">${x[1]} (${TK.filter(x[2]).length})</button>`).join("")}<span style="margin-left:auto"></span><button class="btn sm" id="act">${ico(PI.sync,15)} Actualizar</button></div>
+ <div class="split"><section class="cd pn"><div class="ch"><h3>Freshservice</h3><span class="mt">${L.length} ticket(s)</span></div><div class="tabla"><div class="thd" style="grid-template-columns:${cols}"><span>Ticket</span><span>Asunto</span><span>Solicitante</span><span>Prioridad</span><span>SLA</span></div>${L.map(x=>`<button class="fila ${x.id===P.tkSel?"on":""}" data-t="${x.id}" style="grid-template-columns:${cols}"><span class="cod">#${x.id}</span><span>${x.asunto}${x.asig?"":` <span class="mt">· sin asignar</span>`}</span><span>${x.sol}<br><span class="mt">${x.sede}</span></span>${priB(x.pri)}<span class="${slaRk(x)?"rk":"mt"}">${slaTxt(x)}</span></button>`).join("")||`<p class="vac">No hay tickets en esta vista.</p>`}</div></section>
+ <aside class="lt">${t?detalleTk(t):`<section class="cd" style="padding:20px"><p class="mt" style="margin:0;font-size:13px">Selecciona un ticket para ver el detalle, la conversación y el equipo del solicitante en el Inventario.</p></section>`}</aside></div>`;
+};
+function detalleTk(t){
+ const e=t.eq?D.emp.find(x=>x.host===t.eq):null,res=t.e==="Resuelto";
+ return `<section class="cd" style="padding:16px;display:flex;flex-direction:column;gap:14px"><div><div class="eb">Ticket</div><h3 style="margin:2px 0 6px;font-size:16px;color:var(--hd)"><span class="cod">#${t.id}</span> ${esc(t.asunto)}</h3><div style="display:flex;gap:6px;flex-wrap:wrap">${estB(t.e)} ${priB(t.pri)}</div></div>
+ <dl class="fi"><dt>Solicitante</dt><dd>${t.sol}</dd><dt>Sede</dt><dd>${t.sede}</dd><dt>Categoría</dt><dd>${t.cat}</dd><dt>Asignado a</dt><dd>${t.asig||"Sin asignar"}</dd><dt>SLA</dt><dd class="${slaRk(t)?"rk":""}">${slaTxt(t)}</dd><dt>Creado</dt><dd>${t.cre}</dd></dl>
+ <div class="cs"><span class="eb">Equipo en Inventario</span>${e?`<b>${e.host}</b> · ${e.mod}<span class="mt">Serie ${e.serie} · ${e.on?"En línea":"Desconectado"}</span><button class="lb" id="veq" style="align-self:flex-start">Ver ficha del equipo</button>`:`<span class="mt">No registrada en Inventario</span>`}</div>
+ <div class="ax">${!res&&t.asig!==ME?`<button class="btn pri sm" data-a="tomar">Tomar ticket</button>`:""}${!res&&t.e==="Abierto"?`<button class="btn sm" data-a="pend">Marcar pendiente</button>`:""}${!res&&t.e==="Pendiente"?`<button class="btn sm" data-a="abrir">Volver a abierto</button>`:""}${!res?`<button class="btn sm" data-a="res">Marcar resuelto</button>`:`<button class="btn sm" data-a="reabrir">Reabrir</button>`}<button class="btn sm" data-a="tarea">Crear tarea</button></div>
+ <div><div class="eb" style="margin-bottom:6px">Conversación</div><div class="hilo">${t.hilo.map(h=>`<div class="bz ${h[0]}"><span class="m">${h[0]==="pv"?"Nota privada · ":""}${h[1]}</span>${esc(h[2])}</div>`).join("")}</div></div>
+ <div><label class="lbl" for="msg">Escribir en el ticket</label><textarea class="inp" id="msg" placeholder="Nota interna o respuesta al solicitante"></textarea><div class="ax" style="margin-top:8px"><button class="btn sm" id="npv">Agregar nota privada</button><button class="btn pri sm" id="rsp">Responder al solicitante</button></div></div></section>`;
+}
+PORB.tickets=()=>{
+ $$("[data-tt]").forEach(b=>b.onclick=()=>{P.tkTab=b.dataset.tt;render()});$$("[data-t]").forEach(b=>b.onclick=()=>{P.tkSel=+b.dataset.t;render()});
+ $("#act").onclick=()=>toast("Tickets actualizados desde Freshservice (simulado).");
+ const t=TK.find(x=>x.id===P.tkSel);if(!t)return;
+ const v=$("#veq");if(v)v.onclick=()=>{P.invSel=t.eq;go("inventario")};
+ $$("[data-a]").forEach(b=>b.onclick=()=>{const a=b.dataset.a;
+  if(a==="tarea"){TAREAS.push({id:Date.now(),t:"Ticket #"+t.id+": "+t.asunto,d:"Tarea creada desde el ticket.",e:"pend",pri:t.pri,or:"Ticket #"+t.id,v:"2026-11-20",sub:[],ev:[],obs:[]});toast("Tarea creada desde #"+t.id+".");render();return}
+  if(a==="tomar"){t.asig=ME;toast("Ticket #"+t.id+" asignado a ti (simulado).")}
+  if(a==="pend"){t.e="Pendiente";toast("Ticket en pendiente (simulado).")}
+  if(a==="abrir"){t.e="Abierto"}
+  if(a==="res"){t.e="Resuelto";KP.mes.res++;KP.sem.res++;toast("Ticket #"+t.id+" resuelto; se sumó a tus KPI (simulado).")}
+  if(a==="reabrir"){t.e="Abierto";toast("Ticket reabierto.")}
+  render()});
+ $("#npv").onclick=()=>{const x=val("msg").trim();if(!x){toast("Escribe la nota primero.");return}t.hilo.push(["pv",ME,x]);render()};
+ $("#rsp").onclick=()=>{const x=val("msg").trim();if(!x){toast("Escribe la respuesta primero.");return}t.hilo.push(["sa",ME,x]);toast("Respuesta enviada a "+t.sol+" (simulado).");render()};
+};
+
+/* ---------- Inventario (portal) ---------- */
+function eqLista(){return D.emp.map(e=>({host:e.host,mod:e.mod,serie:e.serie,asig:e.n,est:"En Uso",on:e.on,vis:e.vis,e,sede:e.sede,gar:e.gar})).concat(D.disp.filter(d=>d.e==="En Bodega").map(d=>({host:d.host,mod:d.m,serie:d.ser,asig:"Sin asignar",est:"En Bodega",on:null,vis:"—",e:null,sede:d.pais+" · bodega",gar:"2028-06"})))}
+POR.inventario=()=>{
+ const q=sinAc(P.invQ),L=eqLista().filter(x=>(P.invF==="todos"||(P.invF==="uso"?x.est==="En Uso":P.invF==="bod"?x.est==="En Bodega":x.on===false))&&sinAc(x.asig+x.serie+x.mod+x.host).includes(q));
+ const s=eqLista().find(x=>x.host===P.invSel),cols="130px minmax(170px,1.3fr) minmax(150px,1.2fr) 100px 120px";
+ return `<div class="tabs">${[["todos","Todos"],["uso","En uso"],["bod","En bodega"],["off","Sin conexión"]].map(t=>`<button class="tab ${P.invF===t[0]?"on":""}" data-f="${t[0]}">${t[1]}</button>`).join("")}<input id="iq" class="inp" style="flex:1 1 260px;width:auto" placeholder="Buscar por empleado, serie, modelo o hostname" value="${esc(P.invQ)}"></div>
+ <div class="split"><section class="cd pn"><div class="ch"><h3>Equipos</h3><span class="mt">Fuente: Inventario</span></div><div class="tabla"><div class="thd" style="grid-template-columns:${cols}"><span>Equipo</span><span>Asignado a</span><span>Sede</span><span>Estado</span><span>Conexión</span></div>${L.map(x=>`<button class="fila ${x.host===P.invSel?"on":""}" data-h="${x.host}" style="grid-template-columns:${cols}"><span class="cod">${x.host}</span><span>${x.asig}<br><span class="mt">${x.mod}</span></span><span>${x.sede}</span>${bd(x.est,x.est==="En Uso"?"good":"info")}<span class="${x.on===false?"rk":"mt"}">${x.on==null?"—":x.on?"En línea":"Desconectado"}</span></button>`).join("")||`<p class="vac">No hay equipos que coincidan.</p>`}</div></section>
+ <aside class="lt">${s?`<section class="cd" style="padding:16px;display:flex;flex-direction:column;gap:14px"><div><div class="eb">Equipo</div><h3 style="margin:2px 0 0;font-size:17px;color:var(--hd)">${s.host}</h3><span class="mt">${s.mod}</span></div><dl class="fi"><dt>Serie</dt><dd>${s.serie}</dd><dt>Asignado a</dt><dd>${s.asig}</dd><dt>Departamento</dt><dd>${s.e?s.e.a:"—"}</dd><dt>Procesador</dt><dd>${s.e?s.e.proc:"—"}</dd><dt>RAM / Disco</dt><dd>${s.e?s.e.ram+" / "+s.e.disco:"—"}</dd><dt>Sistema</dt><dd>${s.e?s.e.so:"—"}</dd><dt>Activo fijo</dt><dd>${s.e?s.e.af:"—"}</dd><dt>Garantía hasta</dt><dd>${s.gar}</dd><dt>Última conexión</dt><dd>${s.vis}</dd></dl>
+ <div class="cs"><span class="eb">Tickets abiertos del usuario</span>${TK.filter(t=>s.e&&t.sol===s.e.n&&t.e!=="Resuelto").map(t=>`<span><span class="cod">#${t.id}</span> ${t.asunto}</span>`).join("")||`<span class="mt">Sin tickets abiertos.</span>`}</div>
+ <p class="mt" style="margin:0">Asignaciones, cartas, bodega, visitas y diagnósticos se gestionan en el sistema de Inventario.</p><button class="btn sm" id="abrir" style="align-self:flex-start">${ico(PI.externo,14)} Abrir Inventario</button></section>`:`<section class="cd" style="padding:20px"><p class="mt" style="margin:0">Selecciona un equipo para ver su ficha, su monitoreo y los tickets abiertos del usuario.</p></section>`}</aside></div>`;
+};
+PORB.inventario=()=>{$$("[data-f]").forEach(b=>b.onclick=()=>{P.invF=b.dataset.f;render()});$$("[data-h]").forEach(b=>b.onclick=()=>{P.invSel=b.dataset.h;render()});
+ const q=$("#iq");q.oninput=e=>{P.invQ=e.target.value;const p=e.target.selectionStart;render();const n=$("#iq");n.focus();n.setSelectionRange(p,p)};
+ const a=$("#abrir");if(a)a.onclick=()=>{const s=eqLista().find(x=>x.host===P.invSel);BQ.tab="serie";BQ.q=s.serie;BQ.pais="";view.inv="busqueda";setSys("inv")}};
+
+/* ---------- Tiendas / VMI ---------- */
+const sitioVista=k=>()=>{
+ const L=SITIOS[k],i=Math.min(P.sit[k],L.length-1),s=L[i],cols="minmax(160px,1.4fr) minmax(140px,1.1fr) 110px minmax(130px,1fr) 70px";
+ return `<div class="tabs"><button class="btn pri sm" id="sn">${ico(PI.mas,14)} Nuevo sitio</button><span class="mt">${L.length} sitios · ${L.filter(x=>x.act).length} activos</span></div>
+ <div class="split"><section class="cd pn"><div class="tabla"><div class="thd" style="grid-template-columns:${cols}"><span>Sitio</span><span>Responsable</span><span>Teléfono</span><span>Internet</span><span>Equipos</span></div>${L.map((x,j)=>`<button class="fila ${j===i?"on":""}" data-si="${j}" style="grid-template-columns:${cols}"><span><b class="cod">${x.n}</b><br>${bd(x.act?"Activa":"Inactiva",x.act?"good":"neu")}</span><span>${x.resp}</span><span>${x.tel}</span><span>${x.prov}<br><span class="mt">${x.ids}</span></span><span>${x.eq.length}</span></button>`).join("")}</div></section>
+ <aside class="lt"><section class="cd" style="padding:16px;display:flex;flex-direction:column;gap:14px"><div><div class="eb">${k==="tiendas"?"Tienda":"Bodega VMI"}</div><h3 style="margin:2px 0 0;font-size:17px;color:var(--hd)">${s.n}</h3></div>
+ <dl class="fi"><dt>Dirección</dt><dd>${s.dir}</dd><dt>Horario</dt><dd>${s.hor}</dd><dt>Responsable</dt><dd>${s.resp} · ${s.tel}</dd><dt>Contacto alterno</dt><dd>${s.alt}</dd><dt>Proveedor</dt><dd>${s.prov}</dd><dt>ID de servicio</dt><dd>${s.ids}</dd><dt>IP pública / fija</dt><dd>${s.ip}</dd></dl>
+ <div><div class="eb" style="margin-bottom:6px">Equipo del sitio</div>${s.eq.map(q=>`<div class="lbt" style="cursor:default;border-top:1px solid var(--bd);padding:8px 0;background:none"><span style="flex:1"><b>${q[0]}</b> · ${q[1]}</span><span class="mt">${q[2]}</span></div>`).join("")}</div>
+ <div class="ax"><button class="btn sm" id="se">Editar sitio</button><button class="btn sm" id="st">Crear tarea</button></div></section></aside></div>`};
+POR.tiendas=sitioVista("tiendas");POR.vmi=sitioVista("vmi");
+const sitioBind=k=>()=>{
+ $$("[data-si]").forEach(b=>b.onclick=()=>{P.sit[k]=+b.dataset.si;render()});const L=SITIOS[k],s=L[Math.min(P.sit[k],L.length-1)];
+ $("#st").onclick=()=>{TAREAS.push({id:Date.now(),t:"Visita a "+s.n,d:"Revisión de red y equipos del sitio.",e:"pend",pri:"Media",or:"Sitio",v:"2026-11-27",sub:[["Revisar red",false],["Revisar equipos",false]],ev:[],obs:[]});toast("Tarea creada para "+s.n+".")};
+ const form=(tit,x)=>{const m=modal(`<h3 style="color:var(--hd)">${tit}</h3><div class="fr" style="padding:0;grid-template-columns:1fr 1fr">${[["n","Nombre"],["resp","Responsable"],["tel","Teléfono"],["prov","Proveedor de Internet"],["ids","ID de servicio"],["dir","Dirección"]].map(c=>`<div><label class="lbl">${c[1]}</label><input class="inp" data-k="${c[0]}" value="${esc(x[c[0]]||"")}"></div>`).join("")}</div><div class="ax" style="margin-top:14px;justify-content:flex-end"><button class="btn" id="x">Cancelar</button><button class="btn pri" id="ok">Guardar</button></div>`);$("#x",m).onclick=closeModal;$("#ok",m).onclick=()=>{const o={};$$("[data-k]",m).forEach(i=>o[i.dataset.k]=i.value);if(!o.n.trim()){toast("Escribe el nombre del sitio.");return}if(x===s)Object.assign(s,o);else{L.push(Object.assign({alt:"—",hor:"L-S 09:00 a 18:00",ip:"Dinámica",eq:[["Router","Router principal","RT-NUEVO"]],act:true},o));P.sit[k]=L.length-1}closeModal();toast("Datos guardados (simulado).");render()}};
+ $("#se").onclick=()=>form("Editar sitio",s);$("#sn").onclick=()=>form("Nuevo sitio",{});
+};
+PORB.tiendas=sitioBind("tiendas");PORB.vmi=sitioBind("vmi");
+
+/* ---------- Mis KPI ---------- */
+POR.kpis=()=>{
+ const k=KP[P.kpi],T=(l,n,no)=>`<div class="tile" style="cursor:default"><span class="l">${l}</span><span class="num">${n}</span>${no?`<span class="no">${no}</span>`:""}</div>`;
+ const abiertos=TK.filter(t=>t.asig===ME&&t.e==="Abierto").length,pend=TK.filter(t=>t.asig===ME&&t.e==="Pendiente").length,atr=TK.filter(t=>t.asig===ME&&t.e!=="Resuelto"&&t.h<0).length;
+ const ind=[["Resueltos",k.res,"—",true],["SLA %",k.sla+" %","≥ 90 %",k.sla>=90],["Resolución (h)",k.rh,"≤ 6 h",k.rh<=6],["CSAT",k.cs+" / 5","≥ 4.5",k.cs>=4.5],["Tareas a tiempo %",k.ati+" %","≥ 90 %",k.ati>=90],["Devolución %",Math.round(k.dev/k.asg*100)+" %","≤ 10 %",k.dev/k.asg<=.1]];
+ const sec=(t,tiles)=>`<section class="cd"><div class="ch"><h3>${t}</h3></div><div class="gt" style="padding:0 16px 16px">${tiles}</div></section>`;
+ return `<div class="tabs">${Object.entries(KP).map(([id,v])=>`<button class="chip ${P.kpi===id?"on":""}" data-p="${id}">${v.t}</button>`).join("")}<span style="margin-left:auto"></span><button class="btn sm" id="sy">${ico(PI.sync,15)} Sincronizar ahora</button></div>
+ ${sec("Tickets de Freshservice · desempeño del periodo",T("Resueltos",k.res)+T("SLA %",k.sla+" %")+T("Resolución (h)",k.rh)+T("CSAT",k.cs+" / 5"))}
+ ${sec("Tickets de Freshservice · carga actual",T("Abiertos",abiertos,"Ahora mismo, sin importar el periodo")+T("Pendientes",pend)+T("Atrasados",atr,atr?"Requieren atención":""))}
+ ${sec("Tareas y visitas · desempeño del periodo",T("Asignadas",k.asg)+T("Completadas",k.com)+T("A tiempo %",k.ati+" %")+T("Devolución %",Math.round(k.dev/k.asg*100)+" %")+T("Visitas",k.vis))}
+ ${sec("Tareas · carga actual",T("Abiertas",nTar())+T("En revisión",TAREAS.filter(t=>t.e==="rev").length)+T("Atrasadas",TAREAS.filter(t=>t.e!=="hecha"&&t.v<"2026-11-18").length))}
+ <section class="cd"><div class="ch"><h3>Resueltos por día · ${k.t.toLowerCase()}</h3></div><div class="brs">${[["Lun",8],["Mar",11],["Mié",9],["Jue",13],["Vie",10]].map((d,i)=>`<div class="bc"><span>${d[1]+(i===4?KP.mes.res-46:0)}</span><i style="height:${(d[1]+(i===4?KP.mes.res-46:0))/14*100}%"></i></div>`).join("")}</div><div class="etq">${["Lun","Mar","Mié","Jue","Vie"].map(d=>`<span>${d}</span>`).join("")}</div></section>
+ <section class="cd"><div class="ch"><h3>Indicadores contra metas</h3></div><div class="tabla"><div class="thd" style="grid-template-columns:1.6fr 1fr 1fr 110px"><span>Indicador</span><span>Valor</span><span>Meta</span><span></span></div>${ind.map(r=>`<div class="fila" style="grid-template-columns:1.6fr 1fr 1fr 110px"><b>${r[0]}</b><span>${r[1]}</span><span class="mt">${r[2]}</span>${r[2]==="—"?"":bd(r[3]?"Cumple":"No cumple",r[3]?"good":"crit")}</div>`).join("")}</div></section>
+ <section class="cd"><div class="ch"><h3>Comparativo del equipo (vista de jefatura)</h3></div><div class="tabla"><div class="thd" style="grid-template-columns:1.6fr repeat(5,1fr)"><span>Técnico</span><span>Resueltos</span><span>SLA %</span><span>Resolución (h)</span><span>CSAT</span><span>Tareas a tiempo %</span></div>${EQP.map(r=>`<div class="fila" style="grid-template-columns:1.6fr repeat(5,1fr)"><b>${r[0]}</b><span>${r[0]===ME?k.res:r[1]}</span><span>${r[2]} %</span><span>${r[3]}</span><span>${r[4]}</span><span>${r[5]} %</span></div>`).join("")}</div></section>`;
+};
+PORB.kpis=()=>{$$("[data-p]").forEach(b=>b.onclick=()=>{P.kpi=b.dataset.p;render()});$("#sy").onclick=()=>toast("Indicadores sincronizados con Freshservice (simulado).")};
+
+/* ---------- Asistente WhatsApp ---------- */
+const WAT=[["esp","Esperando técnico"],["mis","Mis conversaciones"],["bot","Con el bot"],["todas","Todas"],["cer","Cerradas"]];
+const waE={esp:["Esperando técnico","warn"],tec:["Con técnico","info"],bot:["Atendida por el bot","neu"],cer:["Cerrada","good"]};
+POR.whatsapp=()=>{
+ const f=P.waTab,L=CONV.filter(c=>f==="todas"||(f==="mis"?c.e==="tec":c.e===f)),c=CONV.find(x=>x.id===P.waSel);
+ return `<div class="wab"><b>El portal está en modo de pruebas:</b> los mensajes del bot y de los técnicos se guardan aquí pero no se envían a WhatsApp. El envío real se activa al conectar la cuenta de WhatsApp Business (Meta).</div>
+ <div class="gt"><div class="tile" style="cursor:default"><span class="l">Esperando técnico</span><span class="num">${nWa()}</span><span class="no ${nWa()?"al":""}">Requieren atención</span></div><div class="tile" style="cursor:default"><span class="l">Con técnico ahora</span><span class="num">${CONV.filter(x=>x.e==="tec").length}</span></div><div class="tile" style="cursor:default"><span class="l">Conversaciones hoy</span><span class="num">${CONV.length+9}</span></div><div class="tile" style="cursor:default"><span class="l">Resueltas por el bot hoy</span><span class="num">${CONV.filter(x=>x.e==="cer").length+6}</span></div></div>
+ <div class="tabs">${WAT.map(t=>`<button class="tab ${f===t[0]?"on":""}" data-w="${t[0]}">${t[1]} (${CONV.filter(x=>t[0]==="todas"||(t[0]==="mis"?x.e==="tec":x.e===t[0])).length})</button>`).join("")}<span style="margin-left:auto"></span><button class="btn sm" id="probar">Probar como empleado</button></div>
+ <div class="split"><section class="cd pn" style="flex-basis:380px;flex-grow:1">${L.map(x=>`<button class="lbt ${x.id===P.waSel?"on":""}" data-c="${x.id}"><span style="flex:1;min-width:0"><b>${x.n}</b><br><span class="mt">${x.tel} · ${x.pais}</span><br><span class="mt" style="display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(x.m[x.m.length-1][1])}</span></span>${bd(waE[x.e][0],waE[x.e][1])}</button>`).join("")||`<p class="vac">No hay conversaciones en esta vista.</p>`}</section>
+ <aside class="lt" style="flex-basis:420px">${c?`<section class="cd" style="padding:16px;display:flex;flex-direction:column;gap:14px"><div style="display:flex;justify-content:space-between;gap:8px;align-items:flex-start"><div><div class="eb">Conversación</div><h3 style="margin:2px 0;font-size:16px;color:var(--hd)">${c.n}</h3><span class="mt">${c.tel}</span></div>${bd(waE[c.e][0],waE[c.e][1])}</div>
+ <div class="cs"><span class="eb">Resumen del bot</span><span style="font-size:13px">${esc(c.res)}</span><span class="mt">${c.tk?"Ticket "+c.tk:"Sin ticket"}</span></div>
+ <div class="hilo">${c.m.map(m=>`<div class="bz ${m[0]==="en"?"en":m[0]==="bot"?"bot":"sa"}"><span class="m">${m[0]==="en"?"Empleado":m[0]==="bot"?"Asistente (bot)":"Técnico"}</span>${esc(m[1])}</div>`).join("")}</div>
+ <div class="ax">${c.e==="esp"||c.e==="bot"?`<button class="btn pri sm" data-wa="tomar">Tomar conversación</button>`:""}${c.e==="tec"?`<button class="btn sm" data-wa="bot">Devolver al bot</button>`:""}${!c.tk&&c.e!=="cer"?`<button class="btn sm" data-wa="tk">Crear ticket en Freshservice</button>`:""}${c.e!=="cer"?`<button class="btn sm" data-wa="cer">Cerrar conversación</button>`:""}</div>
+ ${c.e==="tec"?`<div><label class="lbl" for="wm">Mensaje</label><textarea class="inp" id="wm" placeholder="Escribe una respuesta…" style="min-height:64px"></textarea><button class="btn pri sm" id="wsend" style="margin-top:8px">Enviar</button></div>`:`<div class="ibx">${c.e==="cer"?"Conversación cerrada.":c.e==="bot"?"El bot está atendiendo esta conversación.":"El bot escaló esta conversación. Tómala para responder."}</div>`}</section>`:`<section class="cd" style="padding:20px"><p class="mt" style="margin:0">Selecciona una conversación para verla. Las que esperan técnico aparecen primero en el filtro «Esperando técnico».</p></section>`}</aside></div>`;
+};
+PORB.whatsapp=()=>{
+ $$("[data-w]").forEach(b=>b.onclick=()=>{P.waTab=b.dataset.w;render()});$$("[data-c]").forEach(b=>b.onclick=()=>{P.waSel=+b.dataset.c;render()});
+ $("#probar").onclick=probarBot;const c=CONV.find(x=>x.id===P.waSel);if(!c)return;
+ $$("[data-wa]").forEach(b=>b.onclick=()=>{const a=b.dataset.wa;
+  if(a==="tomar"){c.e="tec";c.m.push(["sa","Hola, soy "+ME.split(" ")[0]+" de Soporte Técnico. Ya estoy con tu caso."]);toast("Conversación tomada (simulado).")}
+  if(a==="bot"){c.e="bot";toast("Conversación devuelta al bot.")}
+  if(a==="cer"){c.e="cer";toast("Conversación cerrada.")}
+  if(a==="tk"){const id=3200+TK.length;TK.unshift({id,asunto:"Reportado por WhatsApp: "+c.m[0][1].slice(0,50),sol:c.n,sede:c.pais,cat:"WhatsApp",pri:"Media",e:"Abierto",asig:ME,h:6,eq:null,cre:"Ahora",hilo:[["en",c.n,c.m[0][1]]]});c.tk="#"+id;toast("Ticket #"+id+" creado en Freshservice (simulado).")}
+  render()});
+ const s=$("#wsend");if(s)s.onclick=()=>{const v=val("wm").trim();if(!v){toast("Escribe el mensaje primero.");return}c.m.push(["sa",v]);render()};
+};
+function probarBot(){
+ const msgs=[["bot","¡Hola! Soy el asistente de Soporte Técnico. ¿En qué te ayudo?"]];let paso="menu";
+ const m=modal(`<h3 style="color:var(--hd)">Probar como empleado</h3><p class="mt" style="margin:0 0 10px">Así conversa el bot por WhatsApp. Lo que elijas aparecerá en la bandeja del portal.</p><div class="ph" id="ph"></div><div class="ax" id="qk" style="margin-top:10px"></div><div class="ax" style="margin-top:12px;justify-content:flex-end"><button class="btn" id="x">Cerrar</button></div>`);
+ const pinta=()=>{const ph=$("#ph",m);ph.innerHTML=msgs.map(x=>`<div class="bz ${x[0]==="me"?"me":"bot"}">${esc(x[1])}</div>`).join("");ph.scrollTop=ph.scrollHeight;
+  const o=paso==="menu"?["Reportar una falla","Estado de mi ticket","Hablar con un técnico"]:paso==="tipo"?["Internet / VPN","Equipo lento","Impresora"]:[];
+  $("#qk",m).innerHTML=o.map(t=>`<button class="btn sm">${t}</button>`).join("");
+  $$("#qk button",m).forEach(b=>b.onclick=()=>{const t=b.textContent;msgs.push(["me",t]);
+   if(paso==="menu"){
+    if(t==="Reportar una falla"){msgs.push(["bot","¿Qué tipo de falla es?"]);paso="tipo"}
+    else if(t==="Estado de mi ticket"){msgs.push(["bot","Tienes 1 caso abierto: #3189 · Impresora del segundo nivel (abierto)."])}
+    else{msgs.push(["bot","Te paso con un técnico de tu país. Un momento, por favor."]);CONV.unshift({id:Date.now(),n:"Empleado de prueba",tel:"+502 5000-0000",pais:"Guatemala",e:"esp",tk:null,res:"El empleado pidió hablar con un técnico desde el menú del bot.",m:[["en","Hablar con un técnico"],["bot","Te paso con un técnico de tu país."]]});toast("La conversación aparece en «Esperando técnico».");P.waTab="esp"}}
+   else if(paso==="tipo"){const id=3200+TK.length;TK.unshift({id,asunto:t+" (reportado por WhatsApp)",sol:"Empleado de prueba",sede:"Guatemala",cat:"WhatsApp",pri:"Media",e:"Abierto",asig:null,h:4,eq:null,cre:"Ahora",hilo:[["en","Empleado de prueba","Reporte por WhatsApp: "+t]]});msgs.push(["bot","Listo, creé el ticket #"+id+". Un técnico te contactará pronto."]);paso="menu";toast("Ticket #"+id+" creado; está en «Sin asignar».")}
+   pinta()})};
+ pinta();$("#x",m).onclick=()=>{closeModal();render()};
+}
+</script>
+<script>render();</script>
 </body>
 </html>
